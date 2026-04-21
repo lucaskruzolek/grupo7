@@ -1,0 +1,17 @@
+body {
+  background-color: #F8F8F8;
+  color: #2C2C2C; /* El color del texto del logo */
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+
+  .hero-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        transition: 0.3s;
+    }
+}
