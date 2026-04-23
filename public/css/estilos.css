@@ -1,17 +1,300 @@
-body {
-  background-color: #F8F8F8;
-  color: #2C2C2C; /* El color del texto del logo */
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
+:root {
+    /* --- Colores Primitivos (Paleta base) --- */
+    /* --- Familia Neutros --- */
+    --neutral-50: #fbf6ee;
+    /*Background principal*/
+    --neutral-100: #f8efe5;
+    /* Base */
+    --neutral-200: #f1e4d5;
+    --neutral-300: #e6d3bf;
+    --neutral-400: #d4b89d;
+    --neutral-500: #b6916f;
+    --neutral-600: #987556;
+    --neutral-700: #7a5c43;
+    --neutral-800: #5d4633;
+    --neutral-900: #403125;
+    --neutral-950: #261d16;
 
-  .hero-image {
+    /* Familia Verde */
+    --green-100: #E9ECE8;
+    --green-200: #cfd4cd;
+    --green-300: #B5BDB1;
+    --green-400: #9ba596;
+    --green-500: #7C8A76;
+    --green-600: #677362;
+    --green-700: #535D4F;
+    --green-800: #40473D;
+    --green-900: #2C312A;
+    --green-950: #181b17;
+
+    /* Familia Coral */
+    --coral-50: #fbf4f2;
+    --coral-100: #f7e6e2;
+    --coral-200: #f2d5ce;
+    --coral-300: #edc4ba;
+    --coral-400: #e7b3a5;
+    --coral-500: #e3a393;
+    --coral-600: #d87f69;
+    --coral-700: #cd5c40;
+    --coral-800: #ae462d;
+    --coral-900: #853622;
+    --coral-950: #5d2518;
+
+    /* --- Familia Azul Profundo --- */
+    --navy-50: #f1f3f6;
+    --navy-100: #e3e7ed;
+    --navy-200: #c7cfdc;
+    --navy-300: #a9b7cb;
+    --navy-400: #8b9fba;
+    --navy-500: #4b6894;
+    --navy-600: #3b5174;
+    --navy-700: #2b3b55;
+    --navy-800: #1c2636;
+    --navy-900: #1a2941;
+    /* Base */
+    --navy-950: #0d1521;
+
+
+    /* --- Tokens Semánticos Dinámicos (Neutral) --- */
+    /* Página Principal */
+    --semantic-neutral-bg: var(--neutral-50);
+
+    /* Superficies */
+    --semantic-neutral-surface: var(--neutral-100);
+    --semantic-neutral-on-surface: var(--neutral-900);
+    --semantic-neutral-surface-muted: var(--neutral-50);
+    --semantic-neutral-border: var(--neutral-300);
+
+    /* Acciones (Neutrales como fallback) */
+    --semantic-neutral-primary: var(--neutral-900);
+    --semantic-neutral-on-primary: #ffffff;
+    --semantic-neutral-primary-hover: #000000;
+    --semantic-neutral-primary-active: #000000;
+
+    /* Texto */
+    --semantic-neutral-text-main: var(--neutral-900);
+    --semantic-neutral-text-secondary: var(--neutral-700);
+    --semantic-neutral-text-muted: var(--neutral-500);
+
+
+    /* --- Tokens Semánticos Dinámicos (Verde) --- */
+    /* Superficies */
+    --semantic-green-surface: var(--green-100);
+    --semantic-green-on-surface: var(--green-900);
+    --semantic-green-surface-muted: var(--green-50);
+    --semantic-green-border: var(--green-300);
+
+    /* Acciones (Botones) */
+    --semantic-green-primary: var(--green-500);
+    --semantic-green-on-primary: #ffffff;
+    --semantic-green-primary-hover: var(--green-600);
+    --semantic-green-primary-active: var(--green-700);
+
+    /* Texto */
+    --semantic-green-text-main: var(--green-900);
+    --semantic-green-text-secondary: var(--green-700);
+    --semantic-green-text-muted: var(--green-500);
+
+
+    /* --- Tokens Semánticos Dinámicos (Coral) --- */
+    /* Superficies */
+    --semantic-coral-surface: var(--coral-100);
+    --semantic-coral-on-surface: var(--coral-900);
+    --semantic-coral-surface-muted: var(--coral-50);
+    --semantic-coral-border: var(--coral-300);
+
+    /* Acciones (Botones) */
+    --semantic-coral-primary: var(--coral-500);
+    --semantic-coral-on-primary: #ffffff;
+    --semantic-coral-primary-hover: var(--coral-600);
+    --semantic-coral-primary-active: var(--coral-700);
+
+    /* Texto */
+    --semantic-coral-text-main: var(--coral-900);
+    --semantic-coral-text-secondary: var(--coral-700);
+    --semantic-coral-text-muted: var(--coral-500);
+
+
+    /* --- Mapeo Global Dinámico (Theme Switcher ready) --- */
+    /* Por defecto usamos los tokens neutrales para la base */
+    --color-bg: var(--semantic-neutral-bg);
+    --color-surface: var(--semantic-neutral-surface);
+    --color-on-surface: var(--semantic-neutral-on-surface);
+    --color-surface-muted: var(--semantic-neutral-surface-muted);
+
+    --color-primary: var(--semantic-green-primary);
+    --color-on-primary: var(--semantic-green-on-primary);
+    --color-primary-hover: var(--semantic-green-primary-hover);
+    --color-primary-active: var(--semantic-green-primary-active);
+
+    --color-border: var(--semantic-neutral-border);
+    --color-text: var(--semantic-neutral-text-main);
+    --color-text-secondary: var(--semantic-neutral-text-secondary);
+    --color-text-muted: var(--semantic-neutral-text-muted);
+
+
+    /* Fondo del footer */
+
+
+    /* Tipografías */
+    --font-main: 'Poppins', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+
+    /* --- Estilos Generales --- */
+    --brand-dark: var(--navy-800);
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 0;
+
+    .hero-image {
         max-width: 100%;
         height: auto;
         border-radius: 15px;
     }
+
     .product-card:hover {
         transform: translateY(-5px);
         transition: 0.3s;
     }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--brand-dark);
+}
+
+/* --- Utilidades de Tema Dinámico --- */
+/* Estas clases permiten cambiar el esquema de color de un contenedor y todos sus hijos */
+
+.theme-green {
+    --color-surface: var(--semantic-green-surface);
+    --color-on-surface: var(--semantic-green-on-surface);
+    --color-surface-muted: var(--semantic-green-surface-muted);
+    --color-primary: var(--semantic-green-primary);
+    --color-on-primary: var(--semantic-green-on-primary);
+    --color-primary-hover: var(--semantic-green-primary-hover);
+    --color-primary-active: var(--semantic-green-primary-active);
+    --color-border: var(--semantic-green-border);
+    --color-text: var(--semantic-green-text-main);
+    --color-text-secondary: var(--semantic-green-text-secondary);
+    --color-text-muted: var(--semantic-green-text-muted);
+}
+
+.theme-coral {
+    --color-surface: var(--semantic-coral-surface);
+    --color-on-surface: var(--semantic-coral-on-surface);
+    --color-surface-muted: var(--semantic-coral-surface-muted);
+    --color-primary: var(--semantic-coral-primary);
+    --color-on-primary: var(--semantic-coral-on-primary);
+    --color-primary-hover: var(--semantic-coral-primary-hover);
+    --color-primary-active: var(--semantic-coral-primary-active);
+    --color-border: var(--semantic-coral-border);
+    --color-text: var(--semantic-coral-text-main);
+    --color-text-secondary: var(--semantic-coral-text-secondary);
+    --color-text-muted: var(--semantic-coral-text-muted);
+}
+
+.theme-neutral {
+    --color-surface: var(--semantic-neutral-surface);
+    --color-on-surface: var(--semantic-neutral-on-surface);
+    --color-surface-muted: var(--semantic-neutral-surface-muted);
+    --color-primary: var(--semantic-neutral-primary);
+    --color-on-primary: var(--semantic-neutral-on-primary);
+    --color-primary-hover: var(--semantic-neutral-primary-hover);
+    --color-primary-active: var(--semantic-neutral-primary-active);
+    --color-border: var(--semantic-neutral-border);
+    --color-text: var(--semantic-neutral-text-main);
+    --color-text-secondary: var(--semantic-neutral-text-secondary);
+    --color-text-muted: var(--semantic-neutral-text-muted);
+}
+
+/* --- Componentes Base (Usando Tokens Dinámicos) --- */
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: var(--font-main);
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:active {
+    background-color: var(--color-primary-active);
+    transform: translateY(0);
+}
+
+.surface-card {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    border: 1px solid var(--color-border);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.text-main {
+    color: var(--color-text);
+}
+
+.text-secondary {
+    color: var(--color-text-secondary);
+}
+
+.text-muted {
+    color: var(--color-text-muted);
+}
+
+.surface-muted {
+    background-color: var(--color-surface-muted);
+}
+
+
+.playfair-display-regular {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.poppins-regular {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.poppins-semibold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.poppins-bold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
 }
