@@ -1,7 +1,7 @@
 :root {
     /* --- Colores Primitivos (Paleta base) --- */
     /* --- Familia Neutros --- */
-    --neutral-50: #fbf6ee;
+    --neutral-50: #f6f3ef;
     /*Background principal*/
     --neutral-100: #f8efe5;
     /* Base */
@@ -51,19 +51,18 @@
     --navy-700: #2b3b55;
     --navy-800: #1c2636;
     --navy-900: #1a2941;
-    /* Base */
     --navy-950: #0d1521;
 
 
     /* --- Tokens Semánticos Dinámicos (Neutral) --- */
     /* Página Principal */
-    --semantic-neutral-bg: var(--neutral-50);
+    --semantic-neutral-bg: var(--neutral-100);
 
     /* Superficies */
-    --semantic-neutral-surface: var(--neutral-100);
+    --semantic-neutral-surface: var(--neutral-50);
     --semantic-neutral-on-surface: var(--neutral-900);
     --semantic-neutral-surface-muted: var(--neutral-50);
-    --semantic-neutral-border: var(--neutral-300);
+    --semantic-neutral-border: var(--neutral-100);
 
     /* Acciones (Neutrales como fallback) */
     --semantic-neutral-primary: var(--neutral-900);
@@ -141,7 +140,7 @@
     --font-heading: 'Playfair Display', serif;
 
     /* --- Estilos Generales --- */
-    --brand-dark: var(--navy-800);
+    --brand-dark: var(--navy-700);
 }
 
 body {
@@ -170,8 +169,20 @@ h4,
 h5,
 h6 {
     font-family: var(--font-heading);
-    font-weight: 700;
+    font-weight: 600;
     color: var(--brand-dark);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: var(--brand-dark);
+    font-weight: 500;
+    transition: color 0.2s;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: var(--color-primary);
 }
 
 /* --- Utilidades de Tema Dinámico --- */
@@ -252,9 +263,7 @@ h6 {
     background-color: var(--color-surface);
     color: var(--color-on-surface);
     border: 1px solid var(--color-border);
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .text-main {
@@ -277,7 +286,7 @@ h6 {
 .playfair-display-regular {
     font-family: "Playfair Display", serif;
     font-optical-sizing: auto;
-    font-weight: 400;
+    font-weight: 500;
     font-style: normal;
 }
 
@@ -297,4 +306,43 @@ h6 {
     font-family: "Poppins", sans-serif;
     font-weight: 700;
     font-style: normal;
+}
+
+/* IMAGEN CON FUNDIDO GRADUAL (FADE IN) */
+@media (min-width: 768px) {
+    .img-fade-left {
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%);
+        mask-image: linear-gradient(to right, transparent 0%, black 15%);
+    }
+}
+
+/* Redimensionamiento de los titulos de los banners */
+.banner-title {
+    /* clamp(tamaño_mínimo, tamaño_fluido, tamaño_máximo) */
+    font-size: clamp(2.0rem, 4.5vw, 3.5rem);
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.paw-icon {
+    /* Inline: se comporta como una letra más del título */
+    display: inline-block;
+
+    /* Tamaño relativo al h1 */
+    width: 1em;
+    height: 1em;
+
+    /* Ajuste vertical para que quede ligeramente arriba */
+    vertical-align: super;
+    margin-left: 0;
+
+    /* Color */
+    background-color: var(--coral-600);
+
+    /* Máscara */
+    -webkit-mask: url('../img/icons/paw.svg') no-repeat center / contain;
+    mask: url('../img/icons/paw.svg') no-repeat center / contain;
+
+    transform: rotate(25deg);
+    pointer-events: none;
 }

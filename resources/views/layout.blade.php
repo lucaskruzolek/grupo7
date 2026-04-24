@@ -7,7 +7,7 @@
     <title>Petthreads</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
     
@@ -16,7 +16,7 @@
 <body>
     @include('partes.navbar')
     
-    <main class="container mt-4">
+    <main class="container-fluid py-0 px-0">
         <!-- Contenido específico de cada página -->
         @yield('contenido')
     </main>

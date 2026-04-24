@@ -4,8 +4,7 @@
 <body>
 
     <header class="container my-5 text-center">
-        <img src="{{ asset('imagenes/logo/banner-petthreads.jpeg') }}" alt="Banner" class="hero-image mb-4 shadow img-fluid">
-
+        
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h1 class="display-4 fw-bold">Bienvenidos a nuestra tienda</h1>
@@ -19,10 +18,10 @@
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="imagenes/carousel/imagen2.jpg" alt="First slide">
+                <img class="d-block w-100" src="img/carousel/imagen2.jpg" alt="First slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="imagenes/carousel/imagen1.jpeg" alt="Second slide">
+                <img class="d-block w-100" src="img/carousel/imagen1.jpeg" alt="Second slide">
             </div>
           
         </div>
