@@ -2,11 +2,11 @@
 
 @section('contenido')
     <!-- Banner Principal de Comercialización -->
-    <section class="theme-neutral surface-card overflow-hidden position-relative">
+    <section class="theme-neutral surface-card overflow-hidden position-relative p-0">
         <div class="row g-0 align-items-center">
             <!-- Bloque de Texto (40%) -->
             <div class="col-md-5 ps-4 pe-2 banner-content">
-                <h1 class="banner-title mb-4 position-relative d-inline-block">Comercialización<span class="paw-icon"></span>
+                <h1 class="banner-title banner-title-nowrap mb-4 position-relative d-inline-block">Comercialización<span class="paw-icon"></span>
                 </h1>
                 
                 <p class="text-secondary fs-5">
@@ -16,7 +16,7 @@
  
             <!-- Bloque de Imagen (60%) -->
             <div class="col-md-7">
-                <img src="{{ asset('img/ui/comercializacion/portad.webp') }}" 
+                <img src="{{ asset('img/ui/comercializacion/portada.webp') }}" 
                      alt="Portada Comercialización" 
                      class="img-fluid w-100 img-fade-left" 
                      style="display: block;">
@@ -26,62 +26,59 @@
 
     <!-- 1. TIPOS DE ENTREGAS -->
     <section class="container mt-5">
-        <div class="d-flex align-items-center mb-4">
-            <h2 class="h5 mb-1 poppins-semibold">1. TIPOS DE ENTREGAS</h2>
+        <div class="section-header">
+            <h2 class="h5 poppins-semibold mb-0">1. TIPOS DE ENTREGAS</h2>
         </div>
         
-        <div class="row g-4">
-            <!-- Columna Izquierda: Opciones -->
-            <div class="col-lg-8">
-                <div class="row row-cols-1 row-cols-md-3 g-4 h-100">
+
+
+                <div class="row row-cols-2 row-cols-md-4 g-4">
                     
                     <!-- Opción 1 -->
                     <div class="col">
-                        <div class="surface-card h-100 d-flex flex-column text-center p-3">
+                        <div class="surface-card">
                             <div class="mb-3 mt-auto">
                                 <img src="{{ asset('img/icons/delivery-truck.svg') }}" alt="Entrega Estándar" width="48">
                             </div>
                             <h3 class="h6 poppins-semibold mb-2 text-main">ENTREGA ESTÁNDAR</h3>
                             <p class="text-secondary small mb-3">Ideal para pedidos del día a día.</p>
                             <div class="mt-auto">
-                                <span class="badge rounded-pill fw-normal px-3 py-2" style="background-color: var(--coral-300); color: var(--coral-900);">2 a 5 días hábiles</span>
+                                <span class="theme-coral badge badge-pill-theme">2 a 5 días hábiles</span>
                             </div>
                         </div>
                     </div>
+
                     
                     <!-- Opción 2 -->
                     <div class="col">
-                        <div class="surface-card h-100 d-flex flex-column text-center p-3">
+                        <div class="surface-card">
                             <div class="mb-3 mt-auto">
                                 <img src="{{ asset('img/icons/24-hours.svg') }}" alt="Entrega Express" width="48">
                             </div>
                             <h3 class="h6 poppins-semibold mb-2 text-main">ENTREGA EXPRESS</h3>
                             <p class="text-secondary small mb-3">Para cuando lo necesitas un poco más rápido.</p>
-                            <div class="mt-auto">
-                                <span class="badge rounded-pill fw-normal px-3 py-2" style="background-color: var(--coral-300); color: var(--coral-900);">1 a 2 días hábiles</span>
+                            <div class="mt-auto ">
+                                <span class="theme-coral badge badge-pill-theme">1 a 2 días hábiles</span>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Opción 3 -->
                     <div class="col">
-                        <div class="surface-card h-100 d-flex flex-column text-center p-3">
+                        <div class="surface-card">
                             <div class="mb-3 mt-auto">
                                 <img src="{{ asset('img/icons/route.svg') }}" alt="Recolección" width="48">
                             </div>
                             <h3 class="h6 poppins-semibold mb-2 text-main">RECOLECCIÓN EN PUNTO</h3>
                             <p class="text-secondary small mb-3">Recoge tu pedido en puntos seleccionados.</p>
                             <div class="mt-auto">
-                                <span class="badge rounded-pill fw-normal px-3 py-2" style="background-color: var(--coral-300); color: var(--coral-900);">2 a 4 días hábiles</span>
+                                <span class="theme-coral badge badge-pill-theme">2 a 4 días hábiles</span>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Columna Derecha: Importante -->
-            <div class="col-lg-4">
-                <div class="theme-green surface-card rounded-4 p-4 h-100 d-flex flex-column justify-content-center text-center">
+                    
+                    <div class="col">
+                    <div class="theme-green surface-card justify-content-center rounded-4">
                     <div class="mb-3 d-flex justify-content-center align-items-center">
                         <img src="{{ asset('img/icons/paw.svg') }}" alt="Paw" width="20" class="me-2" style="opacity: 0.8;"> 
                         <h3 class="h6 poppins-semibold mb-0 text-main">IMPORTANTE</h3>
@@ -89,21 +86,22 @@
                     <p class="text-secondary small">
                         Los tiempos de entrega pueden variar según tu ubicación y la disponibilidad del producto.
                     </p>
+                    </div>
                 </div>
             </div>
-        </div>
+        
     </section>
 
     <!-- 2. FORMAS DE ENVÍOS -->
     <section class="container mt-5 pt-4 border-top">
-        <div class="d-flex align-items-center mb-4 mt-3 pb-1">
+        <div class="section-header">
             <h2 class="h5 mb-0 poppins-semibold">2. FORMAS DE ENVÍOS</h2>
         </div>
         
         <div class="row align-items-center g-5">
             <!-- Columna 1: Logos -->
-            <div class="col-md-5">
-                <div class="d-flex align-items-center mb-4 pb-3">
+            <div class="col-md-5 d-flex flex-column align-items-center align-items-md-start">
+                <div class="d-flex align-items-center text-center text-md-start mb-4 pb-3">
                     <div class="me-4 text-center" style="width: 120px;">
                         <img src="{{ asset('img/icons/Correo_Argentino_Logo.svg') }}" alt="Correo Argentino" class="img-fluid" style="max-height: 40px;">
                     </div>
@@ -112,7 +110,7 @@
                     </div>
                 </div>
                 
-                <div class="d-flex align-items-center mb-4 pb-3">
+                <div class="d-flex align-items-center text-center text-md-start mb-4 pb-3">
                     <div class="me-4 text-center" style="width: 120px;">
                         <img src="{{ asset('img/icons/fundacion-andreani.png') }}" alt="Andreani" class="img-fluid" style="max-height: 40px;">
                     </div>
@@ -121,7 +119,7 @@
                     </div>
                 </div>
                 
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center text-center text-md-start">
                     <div class="me-4 d-flex justify-content-center align-items-center bg-white rounded-circle shadow-sm" style="width: 80px; height: 80px; min-width: 80px;">
                         <img src="{{ asset('img/icons/delivery-truck-fast.svg') }}" alt="Envío Gratis" width="40">
                     </div>
@@ -147,8 +145,8 @@
         
         <!-- Banner Footer -->
         <div class="row mt-5">
-            <div class="col-12">
-                <div class="theme-green surface-card rounded-pill py-3 px-4 d-flex justify-content-center align-items-center text-center flex-column flex-md-row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="theme-green surface-card rounded-pill py-3 px-4 flex-md-row">
                     <img src="{{ asset('img/icons/gift.svg') }}" alt="Caja" width="28" class="me-md-3 mb-2 mb-md-0">
                     <p class="mb-0 text-main poppins-regular small">Todos nuestros pedidos se empacan con mucho amor para que lleguen en perfectas condiciones.</p>
                     <img src="{{ asset('img/icons/paw.svg') }}" alt="Paw" width="20" class="ms-md-3 mt-2 mt-md-0" style="opacity: 0.6;">
@@ -159,58 +157,64 @@
 
     <!-- 3. FORMAS DE PAGO -->
     <section class="container mt-5 pt-4 mb-5 border-top">
-        <div class="d-flex align-items-center mb-4 mt-3">
+        <div class="section-header">
             <h2 class="h5 mb-1 poppins-semibold">3. FORMAS DE PAGO</h2>
         </div>
         
         <div class="row align-items-stretch">
             <!-- Columna Izquierda: Métodos -->
             <div class="col-lg-8">
-                <div class="d-flex h-100 justify-content-between text-center flex-wrap">
+                <div class="row row-cols-2 row-cols-md-4 g-4 text-center">
                     
-                    <div class="flex-fill px-2 mb-4 mb-md-0">
-                        <div class="mb-3 d-flex justify-content-center align-items-center" style="height: 48px;">
-                            <img src="{{ asset('img/icons/credit-card2.svg') }}" alt="Tarjetas" height="44">
+                    <!-- Tarjetas -->
+                    <div class="col">
+                        <div class="feature-card">
+                            <div class="icon-container">
+                                <img src="{{ asset('img/icons/credit-card2.svg') }}" alt="Tarjetas">
+                            </div>
+                            <h3 class="feature-title text-main poppins-semibold">Tarjetas de crédito<br>y débito</h3>
+                            <p class="feature-text">Visa, Mastercard,<br>American Express.</p>
                         </div>
-                        <h3 class="h6 poppins-semibold mb-2 text-main" style="font-size: 0.85rem;">Tarjetas de crédito<br>y débito</h3>
-                        <p class="text-secondary small mb-0" style="font-size: 0.75rem;">Visa, Mastercard,<br>American Express.</p>
                     </div>
-                    
-                    <div class="border-start d-none d-md-block"></div>
-                    
-                    <div class="flex-fill px-2 mb-4 mb-md-0">
-                        <div class="mb-3 d-flex justify-content-center align-items-center" style="height: 48px;">
-                            <img src="{{ asset('img/icons/MP.svg') }}" alt="Mercado Pago" height="52">
+
+                    <!-- Transferencia -->
+                    <div class="col border-md-start">
+                        <div class="feature-card">
+                            <div class="icon-container">
+                                <img src="{{ asset('img/icons/bank.svg') }}" alt="Transferencia">
+                            </div>
+                            <h3 class="feature-title text-main poppins-semibold">Transferencia<br>bancaria</h3>
+                            <p class="feature-text">Consulta los datos al<br>finalizar tu compra.</p>
                         </div>
-                        <h3 class="h6 poppins-semibold mb-2 text-main" style="font-size: 0.85rem;">Mercado Pago</h3>
-                        <p class="text-secondary small mb-0" style="font-size: 0.75rem;">Paga de forma segura<br>con tu cuenta de<br>Mercado Pago.</p>
                     </div>
-                    
-                    <div class="border-start d-none d-md-block"></div>
-                    
-                    <div class="flex-fill px-2 mb-4 mb-md-0">
-                        <div class="mb-3 d-flex justify-content-center align-items-center" style="height: 48px;">
-                            <img src="{{ asset('img/icons/bank.svg') }}" alt="Transferencia" height="44">
+
+                    <!-- Mercado Pago -->
+                    <div class="col border-md-start">
+                        <div class="feature-card">
+                            <div class="icon-container" style="width: 52px; height: 52px;">
+                                <img src="{{ asset('img/icons/MP.svg') }}" alt="Mercado Pago">
+                            </div>
+                            <h3 class="feature-title text-main poppins-semibold">Mercado Pago</h3>
+                            <p class="feature-text">Paga de forma segura<br>con tu cuenta de<br>Mercado Pago.</p>
                         </div>
-                        <h3 class="h6 poppins-semibold mb-2 text-main" style="font-size: 0.85rem;">Transferencia<br>bancaria</h3>
-                        <p class="text-secondary small mb-0" style="font-size: 0.75rem;">Consulta los datos al<br>finalizar tu compra.</p>
                     </div>
-                    
-                    <div class="border-start d-none d-md-block"></div>
-                    
-                    <div class="flex-fill px-2">
-                        <div class="mb-3 d-flex justify-content-center align-items-center" style="height: 48px;">
-                            <img src="{{ asset('img/icons/pagofacil.svg') }}" alt="Pago Fácil" height="44">
+
+                    <!-- Pago Fácil -->
+                    <div class="col border-md-start">
+                        <div class="feature-card">
+                            <div class="icon-container">
+                                <img src="{{ asset('img/icons/pagofacil.svg') }}" alt="Pago Fácil">
+                            </div>
+                            <h3 class="feature-title text-main poppins-semibold">Pago Fácil</h3>
+                            <p class="feature-text">Realiza tu pago en<br>efectivo en cualquier<br>sucursal.</p>
                         </div>
-                        <h3 class="h6 poppins-semibold mb-2 text-main" style="font-size: 0.85rem;">Pago Fácil</h3>
-                        <p class="text-secondary small mb-0" style="font-size: 0.75rem;">Realiza tu pago en<br>efectivo en cualquier<br>sucursal.</p>
                     </div>
                 </div>
             </div>
             
             <!-- Columna Derecha: Compra Segura -->
             <div class="col-lg-4 mt-4 mt-lg-0">
-                <div class="theme-green surface-card rounded-4 p-4 h-100 d-flex flex-column justify-content-center">
+                <div class="theme-green surface-card justify-content-center rounded-4">
                     <div class="d-flex align-items-center justify-content-center justify-content-lg-start mb-3">
                         <img src="{{ asset('img/icons/shield.svg') }}" alt="Escudo" width="32" class="me-3 opacity-75">
                         <h3 class="h6 poppins-bold mb-0 text-main">TU COMPRA ES SEGURA</h3>

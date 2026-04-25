@@ -103,10 +103,10 @@
     --semantic-coral-border: var(--coral-300);
 
     /* Acciones (Botones) */
-    --semantic-coral-primary: var(--coral-500);
+    --semantic-coral-primary: var(--coral-700);
     --semantic-coral-on-primary: #ffffff;
     --semantic-coral-primary-hover: var(--coral-600);
-    --semantic-coral-primary-active: var(--coral-700);
+    --semantic-coral-primary-active: var(--coral-500);
 
     /* Texto */
     --semantic-coral-text-main: var(--coral-900);
@@ -130,6 +130,10 @@
     --color-text: var(--semantic-neutral-text-main);
     --color-text-secondary: var(--semantic-neutral-text-secondary);
     --color-text-muted: var(--semantic-neutral-text-muted);
+
+    /* Badges / Pills */
+    --color-badge-bg: var(--neutral-200);
+    --color-badge-text: var(--neutral-900);
 
 
     /* Fondo del footer */
@@ -200,6 +204,8 @@ h6 {
     --color-text: var(--semantic-green-text-main);
     --color-text-secondary: var(--semantic-green-text-secondary);
     --color-text-muted: var(--semantic-green-text-muted);
+    --color-badge-bg: var(--green-200);
+    --color-badge-text: var(--green-900);
 }
 
 .theme-coral {
@@ -214,6 +220,8 @@ h6 {
     --color-text: var(--semantic-coral-text-main);
     --color-text-secondary: var(--semantic-coral-text-secondary);
     --color-text-muted: var(--semantic-coral-text-muted);
+    --color-badge-bg: var(--coral-300);
+    --color-badge-text: var(--coral-900);
 }
 
 .theme-neutral {
@@ -228,6 +236,16 @@ h6 {
     --color-text: var(--semantic-neutral-text-main);
     --color-text-secondary: var(--semantic-neutral-text-secondary);
     --color-text-muted: var(--semantic-neutral-text-muted);
+}
+
+.theme-coral-on-surface {
+    background-color: var(--coral-50);
+    box-shadow: 0 4px 12px rgba(216, 127, 105, 0.12);
+    transition: transform 0.2s ease;
+}
+
+.theme-coral-on-surface:hover {
+    transform: scale(1.05);
 }
 
 /* --- Componentes Base (Usando Tokens Dinámicos) --- */
@@ -249,19 +267,91 @@ h6 {
 }
 
 .btn-primary:hover {
-    background-color: var(--color-primary-hover);
+    background-color: var(--color-primary-hover) !important;
+    color: var(--color-on-primary) !important;
     transform: translateY(-1px);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.btn-primary:active {
-    background-color: var(--color-primary-active);
+.btn-primary:active, 
+.btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+    background-color: var(--color-primary-active) !important;
+    color: var(--color-on-primary) !important;
     transform: translateY(0);
+    border-color: transparent !important;
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(216, 127, 105, 0.25);
+    outline: none;
 }
 
 .surface-card {
     background-color: var(--color-surface);
     color: var(--color-on-surface);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.04);
+    align-items: center;
+}
+
+/* Componente Feature Card (Tarjetas planas sin fondo) */
+.feature-card {
+    /* Multiplicador de escala por defecto */
+    --feature-scale: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: calc(1rem * var(--feature-scale)) calc(0.5rem * var(--feature-scale));
+}
+
+.feature-card .icon-container {
+    height: calc(48px * var(--feature-scale));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: calc(0.75rem * var(--feature-scale));
+}
+
+.feature-card .icon-container img {
+    max-height: 100%;
+    width: auto;
+}
+
+.feature-card .feature-title {
+    font-size: calc(0.85rem * var(--feature-scale));
+    font-weight: 600;
+    margin-bottom: calc(0.5rem * var(--feature-scale));
+    line-height: 1.2;
+}
+
+.feature-card .feature-text {
+    font-size: calc(0.75rem * var(--feature-scale));
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+    margin-bottom: 0;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.25rem;
+}
+
+@media (min-width: 768px) {
+    .section-header {
+        justify-content: flex-start;
+    }
 }
 
 .text-main {
@@ -285,6 +375,27 @@ h6 {
     font-family: "Playfair Display", serif;
     font-optical-sizing: auto;
     font-weight: 500;
+    font-style: normal;
+}
+
+.playfair-display-medium {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.playfair-display-semibold {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.playfair-display-bold {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
     font-style: normal;
 }
 
@@ -315,10 +426,20 @@ h6 {
 }
 
 /* Redimensionamiento de los titulos de los banners */
+@media (min-width: 768px) {
+    .banner-content {
+        text-align: left;
+    }
+}
+
 .banner-title {
     /* clamp(tamaño_mínimo, tamaño_fluido, tamaño_máximo) */
     font-size: clamp(2.0rem, 4.5vw, 3.5rem);
     line-height: 1.1;
+}
+
+/* Modificador para títulos que no deben romperse (Comercialización, etc) */
+.banner-title-nowrap {
     white-space: nowrap;
 }
 
@@ -330,8 +451,12 @@ h6 {
         text-align: center;
     }
 
-    .banner-content .banner-title {
+    .banner-content .banner-title-nowrap {
         display: inline-block !important;
+        margin-top: 0;
+    }
+
+    .banner-content .banner-title {
         margin-top: 0;
     }
 }
@@ -346,7 +471,7 @@ h6 {
     height: 1em;
 
     /* Ajuste vertical para que quede ligeramente arriba */
-    vertical-align: super;
+
     margin-left: 0;
 
     /* Color */
@@ -386,7 +511,19 @@ h6 {
     .border-md-start {
         border-left: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6) !important;
     }
+
     .border-md-end {
         border-right: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6) !important;
     }
+}
+
+.badge-pill-theme {
+    background-color: var(--color-badge-bg) !important;
+    color: var(--color-badge-text) !important;
+    padding: 0.5rem 1rem;
+    border-radius: 50rem;
+    font-weight: 400;
+    font-size: 0.875rem;
+    display: inline-block;
+    white-space: nowrap;
 }
