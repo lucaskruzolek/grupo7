@@ -238,14 +238,46 @@ h6 {
     --color-text-muted: var(--semantic-neutral-text-muted);
 }
 
-.theme-coral-on-surface {
-    background-color: var(--coral-50);
-    box-shadow: 0 4px 12px rgba(216, 127, 105, 0.12);
-    transition: transform 0.2s ease;
+/* Componente Contact Item (Horizontal para canales de contacto) */
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none !important;
 }
 
-.theme-coral-on-surface:hover {
-    transform: scale(1.05);
+.contact-item .icon-box {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-muted);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.contact-item .contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-item .contact-label {
+    display: block;
+    font-family: var(--font-main);
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.contact-item .contact-value {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    line-height: 1;
 }
 
 /* --- Componentes Base (Usando Tokens Dinámicos) --- */
@@ -273,9 +305,9 @@ h6 {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.btn-primary:active, 
+.btn-primary:active,
 .btn-primary.active,
-.show > .btn-primary.dropdown-toggle {
+.show>.btn-primary.dropdown-toggle {
     background-color: var(--color-primary-active) !important;
     color: var(--color-on-primary) !important;
     transform: translateY(0);
@@ -303,7 +335,7 @@ h6 {
 /* Componente Feature Card (Tarjetas planas sin fondo) */
 .feature-card {
     /* Multiplicador de escala por defecto */
-    --feature-scale: 1;
+    --feature-scale: 1.2;
 
     display: flex;
     flex-direction: column;
@@ -332,11 +364,29 @@ h6 {
     line-height: 1.2;
 }
 
+/* Algoritmo de Justificación Editorial (Modularizado) */
+.text-hyphenated {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    text-justify: inter-word;
+}
+
 .feature-card .feature-text {
     font-size: calc(0.75rem * var(--feature-scale));
     color: var(--color-text-secondary);
     line-height: 1.4;
     margin-bottom: 0;
+}
+
+/* Aplicar algoritmo a feature-text por defecto (excepto en casos de exclusión) */
+.feature-card .feature-text:not(.text-center) {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    text-justify: inter-word;
 }
 
 .section-header {
@@ -525,5 +575,41 @@ h6 {
     font-weight: 400;
     font-size: 0.875rem;
     display: inline-block;
-    white-space: nowrap;
+    white-space: normal;
+    max-width: 100%;
+}
+
+/* Componente para tarjetas informativas peque�as dentro de banners */
+.info-card {
+    text-align: center;
+}
+
+.info-card .info-icon {
+    margin-bottom: 0.75rem;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-card .info-icon img {
+    height: 100%;
+    width: auto;
+}
+
+.info-card .info-title {
+    font-size: 0.75rem;
+    font-family: var(--font-main);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.info-card .info-text {
+    font-size: 0.8rem;
+    color: var(--font-main);
+    line-height: 1.4;
+    margin-bottom: 0;
 }

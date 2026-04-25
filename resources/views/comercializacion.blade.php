@@ -106,7 +106,7 @@
                         <img src="{{ asset('img/icons/Correo_Argentino_Logo.svg') }}" alt="Correo Argentino" class="img-fluid" style="max-height: 40px;">
                     </div>
                     <div>
-                        <p class="text-secondary small mb-0">Cobertura nacional.<br>Rastreo en línea de tu pedido.</p>
+                        <p class="feature-text small mb-0">Cobertura nacional.<br>Rastreo en línea de tu pedido.</p>
                     </div>
                 </div>
                 
@@ -115,7 +115,7 @@
                         <img src="{{ asset('img/icons/fundacion-andreani.png') }}" alt="Andreani" class="img-fluid" style="max-height: 40px;">
                     </div>
                     <div>
-                        <p class="text-secondary small mb-0">Envíos rápidos y seguros<br>a toda Argentina.</p>
+                        <p class="feature-text small mb-0">Envíos rápidos y seguros<br>a toda Argentina.</p>
                     </div>
                 </div>
                 
@@ -125,7 +125,7 @@
                     </div>
                     <div>
                         <h4 class="h6 poppins-semibold mb-1 text-main">ENVÍO GRATIS</h4>
-                        <p class="text-secondary small mb-0">En compras mayores a $50.000<br>a todo el país.</p>
+                        <p class="feature-text small mb-0">En compras mayores a $50.000<br>a todo el país.</p>
                     </div>
                 </div>
             </div>
@@ -138,8 +138,8 @@
             <!-- Columna 3: Info -->
             <div class="col-md-4 text-center text-md-start">
                 <h3 class="h6 poppins-bold mb-3 text-main">¿A DÓNDE ENVIAMOS?</h3>
-                <p class="text-secondary small mb-4">Realizamos envíos a toda la República Argentina.</p>
-                <p class="text-secondary small mb-4">Consulta la disponibilidad de envío en tu código postal al finalizar tu compra.</p>
+                <p class="feature-text small mb-4">Realizamos envíos a toda la República Argentina.</p>
+                <p class="feature-text small mb-4">Consulta la disponibilidad de envío en tu código postal al finalizar tu compra.</p>
             </div>
         </div>
         
@@ -172,8 +172,8 @@
                             <div class="icon-container">
                                 <img src="{{ asset('img/icons/credit-card2.svg') }}" alt="Tarjetas">
                             </div>
-                            <h3 class="feature-title text-main poppins-semibold">Tarjetas de crédito<br>y débito</h3>
-                            <p class="feature-text">Visa, Mastercard,<br>American Express.</p>
+                            <h3 class="feature-title text-main poppins-semibold">Tarjetas de crédito y débito</h3>
+                            <p class="feature-text text-center">Visa, Mastercard, American Express.</p>
                         </div>
                     </div>
 
@@ -183,19 +183,19 @@
                             <div class="icon-container">
                                 <img src="{{ asset('img/icons/bank.svg') }}" alt="Transferencia">
                             </div>
-                            <h3 class="feature-title text-main poppins-semibold">Transferencia<br>bancaria</h3>
-                            <p class="feature-text">Consulta los datos al<br>finalizar tu compra.</p>
+                            <h3 class="feature-title text-main poppins-semibold">Transferencia bancaria</h3>
+                            <p class="feature-text text-center">Consulta los datos al finalizar tu compra.</p>
                         </div>
                     </div>
 
                     <!-- Mercado Pago -->
                     <div class="col border-md-start">
                         <div class="feature-card">
-                            <div class="icon-container" style="width: 52px; height: 52px;">
+                            <div class="icon-container" style="width: 56px; height: 56px;">
                                 <img src="{{ asset('img/icons/MP.svg') }}" alt="Mercado Pago">
                             </div>
                             <h3 class="feature-title text-main poppins-semibold">Mercado Pago</h3>
-                            <p class="feature-text">Paga de forma segura<br>con tu cuenta de<br>Mercado Pago.</p>
+                            <p class="feature-text text-center">Paga de forma segura con tu cuenta de Mercado Pago.</p>
                         </div>
                     </div>
 
@@ -206,7 +206,7 @@
                                 <img src="{{ asset('img/icons/pagofacil.svg') }}" alt="Pago Fácil">
                             </div>
                             <h3 class="feature-title text-main poppins-semibold">Pago Fácil</h3>
-                            <p class="feature-text">Realiza tu pago en<br>efectivo en cualquier<br>sucursal.</p>
+                            <p class="feature-text text-center">Realiza tu pago en efectivo en cualquier sucursal.</p>
                         </div>
                     </div>
                 </div>
@@ -237,35 +237,43 @@
                 <div class="col-lg-9 pb-4 pe-lg-5 pt-2">
                     <div class="row g-4 text-center">
                         <div class="col-6 col-md-3">
-                            <div class="mb-3">
-                                <img src="{{ asset('img/icons/refresh.svg') }}" alt="Cambios" width="40">
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <img src="{{ asset('img/icons/refresh.svg') }}" alt="Cambios">
+                                </div>
+                                <h3 class="info-title">CAMBIOS Y DEVOLUCIONES</h3>
+                                <p class="info-text text-hyphenated">Tienes 15 días naturales para realizar cambios o devoluciones. Consulta nuestra política completa en el pie de página.</p>
                             </div>
-                            <h3 class="h6 poppins-bold mb-2 text-main" style="font-size: 0.75rem;">CAMBIOS Y DEVOLUCIONES</h3>
-                            <p class="text-secondary mb-0" style="font-size: 0.75rem;">Tienes 15 días naturales para realizar cambios o devoluciones.<br>Consulta nuestra política completa en el pie de página.</p>
                         </div>
                         
                         <div class="col-6 col-md-3">
-                            <div class="mb-3">
-                                <img src="{{ asset('img/icons/support.svg') }}" alt="Ayuda" width="40">
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <img src="{{ asset('img/icons/support.svg') }}" alt="Ayuda">
+                                </div>
+                                <h3 class="info-title">¿NECESITAS AYUDA?</h3>
+                                <p class="info-text text-hyphenated">Nuestro equipo está listo para ayudarte en lo que necesites. Contáctanos por WhatsApp, correo o redes sociales.</p>
                             </div>
-                            <h3 class="h6 poppins-bold mb-2 text-main" style="font-size: 0.75rem;">¿NECESITAS AYUDA?</h3>
-                            <p class="text-secondary mb-0" style="font-size: 0.75rem;">Nuestro equipo está listo para ayudarte en lo que necesites.<br>Contáctanos por WhatsApp, correo o redes sociales.</p>
                         </div>
                         
                         <div class="col-6 col-md-3">
-                            <div class="mb-3">
-                                <img src="{{ asset('img/icons/heart.svg') }}" alt="Satisfacción" width="40">
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <img src="{{ asset('img/icons/heart.svg') }}" alt="Satisfacción">
+                                </div>
+                                <h3 class="info-title">TU SATISFACCIÓN ES NUESTRA PRIORIDAD</h3>
+                                <p class="info-text text-hyphenated">Si algo no salió como esperabas, haremos todo lo posible para solucionarlo.</p>
                             </div>
-                            <h3 class="h6 poppins-bold mb-2 text-main" style="font-size: 0.75rem;">TU SATISFACCIÓN ES NUESTRA PRIORIDAD</h3>
-                            <p class="text-secondary mb-0" style="font-size: 0.75rem;">Si algo no salió como esperabas, haremos todo lo posible para solucionarlo.</p>
                         </div>
                         
                         <div class="col-6 col-md-3">
-                            <div class="mb-3">
-                                <img src="{{ asset('img/icons/gift.svg') }}" alt="Empaque" width="40">
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <img src="{{ asset('img/icons/gift.svg') }}" alt="Empaque">
+                                </div>
+                                <h3 class="info-title">EMPAQUE ESPECIAL</h3>
+                                <p class="info-text text-hyphenated">Todos los pedidos incluyen empaque personalizado, perfecto para regalo.</p>
                             </div>
-                            <h3 class="h6 poppins-bold mb-2 text-main" style="font-size: 0.75rem;">EMPAQUE ESPECIAL</h3>
-                            <p class="text-secondary mb-0" style="font-size: 0.75rem;">Todos los pedidos incluyen empaque personalizado, perfecto para regalo.</p>
                         </div>
                     </div>
                 </div>

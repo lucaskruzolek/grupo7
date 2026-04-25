@@ -27,7 +27,7 @@
     <!-- AVISOS LEGALES -->
     <section class="container mt-5">
         
-        <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        <div class="row row-cols-2 row-cols-md-3 g-4 mb-5">
             <!-- Opción 1 -->
             <div class="col">
                 <div class="feature-card">
@@ -72,14 +72,14 @@
             </div>
         </div>
 
-        <div class="row row-cols-1 row-cols-md-4 g-4 mb-5">
+        <div class="row row-cols-2 row-cols-md-4 g-4 mb-5">
             <!-- Opción 1 -->
             <div class="col">
                 <div class="feature-card">
                     <div class="icon-container">
                         <img src="{{ asset('img/icons/credit-card2.svg') }}" alt="Formas de Pago">
                     </div>
-                    <h3 class="feature-title text-main poppins-semibold">FORMAS DE PAGO</h3>
+                    <h3 class="feature-title text-main poppins-semibold">4. FORMAS DE PAGO</h3>
                     <p class="feature-text">Tarjetas de crédito y débito, Transferencia bancaria, Mercado Pago y Pago Fácil. Todos los pagos se procesan de forma segura.</p>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                     <div class="icon-container">
                         <img src="{{ asset('img/icons/delivery-truck.svg') }}" alt="Formas de Entrega">
                     </div>
-                    <h3 class="feature-title text-main poppins-semibold">FORMAS DE ENTREGA</h3>
+                    <h3 class="feature-title text-main poppins-semibold">5. FORMAS DE ENTREGA</h3>
                     <p class="feature-text">Envíos a todo el país a través de Correo Argentino y Andreani. Envío gratis en compras mayores a $50.000.</p>
                 </div>
             </div>
@@ -101,7 +101,7 @@
                     <div class="icon-container">
                         <img src="{{ asset('img/icons/clock.svg') }}" alt="Tiempos de Entrega">
                     </div>
-                    <h3 class="feature-title text-main poppins-semibold">TIEMPOS DE ENTREGA</h3>
+                    <h3 class="feature-title text-main poppins-semibold">6. TIEMPOS DE ENTREGA</h3>
                     <p class="feature-text">Entrega Estándar (2 a 5 días hábiles), Entrega Express (1 a 2 días hábiles) o Recolección en punto de entrega (2 a 4 días hábiles).</p>
                 </div>
             </div>
@@ -112,20 +112,20 @@
                     <div class="icon-container">
                         <img src="{{ asset('img/icons/refresh.svg') }}" alt="Cambios y Devoluciones">
                     </div>
-                    <h3 class="feature-title text-main poppins-semibold">CAMBIOS Y DEVOLUCIONES</h3>
+                    <h3 class="feature-title text-main poppins-semibold">7. CAMBIOS Y DEVOLUCIONES</h3>
                     <p class="feature-text">Tenés 15 días corridos para solicitar un cambio o devolución. Los productos deben estar sin uso y en su empaque original.</p>
                 </div>
             </div>
         </div>
 
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="row row-cols-2 row-cols-md-3 g-4">
             <!-- Opción 1 -->
             <div class="col">
                 <div class="feature-card">
                     <div class="icon-container">
                         <img src="{{ asset('img/icons/star.svg') }}" alt="Garantías">
                     </div>
-                    <h3 class="feature-title text-main poppins-semibold">9. GARANTÍAS</h3>
+                    <h3 class="feature-title text-main poppins-semibold">8. GARANTÍAS</h3>
                     <p class="feature-text">Todos nuestros productos cuentan con garantía por fallos de fabricación. Si recibís un producto con defectos, contactanos dentro de los 7 días corridos.</p>
                 </div>
             </div>
@@ -136,7 +136,7 @@
                     <div class="icon-container">
                         <img src="{{ asset('img/icons/support.svg') }}" alt="Soporte Postventa">
                     </div>
-                    <h3 class="feature-title text-main poppins-semibold">10. SOPORTE POSTVENTA</h3>
+                    <h3 class="feature-title text-main poppins-semibold">9. SOPORTE POSTVENTA</h3>
                     <p class="feature-text">Nuestro equipo está para ayudarte antes, durante y después de tu compra. Podés contactarnos por cualquiera de nuestros canales oficiales.</p>
                     <div class="mt-auto pt-3">
                         <span class="theme-coral badge badge-pill-theme d-inline-flex align-items-center">
@@ -153,7 +153,7 @@
                     <div class="icon-container">
                         <img src="{{ asset('img/icons/computer.svg') }}" alt="Uso del Sitio">
                     </div>
-                    <h3 class="feature-title text-main poppins-semibold">11. USO DEL SITIO</h3>
+                    <h3 class="feature-title text-main poppins-semibold">10. USO DEL SITIO</h3>
                     <p class="feature-text">El contenido de este sitio es propiedad de Pet Threads SRL y está protegido por las leyes de propiedad intelectual. No está permitido su uso sin autorización previa.</p>
                 </div>
             </div> 
@@ -177,35 +177,35 @@
                 <div class="col-lg-4 pb-4">
                     <div class="d-flex flex-column gap-4">
                         <!-- WhatsApp -->
-                        <div class="d-flex align-items-center justify-content-center justify-content-lg-start">
-                            <div class="theme-coral-on-surface  rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; min-width: 48px;">
-                                <img src="{{ asset('img/icons/whatsapp.svg') }}" alt="WhatsApp" width="24">
+                        <div class="contact-item justify-content-center justify-content-lg-start">
+                            <div class="icon-box">
+                                <img src="{{ asset('img/icons/whatsapp.svg') }}" alt="WhatsApp" width="22">
                             </div>
-                            <div class="text-start">
-                                <span class="text-main poppins-semibold d-block">WhatsApp</span>
-                                <span class="text-secondary small">+54 9 379 4123 456</span>
+                            <div class="contact-info text-start">
+                                <span class="contact-label">WhatsApp</span>
+                                <span class="contact-value">+54 9 379 4123 456</span>
                             </div>
                         </div>
 
                         <!-- Email -->
-                        <div class="d-flex align-items-center justify-content-center justify-content-lg-start">
-                            <div class="theme-coral-on-surface rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; min-width: 48px;">
-                                <img src="{{ asset('img/icons/envelope-closed-svgrepo-com.svg') }}" alt="Email" width="24">
+                        <div class="contact-item justify-content-center justify-content-lg-start">
+                            <div class="icon-box">
+                                <img src="{{ asset('img/icons/email.svg') }}" alt="Email" width="22">
                             </div>
-                            <div class="text-start">
-                                <span class="text-main poppins-semibold d-block">Email</span>
-                                <span class="text-secondary small">hola@petthreads.com.ar</span>
+                            <div class="contact-info text-start">
+                                <span class="contact-label">Email</span>
+                                <span class="contact-value">hola@petthreads.com.ar</span>
                             </div>
                         </div>
 
                         <!-- Instagram -->
-                        <div class="d-flex align-items-center justify-content-center justify-content-lg-start">
-                            <div class="theme-coral-on-surface rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; min-width: 48px;">
-                                <img src="{{ asset('img/icons/instagram.svg') }}" alt="Instagram" width="24">
+                        <div class="contact-item justify-content-center justify-content-lg-start">
+                            <div class="icon-box">
+                                <img src="{{ asset('img/icons/instagram.svg') }}" alt="Instagram" width="22">
                             </div>
-                            <div class="text-start">
-                                <span class="text-main poppins-semibold d-block">Instagram</span>
-                                <span class="text-secondary small">@petthreads.ok</span>
+                            <div class="contact-info text-start">
+                                <span class="contact-label">Instagram</span>
+                                <span class="contact-value">@petthreads.ok</span>
                             </div>
                         </div>
                     </div>
