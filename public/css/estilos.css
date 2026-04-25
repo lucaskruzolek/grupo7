@@ -80,8 +80,8 @@
     /* Superficies */
     --semantic-green-surface: var(--green-100);
     --semantic-green-on-surface: var(--green-900);
-    --semantic-green-surface-muted: var(--green-50);
-    --semantic-green-border: var(--green-300);
+    --semantic-green-surface-muted: var(--green-100);
+    --semantic-green-border: var(--green-100);
 
     /* Acciones (Botones) */
     --semantic-green-primary: var(--green-500);
@@ -262,8 +262,6 @@ h6 {
 .surface-card {
     background-color: var(--color-surface);
     color: var(--color-on-surface);
-    border: 1px solid var(--color-border);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .text-main {
@@ -324,6 +322,21 @@ h6 {
     white-space: nowrap;
 }
 
+@media (max-width: 768px) {
+    .banner-content {
+        /* Controlamos el margen superior e inferior del BLOQUE completo */
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        text-align: center;
+    }
+
+    .banner-content .banner-title {
+        display: inline-block !important;
+        margin-top: 0;
+    }
+}
+
+
 .paw-icon {
     /* Inline: se comporta como una letra más del título */
     display: inline-block;
@@ -345,4 +358,35 @@ h6 {
 
     transform: rotate(25deg);
     pointer-events: none;
+}
+
+.img-cat-mockup {
+    max-height: 300px;
+    width: auto;
+    display: block;
+    margin: 0 auto 0;
+}
+
+@media (min-width: 992px) {
+    .img-cat-mockup {
+        position: absolute;
+        bottom: -25px;
+        right: -90px;
+        height: 500px;
+        margin: 0;
+        /* Limitamos el ancho para que no invada la otra columna en pantallas intermedias */
+        max-width: 450px;
+        object-fit: contain;
+        object-position: right bottom;
+    }
+}
+
+/* Utilidades responsivas de bordes (Bootstrap 5 no las incluye por defecto) */
+@media (min-width: 768px) {
+    .border-md-start {
+        border-left: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6) !important;
+    }
+    .border-md-end {
+        border-right: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6) !important;
+    }
 }
