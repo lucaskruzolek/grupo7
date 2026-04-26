@@ -109,8 +109,8 @@
     --semantic-coral-primary-active: var(--coral-500);
 
     /* Texto */
-    --semantic-coral-text-main: var(--coral-900);
-    --semantic-coral-text-secondary: var(--coral-700);
+    --semantic-coral-text-main: var(--coral-950);
+    --semantic-coral-text-secondary: var(--coral-900);
     --semantic-coral-text-muted: var(--coral-500);
 
 
@@ -355,6 +355,19 @@ h6 {
 .feature-card .icon-container img {
     max-height: 100%;
     width: auto;
+    object-fit: contain;
+}
+
+.feature-card .icon-mask {
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--color-text);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    mask-position: center;
 }
 
 .feature-card .feature-title {
@@ -373,20 +386,23 @@ h6 {
     text-justify: inter-word;
 }
 
-.feature-card .feature-text {
-    font-size: calc(0.75rem * var(--feature-scale));
+.feature-text {
     color: var(--color-text-secondary);
     line-height: 1.4;
     margin-bottom: 0;
 }
 
-/* Aplicar algoritmo a feature-text por defecto (excepto en casos de exclusión) */
-.feature-card .feature-text:not(.text-center) {
+/* Aplicar algoritmo de justificación por defecto (excepto en casos de exclusión) */
+.feature-text:not(.text-center) {
     text-align: justify;
     hyphens: auto;
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
     text-justify: inter-word;
+}
+
+.feature-card .feature-text {
+    font-size: calc(0.75rem * var(--feature-scale));
 }
 
 .section-header {
@@ -414,6 +430,20 @@ h6 {
 
 .text-muted {
     color: var(--color-text-muted);
+}
+
+.section-tag {
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--brand-dark);
+    display: block;
+}
+
+.text-coral-light {
+    color: var(--coral-600);
 }
 
 .surface-muted {
@@ -468,10 +498,21 @@ h6 {
 }
 
 /* IMAGEN CON FUNDIDO GRADUAL (FADE IN) */
+.img-fade-left {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 @media (min-width: 768px) {
     .img-fade-left {
         -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%);
         mask-image: linear-gradient(to right, transparent 0%, black 15%);
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
     }
 }
 
@@ -485,7 +526,18 @@ h6 {
 .banner-title {
     /* clamp(tamaño_mínimo, tamaño_fluido, tamaño_máximo) */
     font-size: clamp(2.0rem, 4.5vw, 3.5rem);
-    line-height: 1.1;
+    line-height: 1.2;
+}
+
+.banner-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    text-justify: inter-word;
 }
 
 /* Modificador para títulos que no deben romperse (Comercialización, etc) */
@@ -612,4 +664,65 @@ h6 {
     color: var(--font-main);
     line-height: 1.4;
     margin-bottom: 0;
+}
+
+/* --- Footer Component (Model #4 Adapted) --- */
+.footer-main {
+    background-color: #ffffff;
+    border-top: 1px solid var(--neutral-200);
+}
+
+.footer-logo {
+    max-width: 150px;
+    height: auto;
+}
+
+.footer-heading {
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    color: var(--navy-900);
+}
+
+.footer-link {
+    font-size: 0.9rem;
+    color: var(--neutral-600);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.footer-link:hover {
+    color: var(--color-primary) !important;
+    padding-left: 4px;
+}
+
+.footer-social-link {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--neutral-200);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+.footer-social-link:hover {
+    background-color: var(--navy-900);
+    border-color: var(--navy-900);
+    transform: translateY(-3px);
+}
+
+.footer-social-icon {
+    background-color: var(--navy-900);
+    width: 16px;
+    height: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.footer-social-link:hover .footer-social-icon {
+    background-color: #ffffff !important;
+}
+
+.footer-copyright {
+    font-size: 0.85rem;
+    color: var(--neutral-500);
 }

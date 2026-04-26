@@ -2,20 +2,20 @@
 
 @section('contenido')
     <!-- Banner Principal de Comercialización -->
-    <section class="theme-neutral surface-card overflow-hidden position-relative p-0">
-        <div class="row g-0 align-items-center">
+    <section class="theme-neutral surface-card overflow-hidden p-0 ps-md-5 pt-2">
+        <div class="row g-0 align-items-center w-100 m-0">
             <!-- Bloque de Texto (40%) -->
-            <div class="col-md-5 ps-4 pe-2 banner-content">
+            <div class="col-md-6 ps-4 pe-2 banner-content">
                 <h1 class="banner-title banner-title-nowrap mb-4 position-relative d-inline-block">Comercialización<span class="paw-icon"></span>
                 </h1>
                 
-                <p class="text-secondary fs-5">
+                <p class="banner-subtitle">
                     Todo lo que necesitas saber para recibir tus productos de forma fácil, segura y rápida.
                 </p>
             </div>
  
             <!-- Bloque de Imagen (60%) -->
-            <div class="col-md-7">
+            <div class="col-md-6 align-self-stretch">
                 <img src="{{ asset('img/ui/comercializacion/portada.webp') }}" 
                      alt="Portada Comercialización" 
                      class="img-fluid w-100 img-fade-left" 
@@ -170,7 +170,7 @@
                     <div class="col">
                         <div class="feature-card">
                             <div class="icon-container">
-                                <img src="{{ asset('img/icons/credit-card2.svg') }}" alt="Tarjetas">
+                                <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/credit-card2.svg') }}'); mask-image: url('{{ asset('img/icons/credit-card2.svg') }}');"></div>
                             </div>
                             <h3 class="feature-title text-main poppins-semibold">Tarjetas de crédito y débito</h3>
                             <p class="feature-text text-center">Visa, Mastercard, American Express.</p>
@@ -181,7 +181,7 @@
                     <div class="col border-md-start">
                         <div class="feature-card">
                             <div class="icon-container">
-                                <img src="{{ asset('img/icons/bank.svg') }}" alt="Transferencia">
+                                <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/bank.svg') }}'); mask-image: url('{{ asset('img/icons/bank.svg') }}');"></div>
                             </div>
                             <h3 class="feature-title text-main poppins-semibold">Transferencia bancaria</h3>
                             <p class="feature-text text-center">Consulta los datos al finalizar tu compra.</p>
