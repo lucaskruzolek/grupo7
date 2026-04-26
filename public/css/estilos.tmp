@@ -1,0 +1,667 @@
+﻿:root {
+    /* --- Colores Primitivos (Paleta base) --- */
+    /* --- Familia Neutros --- */
+    --neutral-50: #f6f3ef;
+    /*Background principal*/
+    --neutral-100: #f8efe5;
+    /* Base */
+    --neutral-200: #f1e4d5;
+    --neutral-300: #e6d3bf;
+    --neutral-400: #d4b89d;
+    --neutral-500: #b6916f;
+    --neutral-600: #987556;
+    --neutral-700: #7a5c43;
+    --neutral-800: #5d4633;
+    --neutral-900: #403125;
+    --neutral-950: #261d16;
+
+    /* Familia Verde */
+    --green-100: #E9ECE8;
+    --green-200: #cfd4cd;
+    --green-300: #B5BDB1;
+    --green-400: #9ba596;
+    --green-500: #7C8A76;
+    --green-600: #677362;
+    --green-700: #535D4F;
+    --green-800: #40473D;
+    --green-900: #2C312A;
+    --green-950: #181b17;
+
+    /* Familia Coral */
+    --coral-50: #fbf4f2;
+    --coral-100: #f7e6e2;
+    --coral-200: #f2d5ce;
+    --coral-300: #edc4ba;
+    --coral-400: #e7b3a5;
+    --coral-500: #e3a393;
+    --coral-600: #d87f69;
+    --coral-700: #cd5c40;
+    --coral-800: #ae462d;
+    --coral-900: #853622;
+    --coral-950: #5d2518;
+
+    /* --- Familia Azul Profundo --- */
+    --navy-50: #f1f3f6;
+    --navy-100: #e3e7ed;
+    --navy-200: #c7cfdc;
+    --navy-300: #a9b7cb;
+    --navy-400: #8b9fba;
+    --navy-500: #4b6894;
+    --navy-600: #3b5174;
+    --navy-700: #2b3b55;
+    --navy-800: #1c2636;
+    --navy-900: #1a2941;
+    --navy-950: #0d1521;
+
+
+    /* --- Tokens SemÃ¡nticos DinÃ¡micos (Neutral) --- */
+    /* PÃ¡gina Principal */
+    --semantic-neutral-bg: var(--neutral-100);
+
+    /* Superficies */
+    --semantic-neutral-surface: var(--neutral-50);
+    --semantic-neutral-on-surface: var(--neutral-900);
+    --semantic-neutral-surface-muted: var(--neutral-50);
+    --semantic-neutral-border: var(--neutral-100);
+
+    /* Acciones (Neutrales como fallback) */
+    --semantic-neutral-primary: var(--neutral-900);
+    --semantic-neutral-on-primary: #ffffff;
+    --semantic-neutral-primary-hover: #000000;
+    --semantic-neutral-primary-active: #000000;
+
+    /* Texto */
+    --semantic-neutral-text-main: var(--neutral-900);
+    --semantic-neutral-text-secondary: var(--neutral-700);
+    --semantic-neutral-text-muted: var(--neutral-500);
+
+
+    /* --- Tokens SemÃ¡nticos DinÃ¡micos (Verde) --- */
+    /* Superficies */
+    --semantic-green-surface: var(--green-100);
+    --semantic-green-on-surface: var(--green-900);
+    --semantic-green-surface-muted: var(--green-100);
+    --semantic-green-border: var(--green-100);
+
+    /* Acciones (Botones) */
+    --semantic-green-primary: var(--green-500);
+    --semantic-green-on-primary: #ffffff;
+    --semantic-green-primary-hover: var(--green-600);
+    --semantic-green-primary-active: var(--green-700);
+
+    /* Texto */
+    --semantic-green-text-main: var(--green-900);
+    --semantic-green-text-secondary: var(--green-700);
+    --semantic-green-text-muted: var(--green-500);
+
+
+    /* --- Tokens SemÃ¡nticos DinÃ¡micos (Coral) --- */
+    /* Superficies */
+    --semantic-coral-surface: var(--coral-100);
+    --semantic-coral-on-surface: var(--coral-900);
+    --semantic-coral-surface-muted: var(--coral-50);
+    --semantic-coral-border: var(--coral-300);
+
+    /* Acciones (Botones) */
+    --semantic-coral-primary: var(--coral-700);
+    --semantic-coral-on-primary: #ffffff;
+    --semantic-coral-primary-hover: var(--coral-600);
+    --semantic-coral-primary-active: var(--coral-500);
+
+    /* Texto */
+    --semantic-coral-text-main: var(--coral-950);
+    --semantic-coral-text-secondary: var(--coral-900);
+    --semantic-coral-text-muted: var(--coral-500);
+
+
+    /* --- Mapeo Global DinÃ¡mico (Theme Switcher ready) --- */
+    /* Por defecto usamos los tokens neutrales para la base */
+    --color-bg: var(--semantic-neutral-bg);
+    --color-surface: var(--semantic-neutral-surface);
+    --color-on-surface: var(--semantic-neutral-on-surface);
+    --color-surface-muted: var(--semantic-neutral-surface-muted);
+
+    --color-primary: var(--semantic-green-primary);
+    --color-on-primary: var(--semantic-green-on-primary);
+    --color-primary-hover: var(--semantic-green-primary-hover);
+    --color-primary-active: var(--semantic-green-primary-active);
+
+    --color-border: var(--semantic-neutral-border);
+    --color-text: var(--semantic-neutral-text-main);
+    --color-text-secondary: var(--semantic-neutral-text-secondary);
+    --color-text-muted: var(--semantic-neutral-text-muted);
+
+    /* Badges / Pills */
+    --color-badge-bg: var(--neutral-200);
+    --color-badge-text: var(--neutral-900);
+
+
+    /* Fondo del footer */
+
+
+    /* TipografÃ­as */
+    --font-main: 'Poppins', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+
+    /* --- Estilos Generales --- */
+    --brand-dark: var(--navy-700);
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 0;
+
+    .hero-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        transition: 0.3s;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--brand-dark);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: var(--brand-dark);
+    font-weight: 500;
+    transition: color 0.2s;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: var(--color-primary);
+}
+
+/* --- Utilidades de Tema DinÃ¡mico --- */
+/* Estas clases permiten cambiar el esquema de color de un contenedor y todos sus hijos */
+
+.theme-green {
+    --color-surface: var(--semantic-green-surface);
+    --color-on-surface: var(--semantic-green-on-surface);
+    --color-surface-muted: var(--semantic-green-surface-muted);
+    --color-primary: var(--semantic-green-primary);
+    --color-on-primary: var(--semantic-green-on-primary);
+    --color-primary-hover: var(--semantic-green-primary-hover);
+    --color-primary-active: var(--semantic-green-primary-active);
+    --color-border: var(--semantic-green-border);
+    --color-text: var(--semantic-green-text-main);
+    --color-text-secondary: var(--semantic-green-text-secondary);
+    --color-text-muted: var(--semantic-green-text-muted);
+    --color-badge-bg: var(--green-200);
+    --color-badge-text: var(--green-900);
+}
+
+.theme-coral {
+    --color-surface: var(--semantic-coral-surface);
+    --color-on-surface: var(--semantic-coral-on-surface);
+    --color-surface-muted: var(--semantic-coral-surface-muted);
+    --color-primary: var(--semantic-coral-primary);
+    --color-on-primary: var(--semantic-coral-on-primary);
+    --color-primary-hover: var(--semantic-coral-primary-hover);
+    --color-primary-active: var(--semantic-coral-primary-active);
+    --color-border: var(--semantic-coral-border);
+    --color-text: var(--semantic-coral-text-main);
+    --color-text-secondary: var(--semantic-coral-text-secondary);
+    --color-text-muted: var(--semantic-coral-text-muted);
+    --color-badge-bg: var(--coral-300);
+    --color-badge-text: var(--coral-900);
+}
+
+.theme-neutral {
+    --color-surface: var(--semantic-neutral-surface);
+    --color-on-surface: var(--semantic-neutral-on-surface);
+    --color-surface-muted: var(--semantic-neutral-surface-muted);
+    --color-primary: var(--semantic-neutral-primary);
+    --color-on-primary: var(--semantic-neutral-on-primary);
+    --color-primary-hover: var(--semantic-neutral-primary-hover);
+    --color-primary-active: var(--semantic-neutral-primary-active);
+    --color-border: var(--semantic-neutral-border);
+    --color-text: var(--semantic-neutral-text-main);
+    --color-text-secondary: var(--semantic-neutral-text-secondary);
+    --color-text-muted: var(--semantic-neutral-text-muted);
+}
+
+/* Componente Contact Item (Horizontal para canales de contacto) */
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none !important;
+}
+
+.contact-item .icon-box {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-muted);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.contact-item .contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-item .contact-label {
+    display: block;
+    font-family: var(--font-main);
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.contact-item .contact-value {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    line-height: 1;
+}
+
+/* --- Componentes Base (Usando Tokens DinÃ¡micos) --- */
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: var(--font-main);
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover) !important;
+    color: var(--color-on-primary) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:active,
+.btn-primary.active,
+.show>.btn-primary.dropdown-toggle {
+    background-color: var(--color-primary-active) !important;
+    color: var(--color-on-primary) !important;
+    transform: translateY(0);
+    border-color: transparent !important;
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(216, 127, 105, 0.25);
+    outline: none;
+}
+
+.surface-card {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.04);
+    align-items: center;
+}
+
+/* Componente Feature Card (Tarjetas planas sin fondo) */
+.feature-card {
+    /* Multiplicador de escala por defecto */
+    --feature-scale: 1.2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: calc(1rem * var(--feature-scale)) calc(0.5rem * var(--feature-scale));
+}
+
+.feature-card .icon-container {
+    height: calc(48px * var(--feature-scale));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: calc(0.75rem * var(--feature-scale));
+}
+
+.feature-card .icon-container img {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.feature-card .icon-mask {
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--color-text);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+.feature-card .feature-title {
+    font-size: calc(0.85rem * var(--feature-scale));
+    font-weight: 600;
+    margin-bottom: calc(0.5rem * var(--feature-scale));
+    line-height: 1.2;
+}
+
+/* Algoritmo de JustificaciÃ³n Editorial (Modularizado) */
+.text-hyphenated {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    text-justify: inter-word;
+}
+
+.feature-text {
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+    margin-bottom: 0;
+}
+
+/* Aplicar algoritmo de justificaciÃ³n por defecto (excepto en casos de exclusiÃ³n) */
+.feature-text:not(.text-center) {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    text-justify: inter-word;
+}
+
+.feature-card .feature-text {
+    font-size: calc(0.75rem * var(--feature-scale));
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.25rem;
+}
+
+@media (min-width: 768px) {
+    .section-header {
+        justify-content: flex-start;
+    }
+}
+
+.text-main {
+    color: var(--color-text);
+}
+
+.text-secondary {
+    color: var(--color-text-secondary);
+}
+
+.text-muted {
+    color: var(--color-text-muted);
+}
+
+.section-tag {
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--brand-dark);
+    display: block;
+}
+
+.text-coral-light {
+    color: var(--coral-600);
+}
+
+.surface-muted {
+    background-color: var(--color-surface-muted);
+}
+
+
+.playfair-display-regular {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.playfair-display-medium {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.playfair-display-semibold {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.playfair-display-bold {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+}
+
+.poppins-regular {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.poppins-semibold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.poppins-bold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* IMAGEN CON FUNDIDO GRADUAL (FADE IN) */
+.img-fade-left {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (min-width: 768px) {
+    .img-fade-left {
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%);
+        mask-image: linear-gradient(to right, transparent 0%, black 15%);
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+    }
+}
+
+/* Redimensionamiento de los titulos de los banners */
+@media (min-width: 768px) {
+    .banner-content {
+        text-align: left;
+    }
+}
+
+.banner-title {
+    /* clamp(tamaÃ±o_mÃ­nimo, tamaÃ±o_fluido, tamaÃ±o_mÃ¡ximo) */
+    font-size: clamp(2.0rem, 4.5vw, 3.5rem);
+    line-height: 1.2;
+}
+
+.banner-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    text-justify: inter-word;
+}
+
+/* Modificador para tÃ­tulos que no deben romperse (ComercializaciÃ³n, etc) */
+.banner-title-nowrap {
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .banner-content {
+        /* Controlamos el margen superior e inferior del BLOQUE completo */
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        text-align: center;
+    }
+
+    .banner-content .banner-title-nowrap {
+        display: inline-block !important;
+        margin-top: 0;
+    }
+
+    .banner-content .banner-title {
+        margin-top: 0;
+    }
+}
+
+
+.paw-icon {
+    /* Inline: se comporta como una letra mÃ¡s del tÃ­tulo */
+    display: inline-block;
+
+    /* TamaÃ±o relativo al h1 */
+    width: 1em;
+    height: 1em;
+
+    /* Ajuste vertical para que quede ligeramente arriba */
+
+    margin-left: 0;
+
+    /* Color */
+    background-color: var(--coral-600);
+
+    /* MÃ¡scara */
+    -webkit-mask: url('../img/icons/paw.svg') no-repeat center / contain;
+    mask: url('../img/icons/paw.svg') no-repeat center / contain;
+
+    transform: rotate(25deg);
+    pointer-events: none;
+}
+
+.img-cat-mockup {
+    max-height: 300px;
+    width: auto;
+    display: block;
+    margin: 0 auto 0;
+}
+
+@media (min-width: 992px) {
+    .img-cat-mockup {
+        position: absolute;
+        bottom: -25px;
+        right: -90px;
+        height: 500px;
+        margin: 0;
+        /* Limitamos el ancho para que no invada la otra columna en pantallas intermedias */
+        max-width: 450px;
+        object-fit: contain;
+        object-position: right bottom;
+    }
+}
+
+/* Utilidades responsivas de bordes (Bootstrap 5 no las incluye por defecto) */
+@media (min-width: 768px) {
+    .border-md-start {
+        border-left: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6) !important;
+    }
+
+    .border-md-end {
+        border-right: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6) !important;
+    }
+}
+
+.badge-pill-theme {
+    background-color: var(--color-badge-bg) !important;
+    color: var(--color-badge-text) !important;
+    padding: 0.5rem 1rem;
+    border-radius: 50rem;
+    font-weight: 400;
+    font-size: 0.875rem;
+    display: inline-block;
+    white-space: normal;
+    max-width: 100%;
+}
+
+/* Componente para tarjetas informativas pequeï¿½as dentro de banners */
+.info-card {
+    text-align: center;
+}
+
+.info-card .info-icon {
+    margin-bottom: 0.75rem;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-card .info-icon img {
+    height: 100%;
+    width: auto;
+}
+
+.info-card .info-title {
+    font-size: 0.75rem;
+    font-family: var(--font-main);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.info-card .info-text {
+    font-size: 0.8rem;
+    color: var(--font-main);
+    line-height: 1.4;
+    margin-bottom: 0;
+}

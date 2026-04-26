@@ -2,20 +2,20 @@
 
 @section('contenido')
     <!-- Banner Principal de Términos de Uso -->
-    <section class="theme-neutral surface-card overflow-hidden position-relative p-0" style="box-shadow: none;">
-        <div class="row g-0 align-items-center">
+    <section class="theme-neutral surface-card position-relative overflow-hidden p-0 ps-md-5 pt-2">
+        <div class="row g-0 align-items-center w-100 m-0">
             <!-- Bloque de Texto (40%) -->
-            <div class="col-md-5 ps-4 pe-2 banner-content">
+            <div class="col-md-6 ps-4 pe-2 banner-content">
                 <h1 class="banner-title mb-4 position-relative">Términos y Condiciones de Uso del Sitio Web<span class="paw-icon"></span>
                 </h1>
                 
-                <p class="text-secondary fs-5">
-                    Todo lo que necesitas saber para recibir tus productos de forma fácil, segura y rápida.
+                <p class="banner-subtitle">
+                    Al acceder y utilizar el sitio web de Pet Threads, aceptas los presentes términos y condiciones. Te recomendamos leerlos atentamente.
                 </p>
             </div>
  
             <!-- Bloque de Imagen (60%) -->
-            <div class="col-md-7">
+            <div class="col-md-6 align-self-stretch">
                 <img src="{{ asset('img/ui/terminos/portada.webp') }}" 
                      alt="Portada Términos y Condiciones" 
                      class="img-fluid w-100 img-fade-left" 
@@ -27,12 +27,12 @@
     <!-- AVISOS LEGALES -->
     <section class="container mt-5">
         
-        <div class="row row-cols-2 row-cols-md-3 g-4 mb-5">
+        <div class="row row-cols-2 row-cols-md-3 g-4 mb-5 justify-content-center">
             <!-- Opción 1 -->
             <div class="col">
                 <div class="feature-card">
                     <div class="icon-container">
-                        <img src="{{ asset('img/icons/file-interface.svg') }}" alt="Aviso Legal">
+                        <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/file-interface.svg') }}'); mask-image: url('{{ asset('img/icons/file-interface.svg') }}');"></div>
                     </div>
                     <h3 class="feature-title text-main poppins-semibold">1. AVISO LEGAL</h3>
                     <p class="feature-text">Pet Threads SRL, con domicilio en Corrientes, Argentina, se reserva el derecho de modificar los presentes Términos y Condiciones en cualquier momento.</p>
@@ -43,7 +43,7 @@
             <div class="col border-md-start">
                 <div class="feature-card">
                     <div class="icon-container">
-                        <img src="{{ asset('img/icons/shopping-bag.svg') }}" alt="Servicios Ofrecidos">
+                        <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/shopping-bag.svg') }}'); mask-image: url('{{ asset('img/icons/shopping-bag.svg') }}');"></div>
                     </div>
                     <h3 class="feature-title text-main poppins-semibold">2. SERVICIOS OFRECIDOS</h3>
                     <p class="feature-text">Ofrecemos venta online de ropa y accesorios. Los productos publicados están sujetos a disponibilidad de stock y cambios de precio sin previo aviso.</p>
@@ -54,7 +54,7 @@
             <div class="col border-md-start">
                 <div class="feature-card">
                     <div class="icon-container">
-                        <img src="{{ asset('img/icons/incognito.svg') }}" alt="Política de Privacidad">
+                        <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/incognito.svg') }}'); mask-image: url('{{ asset('img/icons/incognito.svg') }}');"></div>
                     </div>
                     <h3 class="feature-title text-main poppins-semibold">3. POLÍTICA DE PRIVACIDAD</h3>
                     <p class="feature-text">Tu privacidad es importante. Tratamos tus datos personales cumpliendo con la Ley 25.326, únicamente para procesar tu compra y mejorar tu experiencia.</p>
@@ -72,12 +72,12 @@
             </div>
         </div>
 
-        <div class="row row-cols-2 row-cols-md-4 g-4 mb-5">
+        <div class="row row-cols-2 row-cols-md-4 g-4 mb-5 justify-content-center">
             <!-- Opción 1 -->
             <div class="col">
                 <div class="feature-card">
                     <div class="icon-container">
-                        <img src="{{ asset('img/icons/credit-card2.svg') }}" alt="Formas de Pago">
+                        <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/credit-card2.svg') }}'); mask-image: url('{{ asset('img/icons/credit-card2.svg') }}');"></div>
                     </div>
                     <h3 class="feature-title text-main poppins-semibold">4. FORMAS DE PAGO</h3>
                     <p class="feature-text">Tarjetas de crédito y débito, Transferencia bancaria, Mercado Pago y Pago Fácil. Todos los pagos se procesan de forma segura.</p>
@@ -88,7 +88,7 @@
             <div class="col border-md-start">
                 <div class="feature-card">
                     <div class="icon-container">
-                        <img src="{{ asset('img/icons/delivery-truck.svg') }}" alt="Formas de Entrega">
+                        <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/delivery-truck.svg') }}'); mask-image: url('{{ asset('img/icons/delivery-truck.svg') }}');"></div>
                     </div>
                     <h3 class="feature-title text-main poppins-semibold">5. FORMAS DE ENTREGA</h3>
                     <p class="feature-text">Envíos a todo el país a través de Correo Argentino y Andreani. Envío gratis en compras mayores a $50.000.</p>
@@ -99,7 +99,7 @@
             <div class="col border-md-start">
                 <div class="feature-card">
                     <div class="icon-container">
-                        <img src="{{ asset('img/icons/clock.svg') }}" alt="Tiempos de Entrega">
+                        <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/clock.svg') }}'); mask-image: url('{{ asset('img/icons/clock.svg') }}');"></div>
                     </div>
                     <h3 class="feature-title text-main poppins-semibold">6. TIEMPOS DE ENTREGA</h3>
                     <p class="feature-text">Entrega Estándar (2 a 5 días hábiles), Entrega Express (1 a 2 días hábiles) o Recolección en punto de entrega (2 a 4 días hábiles).</p>
@@ -110,7 +110,7 @@
             <div class="col border-md-start">
                 <div class="feature-card">
                     <div class="icon-container">
-                        <img src="{{ asset('img/icons/refresh.svg') }}" alt="Cambios y Devoluciones">
+                        <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/refresh.svg') }}'); mask-image: url('{{ asset('img/icons/refresh.svg') }}');"></div>
                     </div>
                     <h3 class="feature-title text-main poppins-semibold">7. CAMBIOS Y DEVOLUCIONES</h3>
                     <p class="feature-text">Tenés 15 días corridos para solicitar un cambio o devolución. Los productos deben estar sin uso y en su empaque original.</p>
@@ -118,12 +118,12 @@
             </div>
         </div>
 
-        <div class="row row-cols-2 row-cols-md-3 g-4">
+        <div class="row row-cols-2 row-cols-md-3 g-4 justify-content-center">
             <!-- Opción 1 -->
             <div class="col">
                 <div class="feature-card">
                     <div class="icon-container">
-                        <img src="{{ asset('img/icons/star.svg') }}" alt="Garantías">
+                        <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/star.svg') }}'); mask-image: url('{{ asset('img/icons/star.svg') }}');"></div>
                     </div>
                     <h3 class="feature-title text-main poppins-semibold">8. GARANTÍAS</h3>
                     <p class="feature-text">Todos nuestros productos cuentan con garantía por fallos de fabricación. Si recibís un producto con defectos, contactanos dentro de los 7 días corridos.</p>
@@ -134,7 +134,7 @@
             <div class="col border-md-start">
                 <div class="feature-card">
                     <div class="icon-container">
-                        <img src="{{ asset('img/icons/support.svg') }}" alt="Soporte Postventa">
+                        <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/support.svg') }}'); mask-image: url('{{ asset('img/icons/support.svg') }}');"></div>
                     </div>
                     <h3 class="feature-title text-main poppins-semibold">9. SOPORTE POSTVENTA</h3>
                     <p class="feature-text">Nuestro equipo está para ayudarte antes, durante y después de tu compra. Podés contactarnos por cualquiera de nuestros canales oficiales.</p>
@@ -151,7 +151,7 @@
             <div class="col border-md-start">
                 <div class="feature-card">
                     <div class="icon-container">
-                        <img src="{{ asset('img/icons/computer.svg') }}" alt="Uso del Sitio">
+                        <div class="icon-mask" style="-webkit-mask-image: url('{{ asset('img/icons/computer.svg') }}'); mask-image: url('{{ asset('img/icons/computer.svg') }}');"></div>
                     </div>
                     <h3 class="feature-title text-main poppins-semibold">10. USO DEL SITIO</h3>
                     <p class="feature-text">El contenido de este sitio es propiedad de Pet Threads SRL y está protegido por las leyes de propiedad intelectual. No está permitido su uso sin autorización previa.</p>
@@ -160,6 +160,7 @@
         </div>
 
     </section>
+    
     <!-- SECCIÓN ¿TENÉS DUDAS? -->
     <section class="theme-coral surface-card mt-2 position-relative overflow-hidden" style="padding-top:2.5rem; padding-bottom: 2.5rem;">
         <div class="container position-relative">
