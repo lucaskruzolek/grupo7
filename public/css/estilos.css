@@ -103,10 +103,10 @@
     --semantic-coral-border: var(--coral-300);
 
     /* Acciones (Botones) */
-    --semantic-coral-primary: var(--coral-500);
+    --semantic-coral-primary: var(--coral-700);
     --semantic-coral-on-primary: #ffffff;
     --semantic-coral-primary-hover: var(--coral-600);
-    --semantic-coral-primary-active: var(--coral-700);
+    --semantic-coral-primary-active: var(--coral-500);
 
     /* Texto */
     --semantic-coral-text-main: var(--coral-900);
@@ -130,6 +130,10 @@
     --color-text: var(--semantic-neutral-text-main);
     --color-text-secondary: var(--semantic-neutral-text-secondary);
     --color-text-muted: var(--semantic-neutral-text-muted);
+
+    /* Badges / Pills */
+    --color-badge-bg: var(--neutral-200);
+    --color-badge-text: var(--neutral-900);
 
 
     /* Fondo del footer */
@@ -200,6 +204,8 @@ h6 {
     --color-text: var(--semantic-green-text-main);
     --color-text-secondary: var(--semantic-green-text-secondary);
     --color-text-muted: var(--semantic-green-text-muted);
+    --color-badge-bg: var(--green-200);
+    --color-badge-text: var(--green-900);
 }
 
 .theme-coral {
@@ -214,6 +220,8 @@ h6 {
     --color-text: var(--semantic-coral-text-main);
     --color-text-secondary: var(--semantic-coral-text-secondary);
     --color-text-muted: var(--semantic-coral-text-muted);
+    --color-badge-bg: var(--coral-300);
+    --color-badge-text: var(--coral-900);
 }
 
 .theme-neutral {
@@ -228,6 +236,48 @@ h6 {
     --color-text: var(--semantic-neutral-text-main);
     --color-text-secondary: var(--semantic-neutral-text-secondary);
     --color-text-muted: var(--semantic-neutral-text-muted);
+}
+
+/* Componente Contact Item (Horizontal para canales de contacto) */
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none !important;
+}
+
+.contact-item .icon-box {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-muted);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.contact-item .contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-item .contact-label {
+    display: block;
+    font-family: var(--font-main);
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.contact-item .contact-value {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    line-height: 1;
 }
 
 /* --- Componentes Base (Usando Tokens Dinámicos) --- */
@@ -249,19 +299,109 @@ h6 {
 }
 
 .btn-primary:hover {
-    background-color: var(--color-primary-hover);
+    background-color: var(--color-primary-hover) !important;
+    color: var(--color-on-primary) !important;
     transform: translateY(-1px);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.btn-primary:active {
-    background-color: var(--color-primary-active);
+.btn-primary:active,
+.btn-primary.active,
+.show>.btn-primary.dropdown-toggle {
+    background-color: var(--color-primary-active) !important;
+    color: var(--color-on-primary) !important;
     transform: translateY(0);
+    border-color: transparent !important;
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(216, 127, 105, 0.25);
+    outline: none;
 }
 
 .surface-card {
     background-color: var(--color-surface);
     color: var(--color-on-surface);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.04);
+    align-items: center;
+}
+
+/* Componente Feature Card (Tarjetas planas sin fondo) */
+.feature-card {
+    /* Multiplicador de escala por defecto */
+    --feature-scale: 1.2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: calc(1rem * var(--feature-scale)) calc(0.5rem * var(--feature-scale));
+}
+
+.feature-card .icon-container {
+    height: calc(48px * var(--feature-scale));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: calc(0.75rem * var(--feature-scale));
+}
+
+.feature-card .icon-container img {
+    max-height: 100%;
+    width: auto;
+}
+
+.feature-card .feature-title {
+    font-size: calc(0.85rem * var(--feature-scale));
+    font-weight: 600;
+    margin-bottom: calc(0.5rem * var(--feature-scale));
+    line-height: 1.2;
+}
+
+/* Algoritmo de Justificación Editorial (Modularizado) */
+.text-hyphenated {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    text-justify: inter-word;
+}
+
+.feature-card .feature-text {
+    font-size: calc(0.75rem * var(--feature-scale));
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+    margin-bottom: 0;
+}
+
+/* Aplicar algoritmo a feature-text por defecto (excepto en casos de exclusión) */
+.feature-card .feature-text:not(.text-center) {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    text-justify: inter-word;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.25rem;
+}
+
+@media (min-width: 768px) {
+    .section-header {
+        justify-content: flex-start;
+    }
 }
 
 .text-main {
@@ -285,6 +425,27 @@ h6 {
     font-family: "Playfair Display", serif;
     font-optical-sizing: auto;
     font-weight: 500;
+    font-style: normal;
+}
+
+.playfair-display-medium {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.playfair-display-semibold {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.playfair-display-bold {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
     font-style: normal;
 }
 
@@ -315,10 +476,20 @@ h6 {
 }
 
 /* Redimensionamiento de los titulos de los banners */
+@media (min-width: 768px) {
+    .banner-content {
+        text-align: left;
+    }
+}
+
 .banner-title {
     /* clamp(tamaño_mínimo, tamaño_fluido, tamaño_máximo) */
     font-size: clamp(2.0rem, 4.5vw, 3.5rem);
     line-height: 1.1;
+}
+
+/* Modificador para títulos que no deben romperse (Comercialización, etc) */
+.banner-title-nowrap {
     white-space: nowrap;
 }
 
@@ -330,8 +501,12 @@ h6 {
         text-align: center;
     }
 
-    .banner-content .banner-title {
+    .banner-content .banner-title-nowrap {
         display: inline-block !important;
+        margin-top: 0;
+    }
+
+    .banner-content .banner-title {
         margin-top: 0;
     }
 }
@@ -346,7 +521,7 @@ h6 {
     height: 1em;
 
     /* Ajuste vertical para que quede ligeramente arriba */
-    vertical-align: super;
+
     margin-left: 0;
 
     /* Color */
@@ -386,7 +561,55 @@ h6 {
     .border-md-start {
         border-left: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6) !important;
     }
+
     .border-md-end {
         border-right: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6) !important;
     }
+}
+
+.badge-pill-theme {
+    background-color: var(--color-badge-bg) !important;
+    color: var(--color-badge-text) !important;
+    padding: 0.5rem 1rem;
+    border-radius: 50rem;
+    font-weight: 400;
+    font-size: 0.875rem;
+    display: inline-block;
+    white-space: normal;
+    max-width: 100%;
+}
+
+/* Componente para tarjetas informativas peque�as dentro de banners */
+.info-card {
+    text-align: center;
+}
+
+.info-card .info-icon {
+    margin-bottom: 0.75rem;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-card .info-icon img {
+    height: 100%;
+    width: auto;
+}
+
+.info-card .info-title {
+    font-size: 0.75rem;
+    font-family: var(--font-main);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.info-card .info-text {
+    font-size: 0.8rem;
+    color: var(--font-main);
+    line-height: 1.4;
+    margin-bottom: 0;
 }
