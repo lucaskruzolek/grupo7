@@ -726,3 +726,48 @@ h6 {
     font-size: 0.85rem;
     color: var(--neutral-500);
 }
+
+/* --- CUSTOMIZE THE CAROUSEL --- */
+
+.carousel {
+    margin-bottom: 4rem;
+}
+
+.carousel-item {
+    position: relative;
+    /* Indispensable para que la imagen absoluta se posicione correctamente */
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    /* Limitamos la altura al viewport menos el espacio del Navbar */
+    max-height: calc(100vh - 67px);
+
+    /* Para navegadores móviles modernos que ocultan barras de dirección */
+    max-height: calc(100dvh - 67px);
+
+    background-color: #777;
+    overflow: hidden;
+}
+
+.carousel-item>img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Cambiado de min-width para mayor control */
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    bottom: 3rem;
+    z-index: 10;
+}
+
+@media (min-width: 40em) {
+    .carousel-caption p {
+        margin-bottom: 1.25rem;
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+}

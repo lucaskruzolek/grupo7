@@ -2,7 +2,7 @@
 
 @section('contenido')
     <!-- Banner Principal de Términos de Uso -->
-    <section class="theme-neutral surface-card position-relative overflow-hidden p-0 ps-md-5 pt-2">
+    <section class="theme-neutral surface-card position-relative overflow-hidden p-0 ps-md-5">
         <div class="row g-0 align-items-center w-100 m-0">
             <!-- Bloque de Texto (40%) -->
             <div class="col-md-6 ps-4 pe-2 banner-content">
