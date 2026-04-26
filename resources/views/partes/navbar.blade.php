@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2">
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2 sticky-top" style="transition: top 0.3s ease-in-out;">
     <div class="container-fluid px-4">
         <!-- Logo a la izquierda -->
         <a class="navbar-brand" href="{{ url('/') }}">

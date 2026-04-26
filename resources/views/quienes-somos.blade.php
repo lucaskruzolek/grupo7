@@ -34,13 +34,13 @@
     <section class="container mt-5">
         <div class="text-start p-4 pt-md-3 px-md-0">
             <div class="row align-items-center g-4">
-                <div class="col-md-6">
+                <div class="col-md-6 order-2 order-md-1">
                     <img src="{{ asset('img/ui/quienes-somos/historia.webp') }}" 
                          alt="Nuestra Historia" 
                          class="img-fluid rounded-2 w-100 object-fit-cover"
                          style="max-height: 450px;">
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 order-1 order-md-2">
                     <p class="section-tag mb-3 fs-5">NUESTRA HISTORIA <span class="text-coral-light fs-4">♥</span></p>
                     <h2 class="h3 playfair-display-medium text-main mb-4" style="line-height: 1.2; letter-spacing: 1px;">Todo comenzó con un vínculo incondicional</h2>
                     <p class="feature-text mb-3" style="line-height: 1.7;">
@@ -180,72 +180,82 @@
                     
                     <!-- Staff 1: Andrea García -->
                     <div class="col">
-                        <div class="feature-card">
+                        <div class="feature-card mx-auto px-0" style="max-width: 250px;">
                             <div class="mb-3 mt-auto">
                                 <img src="{{ asset('img/ui/quienes-somos/staff-1.webp') }}" alt="Andrea García" class="rounded-4 img-fluid" width="250" height="250" style="object-fit: cover;">
                             </div>
-                            <h3 class="h6 poppins-semibold mb-2 text-main">Andrea García</h3>
-                            <div class="mt-auto">
-                                <span class="theme-coral badge badge-pill-theme">Fundadora & CEO</span>
+                            <div class="px-1">
+                                <h3 class="h6 poppins-semibold mb-2 text-main">Andrea García</h3>
+                                <div class="mt-auto">
+                                    <span class="theme-coral badge badge-pill-theme">Fundadora & CEO</span>
+                                </div>
+                                <p class="feature-text small mb-3 mt-2">Amante de los animales y diseñadora de corazón. Dio vida a Pet Threads con un sueño y mucho amor.</p>
                             </div>
-                            <p class="feature-text small mb-3 mt-2">Amante de los animales y diseñadora de corazón. Ella dio vida a Pet Threads con un sueño y mucho amor.</p>
                         </div>
                     </div>
 
                     
                     <!-- Staff 2: Miguel Hernández -->
                     <div class="col border-md-start border-md-end px-md-4">
-                        <div class="feature-card">
+                        <div class="feature-card mx-auto px-0" style="max-width: 250px;">
                             <div class="mb-3 mt-auto">
                                 <img src="{{ asset('img/ui/quienes-somos/staff-2.webp') }}" alt="Miguel Hernández" class="rounded-4 img-fluid" width="250" height="250" style="object-fit: cover;">
                             </div>
-                            <h3 class="h6 poppins-semibold mb-2 text-main">Miguel Hernández</h3>
-                            <div class="mt-auto">
-                                <span class="theme-coral badge badge-pill-theme">Director de Operaciones</span>
+                            <div class="px-1">
+                                <h3 class="h6 poppins-semibold mb-2 text-main">Miguel Hernández</h3>
+                                <div class="mt-auto">
+                                    <span class="theme-coral badge badge-pill-theme">Director de Operaciones</span>
+                                </div>
+                                <p class="feature-text small mb-3 mt-2">Se asegura de que todo funcione perfecto para que cada pedido llegue con calidad y a tiempo.</p>
                             </div>
-                            <p class="feature-text small mb-3 mt-2">Se asegura de que todo funcione perfecto para que cada pedido llegue con calidad y a tiempo.</p>
                         </div>
                     </div>
                     
                     <!-- Staff 3: Sofía López -->
                     <div class="col">
-                        <div class="feature-card">
+                        <div class="feature-card mx-auto px-0" style="max-width: 250px;">
                             <div class="mb-3 mt-auto">
                                 <img src="{{ asset('img/ui/quienes-somos/staff-3.webp') }}" alt="Sofía López" class="rounded-4 img-fluid" width="250" height="250" style="object-fit: cover;">
                             </div>
-                            <h3 class="h6 poppins-semibold mb-2 text-main">Sofía López</h3>
-                            <div class="mt-auto">
-                                <span class="theme-coral badge badge-pill-theme">Diseñadora de Producto</span>
+                            <div class="px-1">
+                                <h3 class="h6 poppins-semibold mb-2 text-main">Sofía López</h3>
+                                <div class="mt-auto">
+                                    <span class="theme-coral badge badge-pill-theme">Diseñadora de Producto</span>
+                                </div>
+                                <p class="feature-text small mb-3 mt-2">Crea cada colección pensando en estilo, comodidad y durabilidad para cada mascota.</p>
                             </div>
-                            <p class="feature-text small mb-3 mt-2">Crea cada colección pensando en estilo, comodidad y durabilidad para cada mascota.</p>
                         </div>
                     </div>
 
                     <!-- Staff 4: Paula Ramírez -->
                     <div class="col">
-                        <div class="feature-card">
+                        <div class="feature-card mx-auto px-0" style="max-width: 250px;">
                             <div class="mb-3 mt-auto">
                                 <img src="{{ asset('img/ui/quienes-somos/staff-4.webp') }}" alt="Paula Ramírez" class="rounded-4 img-fluid" width="250" height="250" style="object-fit: cover;">
                             </div>
-                            <h3 class="h6 poppins-semibold mb-2 text-main">Paula Ramírez</h3>
-                            <div class="mt-auto">
-                                <span class="theme-coral badge badge-pill-theme">Atención al Cliente</span>
+                            <div class="px-1">
+                                <h3 class="h6 poppins-semibold mb-2 text-main">Paula Ramírez</h3>
+                                <div class="mt-auto">
+                                    <span class="theme-coral badge badge-pill-theme">Atención al Cliente</span>
+                                </div>
+                                <p class="feature-text small mb-3 mt-2">Siempre lista para ayudarte y hacer que tu experiencia con nosotros sea increíble.</p>
                             </div>
-                            <p class="feature-text small mb-3 mt-2">Siempre lista para ayudarte y hacer que tu experiencia con nosotros sea increíble.</p>
                         </div>
                     </div>
 
                     <!-- Staff 5: Carlos Méndez -->
                     <div class="col border-md-start px-md-4">
-                        <div class="feature-card">
+                        <div class="feature-card mx-auto px-0" style="max-width: 250px;">
                             <div class="mb-3 mt-auto">
                                 <img src="{{ asset('img/ui/quienes-somos/staff-5.webp') }}" alt="Carlos Méndez" class="rounded-4 img-fluid" width="250" height="250" style="object-fit: cover;">
                             </div>
-                            <h3 class="h6 poppins-semibold mb-2 text-main">Carlos Méndez</h3>
-                            <div class="mt-auto">
-                                <span class="theme-coral badge badge-pill-theme">Marketing & Comunidad</span>
+                            <div class="px-1">
+                                <h3 class="h6 poppins-semibold mb-2 text-main">Carlos Méndez</h3>
+                                <div class="mt-auto">
+                                    <span class="theme-coral badge badge-pill-theme">Marketing & Comunidad</span>
+                                </div>
+                                <p class="feature-text small mb-3 mt-2">Cuenta nuestras historias y crea contenido para una comunidad de amantes de mascotas.</p>
                             </div>
-                            <p class="feature-text small mb-3 mt-2">Cuenta nuestras historias y crea contenido para una comunidad de amantes de mascotas.</p>
                         </div>
                     </div>
                     
