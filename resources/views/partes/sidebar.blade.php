@@ -1,22 +1,49 @@
-<div class="container-fluid"> {{-- Usamos fluid para que ocupe todo el ancho si lo deseas --}}
-    <div class="row d-flex">
+      
+<aside class="col-md-3 bg-light border-end min-vh-100 p-4">
+            <div class="mb-4">
+    <h4 class="fw-bold" style="color: var(--text-main-title);">Filtros</h4>
+    <hr style="color: var(--border-color);">
+</div>
+
+<div class="filter-section">
+    <h6 class="text-uppercase fw-bold mb-3" style="color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 1px;">
+        Categorías
+    </h6>
+    
+    <div class="d-flex flex-column gap-2">
         
-        <aside class="col-md-3 bg-light border-end min-vh-100 p-4">
-            <div class="sticky-top" style="top: 20px;"> {{-- Esto hace que el filtro te siga al hacer scroll --}}
-                <h5 class="mb-4">Filtrar Catálogo</h5>
-                
-                <div class="mb-3">
-                    <h6>Categorías</h6>
-                    </div>
+        <button class="btn btn-light d-flex align-items-center text-start p-2 border-0 bg-transparent shadow-none hover-filter">
+            <img src="{{ asset('img/ui/productos/icon-dog-clothes.png') }}" alt="Perros" class="me-3" style="width: 24px; height: 24px;">
+            <span style="color: var(--brand-primary); font-weight: 500;">Ropa para Perros</span>
+        </button>
 
-                <button class="btn btn-primary w-100">Aplicar</button>
-            </div>
-        </aside>
+        <button class="btn btn-light d-flex align-items-center text-start p-2 border-0 bg-transparent shadow-none hover-filter">
+            <img src="{{ asset('img/ui/productos/icon-cat-clothes.png') }}" alt="Gatos" class="me-3" style="width: 24px; height: 24px;">
+            <span style="color: var(--brand-primary); font-weight: 500;">Ropa para Gatos</span>
+        </button>
 
-        <main class="col-md-9 p-4">
-            <div class="row g-4">
-                </div>
-        </main>
+        <button class="btn btn-light d-flex align-items-center text-start p-2 border-0 bg-transparent shadow-none hover-filter">
+            <img src="{{ asset('img/ui/productos/icon-dog-acc.png') }}" alt="Acc. Perros" class="me-3" style="width: 24px; height: 24px;">
+            <span style="color: var(--brand-primary); font-weight: 500;">Accesorios Perros</span>
+        </button>
+
+        <button class="btn btn-light d-flex align-items-center text-start p-2 border-0 bg-transparent shadow-none hover-filter">
+            <img src="{{ asset('img/ui/productos/icon-cat-acc.png') }}" alt="Acc. Gatos" class="me-3" style="width: 24px; height: 24px;">
+            <span style="color: var(--brand-primary); font-weight: 500;">Accesorios Gatos</span>
+        </button>
+
+        <button class="btn btn-light d-flex align-items-center text-start p-2 border-0 bg-transparent shadow-none hover-filter">
+            <img src="{{ asset('img/ui/productos/icon-toys.png') }}" alt="Juguetes" class="me-3" style="width: 24px; height: 24px;">
+            <span style="color: var(--brand-primary); font-weight: 500;">Juguetes</span>
+        </button>
 
     </div>
 </div>
+
+<div class="mt-5">
+    <button class="btn btn-outline-secondary btn-sm w-100 rounded-pill">
+        Limpiar Filtros
+    </button>
+</div>
+
+</aside>
