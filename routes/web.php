@@ -28,6 +28,9 @@ Route::get('/productos', function () {
 Route::get('/quienes-somos', function () {
     return view('quienes-somos');
 });
+Route::get('/consultas', function () {
+    return view('consultas');
+});
 Route::get('/terminos', function () {
     return view('terminos-de-uso');
 });

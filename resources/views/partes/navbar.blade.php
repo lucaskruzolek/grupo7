@@ -28,6 +28,9 @@
                     <a class="nav-link" href="{{ url('/contacto') }}">Contacto</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/consultas') }}">Consultas</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url('/terminos') }}">Términos de Uso</a>
                 </li>
             </ul>
