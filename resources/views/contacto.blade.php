@@ -33,35 +33,35 @@
                     <h2 class="h4 mb-4" style="color: var(--text-main-title);">Información de la empresa</h2>
 
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('img/ui/contacto/icon-phone.png') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/titular.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Titular</p>
                             <p class="mb-0" style="color: var(--text-secondary);">Pepito Arcoiris</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('img/ui/contacto/icon-phone.png') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/razon.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Razón social</p>
                             <p class="mb-0" style="color: var(--text-secondary);">Petthread SRL</p>
                         </div>
                     </div>                   
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('img/ui/contacto/icon-phone.png') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/cuil.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">CUIT</p>
                             <p class="mb-0" style="color: var(--text-secondary);">30-12345678-2</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('img/ui/contacto/icon-phone.png') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/domicilio.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
-                            <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Domiciio</p>
+                            <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Domicilio</p>
                             <p class="mb-0" style="color: var(--text-secondary);">Calle falsa 123</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('img/ui/contacto/icon-phone.png') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/telefono.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Teléfono</p>
                             <p class="mb-0" style="color: var(--text-secondary);">+54 3794 000000</p>
@@ -69,7 +69,7 @@
                     </div>
 
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('img/ui/contacto/icon-email.png') }}" alt="Email" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/email.svg') }}" alt="Email" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Email</p>
                             <p class="mb-0" style="color: var(--text-secondary);">contacto@petthreads.com.ar</p>
@@ -81,22 +81,22 @@
                     <h2 class="h4 mb-4" style="color: var(--text-main-title);">Otros medios de contactos</h2>
                     <div class="d-flex flex-column gap-3">
                         <a href="#" class="d-flex align-items-center text-decoration-none">
-                            <img src="{{ asset('public/img/icons/instagram.svg') }}" alt="IG" class="me-2" style="width: 20px; height: 20px;">
+                            <img src="{{ asset('img/icons/instagram.svg') }}" alt="IG" class="me-2" style="width: 20px; height: 20px;">
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Instagram</p>
                             <p class="mb-0" style="color: var(--text-secondary);">@Petthreads.ok</p>
                         </a>
                         <a href="#" class="d-flex align-items-center text-decoration-none">
-                            <img src="{{ asset('img/ui/contacto/icon-fb.png') }}" alt="FB" class="me-2" style="width: 20px; height: 20px;">
+                            <img src="{{ asset('img/icons/facebook.svg') }}" alt="FB" class="me-2" style="width: 20px; height: 20px;">
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Facebook</p>
                             <p class="mb-0" style="color: var(--text-secondary);">/@Petthreads.ok</p>
                         </a>
                         <a href="#" class="d-flex align-items-center text-decoration-none">
-                            <img src="{{ asset('img/ui/contacto/icon-fb.png') }}" alt="FB" class="me-2" style="width: 20px; height: 20px;">
+                            <img src="{{ asset('img/icons/whatsapp.svg') }}" alt="FB" class="me-2" style="width: 20px; height: 20px;">
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">WhatsApp</p>
                             <p class="mb-0" style="color: var(--text-secondary);">+54 3782-123456</p>
                         </a>
                         <a href="#" class="d-flex align-items-center text-decoration-none">
-                            <img src="{{ asset('img/ui/contacto/icon-fb.png') }}" alt="FB" class="me-2" style="width: 20px; height: 20px;">
+                            <img src="{{ asset('img/icons/clock.svg') }}" alt="FB" class="me-2" style="width: 20px; height: 20px;">
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Horarios de atención</p>
                             <p class="mb-0" style="color: var(--text-secondary);">Lunes a Viernes de 9.00 a 18.00hs, Sabados de 9.00 a 13.00hs</p>
                         </a>
@@ -107,7 +107,7 @@
 
         <div class="col-md-7">
             <div class="p-3 mb-3 rounded shadow-sm d-flex align-items-center" style="background-color: var(--surface-card); border: 1px solid var(--border-color);">
-                <img src="{{ asset('img/ui/contacto/icon-location.png') }}" alt="Ubicación" class="me-3" style="width: 32px; height: 32px;">
+                <img src="{{ asset('img/icons/route.svg') }}" alt="Ubicación" class="me-3" style="width: 32px; height: 32px;">
                 <div>
                     <h5 class="mb-1" style="color: var(--text-main-title);">¿Dónde estamos?</h5>
                     <p class="mb-0 text-muted small">Nuestro domicilio legal se encuentra en Corrientes, Argentina.</p>

@@ -13,27 +13,27 @@
     <div class="d-flex flex-column gap-2">
         
         <button class="btn btn-light d-flex align-items-center text-start p-2 border-0 bg-transparent shadow-none hover-filter">
-            <img src="{{ asset('img/ui/productos/icon-dog-clothes.png') }}" alt="Perros" class="me-3" style="width: 24px; height: 24px;">
+            <img src="{{ asset('img/icons/logo-perro.svg') }}" alt="Perros" class="me-3" style="width: 24px; height: 24px;">
             <span style="color: var(--brand-primary); font-weight: 500;">Ropa para Perros</span>
         </button>
 
         <button class="btn btn-light d-flex align-items-center text-start p-2 border-0 bg-transparent shadow-none hover-filter">
-            <img src="{{ asset('img/ui/productos/icon-cat-clothes.png') }}" alt="Gatos" class="me-3" style="width: 24px; height: 24px;">
+            <img src="{{ asset('img/icons/logo-gato.svg') }}" alt="Gatos" class="me-3" style="width: 24px; height: 24px;">
             <span style="color: var(--brand-primary); font-weight: 500;">Ropa para Gatos</span>
         </button>
 
         <button class="btn btn-light d-flex align-items-center text-start p-2 border-0 bg-transparent shadow-none hover-filter">
-            <img src="{{ asset('img/ui/productos/icon-dog-acc.png') }}" alt="Acc. Perros" class="me-3" style="width: 24px; height: 24px;">
+            <img src="{{ asset('img/icons/accesorios.svg') }}" alt="Acc. Perros" class="me-3" style="width: 24px; height: 24px;">
             <span style="color: var(--brand-primary); font-weight: 500;">Accesorios Perros</span>
         </button>
 
         <button class="btn btn-light d-flex align-items-center text-start p-2 border-0 bg-transparent shadow-none hover-filter">
-            <img src="{{ asset('img/ui/productos/icon-cat-acc.png') }}" alt="Acc. Gatos" class="me-3" style="width: 24px; height: 24px;">
+            <img src="{{ asset('img/icons/accesorios.svg') }}" alt="Acc. Gatos" class="me-3" style="width: 24px; height: 24px;">
             <span style="color: var(--brand-primary); font-weight: 500;">Accesorios Gatos</span>
         </button>
 
         <button class="btn btn-light d-flex align-items-center text-start p-2 border-0 bg-transparent shadow-none hover-filter">
-            <img src="{{ asset('img/ui/productos/icon-toys.png') }}" alt="Juguetes" class="me-3" style="width: 24px; height: 24px;">
+            <img src="{{ asset('img/icons/juguetes.svg') }}" alt="Juguetes" class="me-3" style="width: 24px; height: 24px;">
             <span style="color: var(--brand-primary); font-weight: 500;">Juguetes</span>
         </button>
 

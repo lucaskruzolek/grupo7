@@ -33,35 +33,35 @@
                     <h2 class="h4 mb-4" style="color: var(--text-main-title);">Otros medios de contacto</h2>
 
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('img/ui/contacto/icon-phone.png') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/whatsapp.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">WhatsApp</p>
                             <p class="mb-0" style="color: var(--text-secondary);">+54 3782-123456</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('img/ui/contacto/icon-email.png') }}" alt="Email" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/email.svg') }}" alt="Email" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Email</p>
                             <p class="mb-0" style="color: var(--text-secondary);">contacto@petthreads.com.ar</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('img/ui/contacto/icon-phone.png') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/facebook.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Facebook</p>
                             <p class="mb-0" style="color: var(--text-secondary);">/@Petthreads.ok</p>
                         </div>
                     </div>                   
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('img/ui/contacto/icon-phone.png') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/instagram.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Instagram</p>
                             <p class="mb-0" style="color: var(--text-secondary);">@Petthreads.ok</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('img/ui/contacto/icon-phone.png') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
+                        <img src="{{ asset('img/icons/clock.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Horarios de atención</p>
                             <p class="mb-0" style="color: var(--text-secondary);">Lunes a Viernes de 9.00 a 18.00hs, Sabados de 9.00 a 13.00hs</p>
@@ -72,7 +72,8 @@
                 </div>
 
                 <div class="p-4 rounded shadow-sm flex-grow-1" style="background-color: var(--surface-neutral); border: 1px solid var(--border-color);">
-                    <h2 class="h4 mb-4" style="color: var(--text-main-title);">Otros medios de contactos</h2>
+                    <h2 class="h4 mb-4" style="color: var(--text-main-title);">Tu satisfaccion es nuestra prioridad</h2>
+                    <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Nos comprometemos a brindarte una atención rápida, cercana y personalizada.</p>
                     <div class="d-flex flex-column gap-3">
                         
                     </div>
@@ -82,7 +83,7 @@
 
         <div class="col-md-7">
             <div class="p-3 mb-3 rounded shadow-sm d-flex align-items-center" style="background-color: var(--surface-card); border: 1px solid var(--border-color);">
-                <img src="{{ asset('img/ui/contacto/icon-location.png') }}" alt="Ubicación" class="me-3" style="width: 32px; height: 32px;">
+                <img src="{{ asset('img/icons/headphones.svg') }}" alt="Ubicación" class="me-3" style="width: 32px; height: 32px;">
                 <div>
                     <h5 class="mb-1" style="color: var(--text-main-title);">Envianos tu consulta</h5>
                     <p class="mb-0 text-muted small">Completa el formulario y te responderemos lo antes posible.</p>
@@ -139,100 +140,115 @@
             Enviar Mensaje
         </button>
     </form>
-</div>
+    
+</div>    
+      
+    </section>
+  
+<section class="container my-5">
+    <h2 class="mb-5 text-center fw-bold" style="color: var(--text-main-title);">Preguntas Frecuentes</h2>
+    
+    <div class="row g-4">
+        
+        <div class="col-md-6">
+            <div class="accordion accordion-flush shadow-sm rounded border" id="accordionFAQLeft">
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" style="color: var(--brand-primary);">
+                            <img src="{{ asset('img/icons/credit-card.svg') }}" alt="Pago" class="me-3" style="width: 24px; height: 24px;">
+                            ¿Cuáles son los métodos de pago?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFAQLeft">
+                        <div class="accordion-body" style="color: var(--text-secondary);">
+                            Aceptamos tarjetas de crédito, débito y Mercado Pago.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" style="color: var(--brand-primary);">
+                            <img src="{{ asset('img/icons/delivery-truck-fast.svg') }}" alt="Envío" class="me-3" style="width: 24px; height: 24px;">
+                            ¿Hacen envíos a todo el país?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFAQLeft">
+                        <div class="accordion-body" style="color: var(--text-secondary);">
+                            Sí, llegamos a toda Argentina vía Correo Argentino.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" style="color: var(--brand-primary);">
+                            <img src="{{ asset('img/icons/hourglass-svgrepo-com.svg') }}" alt="Tiempo" class="me-3" style="width: 24px; height: 24px;">
+                            ¿Cuánto tardan en entregar mi pedido?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFAQLeft">
+                        <div class="accordion-body" style="color: var(--text-secondary);">
+                            De 3 a 7 días hábiles según la zona.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="accordion accordion-flush shadow-sm rounded border" id="accordionFAQRight">
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" style="color: var(--brand-primary);">
+                            <img src="{{ asset('img/icons/shopping-bag.svg') }}" alt="Cambio" class="me-3" style="width: 24px; height: 24px;">
+                            ¿Puedo cambiar o devolver un producto?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionFAQRight">
+                        <div class="accordion-body" style="color: var(--text-secondary);">
+                            Sí, tienes 30 días para realizar cambios.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" style="color: var(--brand-primary);">
+                            <img src="{{ asset('img/icons/paw.svg') }}" alt="Talles" class="me-3" style="width: 24px; height: 24px;">
+                            ¿Cómo sé qué talle llevar para mi mascota?
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionFAQRight">
+                        <div class="accordion-body" style="color: var(--text-secondary);">
+                            Consulta nuestra tabla de talles en la descripción de cada producto.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" style="color: var(--brand-primary);">
+                            <img src="{{ asset('img/icons/route.svg') }}" alt="Seguimiento" class="me-3" style="width: 24px; height: 24px;">
+                            ¿Cómo puedo hacer el seguimiento de mi pedido?
+                        </button>
+                    </h2>
+                    <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionFAQRight">
+                        <div class="accordion-body" style="color: var(--text-secondary);">
+                            Te enviaremos un código de seguimiento por email una vez despachado.
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
     </div>
-</div>
-    </section>
-    <section class="container my-5">
-    <div class="row">
-        <div class="col-12">
-            <h2 class="mb-4 text-center fw-bold" style="color: var(--text-main-title);">Preguntas Frecuentes</h2>
-            
-            <div class="accordion accordion-flush shadow-sm rounded" id="accordionFAQ" style="border: 1px solid var(--border-color); overflow: hidden;">
-                
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="color: var(--brand-primary);">
-                            ¿Cuáles son los métodos de pago?
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionFAQ">
-                        <div class="accordion-body" style="color: var(--text-secondary);">
-                            Aceptamos tarjetas de crédito, débito, transferencias bancarias y pagos a través de Mercado Pago.
-                        </div>
-                    </div>
-                </div>
+</section>
 
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="color: var(--brand-primary);">
-                            ¿Hacen envíos a todo el país?
-                        </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionFAQ">
-                        <div class="accordion-body" style="color: var(--text-secondary);">
-                            Sí, realizamos envíos a todas las provincias de Argentina a través de Correo Argentino y Andreani.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="color: var(--brand-primary);">
-                            ¿Cuánto tardan en entregar mi pedido?
-                        </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionFAQ">
-                        <div class="accordion-body" style="color: var(--text-secondary);">
-                            El tiempo de entrega estimado es de 3 a 7 días hábiles, dependiendo de tu ubicación.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingFour">
-                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" style="color: var(--brand-primary);">
-                            ¿Puedo cambiar o devolver un producto?
-                        </button>
-                    </h2>
-                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionFAQ">
-                        <div class="accordion-body" style="color: var(--text-secondary);">
-                            ¡Claro! Tienes 30 días para realizar cambios. El producto debe estar en las mismas condiciones en que fue recibido.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingFive">
-                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive" style="color: var(--brand-primary);">
-                            ¿Cómo sé qué talle llevar para mi mascota?
-                        </button>
-                    </h2>
-                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionFAQ">
-                        <div class="accordion-body" style="color: var(--text-secondary);">
-                            En cada producto encontrarás una tabla de talles. Te recomendamos medir el contorno del cuello y pecho de tu mascota.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingSix">
-                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix" style="color: var(--brand-primary);">
-                            ¿Cómo puedo hacer el seguimiento de mi pedido?
-                        </button>
-                    </h2>
-                    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionFAQ">
-                        <div class="accordion-body" style="color: var(--text-secondary);">
-                            Una vez despachado, recibirás un mail con el número de seguimiento y el link para rastrearlo en tiempo real.
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
     </div>
 </section>
 
