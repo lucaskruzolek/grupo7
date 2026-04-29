@@ -10,13 +10,13 @@
                 
                 <!-- Social Links -->
                 <div class="d-flex gap-2 mt-3">
-                    <a href="#" class="d-inline-flex align-items-center justify-content-center rounded-circle footer-social-link">
+                    <a href="{{ url('https://www.instagram.com/petthreads.ok/') }}" class="d-inline-flex align-items-center justify-content-center rounded-circle footer-social-link">
                         <div class="icon-mask footer-social-icon" style="-webkit-mask-image: url('{{ asset('img/icons/instagram.svg') }}'); mask-image: url('{{ asset('img/icons/instagram.svg') }}');"></div>
                     </a>
-                    <a href="#" class="d-inline-flex align-items-center justify-content-center rounded-circle footer-social-link">
+                    <a href="{{ url('https://www.facebook.com/petthreads.ok/') }}" class="d-inline-flex align-items-center justify-content-center rounded-circle footer-social-link">
                         <div class="icon-mask footer-social-icon" style="-webkit-mask-image: url('{{ asset('img/icons/facebook.svg') }}'); mask-image: url('{{ asset('img/icons/facebook.svg') }}');"></div>
                     </a>
-                    <a href="#" class="d-inline-flex align-items-center justify-content-center rounded-circle footer-social-link">
+                    <a href="{{ url('https://wa.me/5493584336014') }}" class="d-inline-flex align-items-center justify-content-center rounded-circle footer-social-link">
                         <div class="icon-mask footer-social-icon" style="-webkit-mask-image: url('{{ asset('img/icons/whatsapp.svg') }}'); mask-image: url('{{ asset('img/icons/whatsapp.svg') }}');"></div>
                     </a>
                     <a href="mailto:info@petthreads.com" class="d-inline-flex align-items-center justify-content-center rounded-circle footer-social-link">
@@ -32,11 +32,11 @@
             <div class="col mb-3">
                 <h6 class="poppins-bold text-uppercase mb-4 footer-heading">Tienda</h6>
                 <ul class="nav flex-column gap-2">
-                    <li class="nav-item"><a href="#" class="footer-link p-0">Perros</a></li>
-                    <li class="nav-item"><a href="#" class="footer-link p-0">Gatos</a></li>
-                    <li class="nav-item"><a href="#" class="footer-link p-0">Accesorios</a></li>
-                    <li class="nav-item"><a href="#" class="footer-link p-0">Nuevos Arribos</a></li>
-                    <li class="nav-item"><a href="#" class="footer-link p-0">Ofertas</a></li>
+                    <li class="nav-item"><a href="{{ url('/productos') }}" class="footer-link p-0">Perros</a></li>
+                    <li class="nav-item"><a href="{{ url('/productos') }}" class="footer-link p-0">Gatos</a></li>
+                    <li class="nav-item"><a href="{{ url('/productos') }}" class="footer-link p-0">Accesorios</a></li>
+                    <li class="nav-item"><a href="{{ url('/productos') }}" class="footer-link p-0">Nuevos Arribos</a></li>
+                    <li class="nav-item"><a href="{{ url('/productos') }}" class="footer-link p-0">Ofertas</a></li>
                 </ul>
             </div>
 
@@ -54,10 +54,10 @@
             <div class="col mb-3">
                 <h6 class="poppins-bold text-uppercase mb-4 footer-heading">Nosotros</h6>
                 <ul class="nav flex-column gap-2">
-                    <li class="nav-item"><a href="#" class="footer-link p-0">Quiénes somos</a></li>
-                    <li class="nav-item"><a href="#" class="footer-link p-0">Nuestra Historia</a></li>
-                    <li class="nav-item"><a href="#" class="footer-link p-0">Nuestra Visión</a></li>
-                    <li class="nav-item"><a href="#" class="footer-link p-0">Trabaja con Nosotros</a></li>
+                    <li class="nav-item"><a href="{{ url('/quienes-somos') }}" class="footer-link p-0">Quiénes somos</a></li>
+                    <li class="nav-item"><a href="{{ url('/quienes-comos') }}" class="footer-link p-0">Nuestra Historia</a></li>
+                    <li class="nav-item"><a href="{{ url('/quienes-somos') }}" class="footer-link p-0">Nuestra Visión</a></li>
+                    <li class="nav-item"><a href="{{ url('/consultas') }}" class="footer-link p-0">Trabaja con Nosotros</a></li>
                 </ul>
             </div>
         </div>

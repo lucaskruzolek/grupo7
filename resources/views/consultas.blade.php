@@ -34,35 +34,35 @@
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ asset('img/icons/whatsapp.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
-                            <p class="mb-0 fw-bold" style="color: var(--brand-primary);">WhatsApp</p>
+                            <p class="mb-0 fw-bold" style="color: var(--color-primary);">WhatsApp</p>
                             <p class="mb-0" style="color: var(--text-secondary);">+54 3782-123456</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('img/icons/email.svg') }}" alt="Email" class="me-3" style="width: 24px; height: 24px;">
                         <div>
-                            <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Email</p>
+                            <p class="mb-0 fw-bold" style="color: var(--color-primary);">Email</p>
                             <p class="mb-0" style="color: var(--text-secondary);">contacto@petthreads.com.ar</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ asset('img/icons/facebook.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
-                            <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Facebook</p>
+                            <p class="mb-0 fw-bold" style="color: var(--color-primary);">Facebook</p>
                             <p class="mb-0" style="color: var(--text-secondary);">/@Petthreads.ok</p>
                         </div>
                     </div>                   
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ asset('img/icons/instagram.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
-                            <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Instagram</p>
+                            <p class="mb-0 fw-bold" style="color: var(--color-primary);">Instagram</p>
                             <p class="mb-0" style="color: var(--text-secondary);">@Petthreads.ok</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ asset('img/icons/clock.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
-                            <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Horarios de atención</p>
+                            <p class="mb-0 fw-bold" style="color: var(--color-primary);">Horarios de atención</p>
                             <p class="mb-0" style="color: var(--text-secondary);">Lunes a Viernes de 9.00 a 18.00hs, Sabados de 9.00 a 13.00hs</p>
                         </div>
                     </div>
@@ -92,7 +92,8 @@
             <div class="card shadow-sm border-0 p-4 rounded" style="background-color: #fff; border: 1px solid var(--border-color);">
     <h3 class="mb-4 fw-bold text-center" style="color: var(--text-main-title);">Envianos tu consulta</h3>
     
-    <form action="#" method="POST">
+    <form action="/consultas" method="POST">
+        @csrf
         
         <div class="row">
             <div class="col-md-6 mb-3">

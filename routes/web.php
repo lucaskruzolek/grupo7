@@ -31,6 +31,9 @@ Route::get('/quienes-somos', function () {
 Route::get('/consultas', function () {
     return view('consultas');
 });
+Route::post('/consultas', function () {
+    return view('exito-consulta');
+});
 Route::get('/terminos', function () {
     return view('terminos-de-uso');
 });

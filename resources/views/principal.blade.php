@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="carousel-cta cta-half-right" style="--cta-x: 0px; --cta-y: -60px;">
-                <a class="btn btn-lg btn-primary anim-fade-down" style="--anim-order: 3;" href="{{ url('/quienes-somos') }}">Ver más</a>
+                <a class="btn btn-lg btn-primary anim-fade-down" style="--anim-order: 3;" href="{{ url('/productos') }}">Ver más</a>
             </div>
         </div>
 
@@ -86,7 +86,7 @@
                     <div class="info">
                     <h3 class="content-title h5 poppins-semibold">Ropa Para Perros</h3>
                     <p>Diseños exclusivos y comodidad total para cada paseo de tu mejor amigo.</p>
-                    <a href="#" class="learn-more">
+                    <a href="{{ url('/productos') }}" class="learn-more">
                         <span class="circle" aria-hidden="true">
                             <span class="icon arrow"></span>
                         </span>
@@ -102,7 +102,7 @@
                 <div class="info">
                     <h3 class="content-title h5 poppins-semibold">Ropa Para Gatos</h3>
                     <p>Prendas suaves y con estilo pensadas especialmente para la libertad felina.</p>
-                    <a href="#" class="learn-more">
+                    <a href="{{ url('/productos') }}" class="learn-more">
                         <span class="circle" aria-hidden="true">
                             <span class="icon arrow"></span>
                         </span>
@@ -118,7 +118,7 @@
                 <div class="info">
                     <h3 class="content-title h5 poppins-semibold">Accesorios</h3>
                     <p>Correas, bandanas y complementos únicos que marcan la diferencia.</p>
-                    <a href="#" class="learn-more">
+                    <a href="{{ url('/productos') }}" class="learn-more">
                         <span class="circle" aria-hidden="true">
                             <span class="icon arrow"></span>
                         </span>
@@ -134,7 +134,7 @@
                 <div class="info">
                     <h3 class="content-title h5 poppins-semibold">Nuevos Arribos</h3>
                     <p>Descubre lo último de nuestra colección y mantén a tu mascota a la moda.</p>
-                    <a href="#" class="learn-more">
+                    <a href="{{ url('/productos') }}" class="learn-more">
                         <span class="circle" aria-hidden="true">
                             <span class="icon arrow"></span>
                         </span>
@@ -217,13 +217,11 @@
             <h1 class="mb-0 text-center">Productos Favoritos</h1>
             <span class="paw-icon" style="font-size: 2.8rem; transform: rotate(0deg); opacity: 1;"></span>
         </div>
-
-        
     </div>
 
     <div class="position-relative px-md-5 anim-fade-down" style="--anim-order: 2;">
         <!-- Flecha Izquierda -->
-        <button class="btn btn-outline-dark rounded-circle position-absolute start-0 top-50 translate-middle-y d-none d-md-flex btn-carousel-nav prev" 
+        <button class="btn rounded-circle position-absolute start-0 top-50 translate-middle-y d-none d-md-flex btn-carousel-nav prev" 
                 type="button" onclick="scrollNativeCarousel(-1)">
             <div class="icon-mask" style="width: 18px; height: 18px; mask-image: url('{{ asset('img/icons/chevron-left.svg') }}'); -webkit-mask-image: url('{{ asset('img/icons/chevron-left.svg') }}');"></div>
         </button>
@@ -235,7 +233,7 @@
             <div class="category-reveal-card product-reveal-card" style="transform: none;">
                 <img src="{{ asset('img/ui/productos/juguete-pulpo.webp') }}" alt="Capa Impermeable">
                 <div class="info">
-                    <a href="#" class="btn-premium"><span>Ver Producto</span></a>
+                    <a href="{{ url('/productos') }}" class="btn-premium"><span>Ver Producto</span></a>
                 </div>
             </div>
             <div class="product-card-footer">
@@ -249,7 +247,7 @@
             <div class="category-reveal-card product-reveal-card" style="transform: none;">
                 <img src="{{ asset('img/ui/productos/perro-pechera-huesos.webp') }}" alt="Cama Beige">
                 <div class="info">
-                    <a href="#" class="btn-premium"><span>Ver Producto</span></a>
+                    <a href="{{ url('/productos') }}" class="btn-premium"><span>Ver Producto</span></a>
                 </div>
             </div>
             <div class="product-card-footer">
@@ -263,7 +261,7 @@
             <div class="category-reveal-card product-reveal-card" style="transform: none;">
                 <img src="{{ asset('img/ui/productos/gato-sueter-beige.webp') }}" alt="Accesorios">
                 <div class="info">
-                    <a href="#" class="btn-premium"><span>Ver Producto</span></a>
+                    <a href="{{ url('/productos') }}" class="btn-premium"><span>Ver Producto</span></a>
                 </div>
             </div>
             <div class="product-card-footer">
@@ -277,7 +275,7 @@
             <div class="category-reveal-card product-reveal-card" style="transform: none;">
                 <img src="{{ asset('img/ui/productos/correa-urban.webp') }}" alt="Para Gatos">
                 <div class="info">
-                    <a href="#" class="btn-premium"><span>Ver Producto</span></a>
+                    <a href="{{ url('/productos') }}" class="btn-premium"><span>Ver Producto</span></a>
                 </div>
             </div>
             <div class="product-card-footer">
@@ -291,7 +289,7 @@
             <div class="category-reveal-card product-reveal-card" style="transform: none;">
                 <img src="{{ asset('img/ui/productos/gato-buzo-ratones.webp') }}" alt="Nuevos Arribos">
                 <div class="info">
-                    <a href="#" class="btn-premium"><span>Ver Producto</span></a>
+                    <a href="{{ url('/productos') }}" class="btn-premium"><span>Ver Producto</span></a>
                 </div>
             </div>
             <div class="product-card-footer">
@@ -305,7 +303,7 @@
             <div class="category-reveal-card product-reveal-card" style="transform: none;">
                 <img src="{{ asset('img/ui/productos/juguete-acordeon.webp') }}" alt="Nuevos Arribos">
                 <div class="info">
-                    <a href="#" class="btn-premium"><span>Ver Producto</span></a>
+                    <a href="{{ url('/productos') }}" class="btn-premium"><span>Ver Producto</span></a>
                 </div>
             </div>
             <div class="product-card-footer">
@@ -319,7 +317,7 @@
             <div class="category-reveal-card product-reveal-card" style="transform: none;">
                 <img src="{{ asset('img/ui/productos/perro-buzo-verde.webp') }}" alt="Nuevos Arribos">
                 <div class="info">
-                    <a href="#" class="btn-premium"><span>Ver Producto</span></a>
+                    <a href="{{ url('/productos') }}" class="btn-premium"><span>Ver Producto</span></a>
                 </div>
             </div>
             <div class="product-card-footer">
@@ -330,7 +328,7 @@
 
     </div>
         <!-- Flecha Derecha -->
-        <button class="btn btn-outline-dark rounded-circle position-absolute end-0 top-50 translate-middle-y d-none d-md-flex btn-carousel-nav next" 
+        <button class="btn rounded-circle position-absolute end-0 top-50 translate-middle-y d-none d-md-flex btn-carousel-nav next" 
                 type="button" onclick="scrollNativeCarousel(1)">
             <div class="icon-mask" style="width: 18px; height: 18px; mask-image: url('{{ asset('img/icons/chevron-right.svg') }}'); -webkit-mask-image: url('{{ asset('img/icons/chevron-right.svg') }}');"></div>
         </button>
