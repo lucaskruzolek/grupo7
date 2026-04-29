@@ -10,7 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
-    
+    <link rel="stylesheet" href="{{ asset('css/principal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+
 </head>
 
 <body>
@@ -34,6 +36,25 @@
             }
             prevScrollpos = currentScrollPos;
         }
+
+        // --- Intersection Observer para animaciones de entrada ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.15 // Se activa cuando el 15% del elemento es visible
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('anim-visible');
+                        observer.unobserve(entry.target); // Solo animar una vez
+                    }
+                });
+            }, observerOptions);
+
+            // Observar todos los elementos con la clase anim-fade-down
+            document.querySelectorAll('.anim-fade-down').forEach(el => observer.observe(el));
+        });
     </script>
 </body>
 

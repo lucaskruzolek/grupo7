@@ -3,29 +3,30 @@
 @section('contenido')
 
 {{-- 1. Banner Principal (Ancho completo arriba) --}}
-<section class="theme-neutral surface-card overflow-hidden position-relative border-bottom">
-    <div class="row g-0 align-items-center">
-        <div class="col-md-5 ps-4 pe-2 banner-content">
-            <h1 class="banner-title mb-4 position-relative d-inline-block">
-                Productos<span class="paw-icon"></span>
-            </h1>
-            <p class="text-secondary fs-5">
-                Descubrí nuestra colección de ropa y accesorios diseñados para que tu mascota se vea increíble y se sienta aún mejor.
-            </p>
+<section class="banner-hero theme-neutral">
+        <div class="banner-grid">
+            <!-- Bloque de Texto (40%) -->
+            <div class="banner-content">
+                <h1 class="banner-title mb-4 position-relative d-inline-block anim-fade-down" style="--anim-order: 1;">Productos <span class="paw-icon"></span>
+                </h1>
+                
+                <p class="banner-subtitle anim-fade-down" style="--anim-order: 2;">
+                    Descubrí nuestra colección de ropa y accesorios diseñados para que tu mascota se vea increíble y se sienta aún mejor.
+                </p>
+            </div>
+ 
+            <!-- Bloque de Imagen (60%) -->
+            <div class="banner-img-container anim-fade-down">
+                <img src="{{ asset('img/ui/productos/portada.webp') }}" 
+                     alt="Portada Productos" 
+                     class="banner-img">
+            </div>
         </div>
-
-        <div class="col-md-7">
-            <img src="{{ asset('img/ui/productos/portada.png') }}" 
-                 alt="Portada Productos" 
-                 class="img-fluid w-100 img-fade-left" 
-                 style="display: block;">
-        </div>
-    </div>
-</section>
+    </section>
 
 {{-- 2. Cuerpo de la página: Sidebar + Productos --}}
 <section class="container-fluid">
-    <div class="row">
+    <div class="row mt-4">
     
             @include('partes.sidebar')
 
@@ -125,7 +126,7 @@
              alt="Producto">
 
         <div class="card-body">
-            <h5 class="card-title fw-bold">Busos para perros</h5>
+            <h5 class="card-title fw-bold">Buzos para perros</h5>
             <p class="card-text text-muted">$12000</p>
             
             <div class="d-flex gap-2 mt-3">

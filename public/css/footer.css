@@ -1,0 +1,60 @@
+/* --- Footer Component (Model #4 Adapted) --- */
+.footer-main {
+    background-color: #ffffff;
+    border-top: 1px solid var(--neutral-200);
+}
+
+.footer-logo {
+    max-width: 150px;
+    height: auto;
+}
+
+.footer-heading {
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    color: var(--navy-900);
+}
+
+.footer-link {
+    font-size: 0.9rem;
+    color: var(--neutral-600);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.footer-link:hover {
+    color: var(--color-primary) !important;
+    padding-left: 4px;
+}
+
+.footer-social-link {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--neutral-200);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+.footer-social-link:hover {
+    background-color: var(--navy-900);
+    border-color: var(--navy-900);
+    transform: translateY(-3px);
+}
+
+.footer-social-icon {
+    background-color: var(--navy-900);
+    width: 16px;
+    height: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.footer-social-link:hover .footer-social-icon {
+    background-color: #ffffff !important;
+}
+
+.footer-copyright {
+    font-size: 0.85rem;
+    color: var(--neutral-500);
+}

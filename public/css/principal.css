@@ -1,0 +1,227 @@
+/* --- CUSTOMIZACION DEL CAROUSEL --- */
+
+/* Ajuste fino para textos en carrusel */
+.carousel-offset {
+    transform: translate(var(--x, 0), var(--y, 0));
+    transition: transform 0.3s ease;
+}
+
+/* Asegurar que los títulos en carrusel sean legibles sobre las fotos */
+.carousel-caption .banner-title {
+    color: var(--brand-dark);
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* El subtítulo en el carrusel debe seguir el alineamiento de su zona, ignorando el centrado móvil global */
+.carousel-caption .banner-subtitle {
+    text-align: inherit !important;
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.3);
+    hyphens: none;
+}
+
+/* Modificadores para ocupar mitades de la imagen (Global) */
+.caption-half-left {
+    left: 10% !important;
+    right: auto !important;
+    width: 45% !important;
+    text-align: left !important;
+    bottom: 40% !important;
+}
+
+.caption-half-right {
+    right: 10% !important;
+    left: auto !important;
+    width: 45% !important;
+    text-align: right !important;
+}
+
+/* Centrado y altura mejorada para todos los captions */
+.carousel-caption {
+    bottom: 20% !important;
+}
+
+/* Botón CTA del carrusel: posicionado de forma independiente al texto */
+.carousel-cta {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 15;
+
+    /* Variables para ajuste fino de posición (Solo Desktop) */
+    transition: transform 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    .carousel-cta {
+        transform: translate(var(--cta-x, 0), var(--cta-y, 0));
+    }
+
+    .cta-half-left {
+        left: 10% !important;
+        right: auto !important;
+        width: 45% !important;
+        text-align: left !important;
+        bottom: 60px;
+    }
+
+    .cta-half-right {
+        right: 10% !important;
+        left: auto !important;
+        width: 45% !important;
+        text-align: right !important;
+        bottom: 60px;
+    }
+}
+
+.carousel-cta .btn {
+    font-size: clamp(0.85rem, 1.5vw + 0.5rem, 1.25rem); /* Tamaño de fuente fluido que se adapta al ancho de pantalla entre un mínimo y un máximo */
+    padding: clamp(0.5rem, 1vw + 0.2rem, 0.8rem) clamp(1rem, 2vw + 0.5rem, 2.5rem); /* Espaciado interno dinámico (vertical y horizontal) para mantener la proporción */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra suave para destacar el botón sobre la imagen de fondo */
+
+    transition: all 0.3s ease; /* Suaviza las transiciones de estado (como el hover) para una experiencia más premium */
+}
+
+/* Acercar flechas de navegación a los bordes laterales */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+
+.carousel {
+    margin-bottom: 2rem;
+}
+
+.carousel-item {
+    position: relative;
+    /* Indispensable para que la imagen absoluta se posicione correctamente */
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    /* Limitamos la altura al viewport menos el espacio del Navbar */
+    max-height: calc(100vh - 67px);
+
+    /* Para navegadores móviles modernos que ocultan barras de dirección */
+    max-height: calc(100dvh - 67px);
+
+    background-color: transparent;
+    overflow: hidden;
+}
+
+.carousel-item>img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Cambiado de min-width para mayor control */
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    bottom: 3rem;
+    z-index: 10;
+}
+
+@media (min-width: 40em) {
+    .carousel-caption p {
+        margin-bottom: 1.25rem;
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+}
+
+/* --- Carrusel Nativo (Vanilla CSS Scroll Snap) --- */
+.native-carousel-wrapper {
+    display: flex;
+    /* Alinea las tarjetas en una fila horizontal */
+    overflow-x: auto;
+    /* Habilita el desplazamiento horizontal */
+    scroll-snap-type: x mandatory;
+    /* Activa el "efecto magnético" para que las tarjetas encajen al soltar */
+    scroll-behavior: smooth;
+    /* Hace que el desplazamiento mediante JS (flechas) sea fluido */
+    -webkit-overflow-scrolling: touch;
+    /* Optimiza el scroll con inercia en dispositivos iOS (iPhone/iPad) */
+
+    gap: 1.5rem;
+    /* Define la separación uniforme entre cada tarjeta */
+    padding: 1rem 0 2rem 0;
+    /* El padding inferior evita que se corten las sombras de las tarjetas */
+
+    /* Ocultar barra de scroll para una estética más limpia */
+    scrollbar-width: none;
+    /* Oculta la barra en Firefox */
+}
+
+.native-carousel-wrapper::-webkit-scrollbar {
+    display: none;
+    /* Oculta la barra en navegadores basados en Chrome, Safari y Edge */
+}
+
+.native-carousel-item {
+    scroll-snap-align: center;
+    /* Centra la tarjeta en el contenedor al encajar, ideal para una visualización enfocada */
+    flex: 0 0 auto;
+    /* Evita que las tarjetas se deformen o cambien de tamaño para llenar el espacio */
+
+    /* Ancho fluido: mínimo 260px, ideal 80% del ancho móvil, máximo 300px */
+    width: clamp(260px, 80vw, 300px);
+}
+
+@media (min-width: 768px) {
+    .native-carousel-item {
+        width: 280px;
+        /* Ancho fijo optimizado para pantallas de escritorio */
+    }
+}
+
+.btn-carousel-nav {
+    width: 45px;
+    height: 45px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+
+.btn-carousel-nav.prev {
+    margin-left: 10px;
+}
+
+.btn-carousel-nav.next {
+    margin-right: 10px;
+}
+
+.btn-carousel-nav:hover {
+    background-color: var(--brand-dark);
+
+}
+
+/* --- Comillas Decorativas Ancladas --- */
+.quote-anchor {
+    position: absolute;
+    width: clamp(40px, 6vw, 65px);
+    height: clamp(40px, 6vw, 65px);
+    background-color: var(--coral-500);
+    opacity: 0.9;
+    z-index: 0;
+    pointer-events: none;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+}
+
+.quote-anchor.top-left {
+    top: clamp(1rem, 5%, 2rem);
+    left: clamp(1rem, 5%, 2rem);
+}
+
+.quote-anchor.bottom-right {
+    bottom: clamp(1rem, 5%, 2rem);
+    right: clamp(1rem, 5%, 2rem);
+    transform: rotate(180deg);
+}

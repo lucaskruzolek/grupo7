@@ -1,24 +1,23 @@
 @extends('layout')
 @section('contenido')
 
-    <section class="theme-neutral surface-card overflow-hidden p-0 ps-md-5 pt-2">
-        <div class="row g-0 align-items-center w-100 m-0">
+    <section class="banner-hero theme-neutral">
+        <div class="banner-grid">
             <!-- Bloque de Texto (40%) -->
-            <div class="col-md-6 ps-4 pe-2 banner-content">
-                <h1 class="banner-title banner-title-nowrap mb-4 position-relative d-inline-block">Estamos aqui para ayudarte <span class="paw-icon"></span>
+            <div class="banner-content">
+                <h1 class="banner-title mb-4 position-relative d-inline-block anim-fade-down" style="--anim-order: 1;">Estamos aquí para ayudarte <span class="paw-icon"></span>
                 </h1>
                 
-                <p class="banner-subtitle">
-                    ¿Tienes dudas sobre nuestros productos, envios o tus pedidos? Nuestro equipo estará encantado de atenderte
+                <p class="banner-subtitle anim-fade-down" style="--anim-order: 2;">
+                    ¿Tienes dudas sobre nuestros productos, envíos o tus pedidos? Nuestro equipo estará encantado de atenderte
                 </p>
             </div>
  
             <!-- Bloque de Imagen (60%) -->
-            <div class="col-md-6 align-self-stretch">
+            <div class="banner-img-container anim-fade-down">
                 <img src="{{ asset('img/ui/contactos/portadacontacto.png') }}" 
                      alt="Portada Contactos" 
-                     class="img-fluid w-100 img-fade-left" 
-                     style="display: block;">
+                     class="banner-img">
             </div>
         </div>
     </section>
@@ -29,14 +28,14 @@
         <div class="col-md-5">
             <div class="d-flex flex-column h-100">
                 
-                <div class="p-4 mb-4 rounded shadow-sm" style="background-color: var(--surface-card); border: 1px solid var(--border-color);">
+                <div class="p-4 mb-4 rounded shadow-sm" style="background-color: #fff; border: 1px solid var(--border-color);">
                     <h2 class="h4 mb-4" style="color: var(--text-main-title);">Información de la empresa</h2>
 
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ asset('img/icons/titular.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Titular</p>
-                            <p class="mb-0" style="color: var(--text-secondary);">Pepito Arcoiris</p>
+                            <p class="mb-0" style="color: var(--text-secondary);">Andrea García</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
@@ -57,7 +56,7 @@
                         <img src="{{ asset('img/icons/domicilio.svg') }}" alt="Tel" class="me-3" style="width: 24px; height: 24px;">
                         <div>
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Domicilio</p>
-                            <p class="mb-0" style="color: var(--text-secondary);">Calle falsa 123</p>
+                            <p class="mb-0" style="color: var(--text-secondary);">Salta 123</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
@@ -77,8 +76,8 @@
                     </div>
                 </div>
 
-                <div class="p-4 rounded shadow-sm flex-grow-1" style="background-color: var(--surface-neutral); border: 1px solid var(--border-color);">
-                    <h2 class="h4 mb-4" style="color: var(--text-main-title);">Otros medios de contactos</h2>
+                <div class="p-4 rounded shadow-sm flex-grow-1" style="background-color: #fff; border: 1px solid var(--border-color);">
+                    <h2 class="h4 mb-4" style="color: var(--text-main-title);">Otros medios de contacto</h2>
                     <div class="d-flex flex-column gap-3">
                         <a href="#" class="d-flex align-items-center text-decoration-none">
                             <img src="{{ asset('img/icons/instagram.svg') }}" alt="IG" class="me-2" style="width: 20px; height: 20px;">
@@ -98,7 +97,7 @@
                         <a href="#" class="d-flex align-items-center text-decoration-none">
                             <img src="{{ asset('img/icons/clock.svg') }}" alt="FB" class="me-2" style="width: 20px; height: 20px;">
                             <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Horarios de atención</p>
-                            <p class="mb-0" style="color: var(--text-secondary);">Lunes a Viernes de 9.00 a 18.00hs, Sabados de 9.00 a 13.00hs</p>
+                            <p class="mb-0" style="color: var(--text-secondary);">Lunes a Viernes de 9.00 a 18.00hs, Sábados de 9.00 a 13.00hs</p>
                         </a>
                     </div>
                 </div>
@@ -106,7 +105,7 @@
         </div>
 
         <div class="col-md-7">
-            <div class="p-3 mb-3 rounded shadow-sm d-flex align-items-center" style="background-color: var(--surface-card); border: 1px solid var(--border-color);">
+            <div class="p-3 mb-3 rounded shadow-sm d-flex align-items-center" style="background-color: var(--coral-200); border: 1px solid var(--border-color);">
                 <img src="{{ asset('img/icons/route.svg') }}" alt="Ubicación" class="me-3" style="width: 32px; height: 32px;">
                 <div>
                     <h5 class="mb-1" style="color: var(--text-main-title);">¿Dónde estamos?</h5>

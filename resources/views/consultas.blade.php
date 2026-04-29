@@ -1,24 +1,23 @@
 @extends('layout')
 @section('contenido')
 
-    <section class="theme-neutral surface-card overflow-hidden p-0 ps-md-5 pt-2">
-        <div class="row g-0 align-items-center w-100 m-0">
+    <section class="banner-hero theme-neutral">
+        <div class="banner-grid">
             <!-- Bloque de Texto (40%) -->
-            <div class="col-md-6 ps-4 pe-2 banner-content">
-                <h1 class="banner-title banner-title-nowrap mb-4 position-relative d-inline-block">Estamos aqui para ayudarte <span class="paw-icon"></span>
+            <div class="banner-content">
+                <h1 class="banner-title mb-4 position-relative d-inline-block anim-fade-down" style="--anim-order: 1;">Estamos aquí para ayudarte <span class="paw-icon"></span>
                 </h1>
                 
-                <p class="banner-subtitle">
-                    ¿Tienes dudas sobre nuestros productos, envios o tus pedidos? Completá el formlario y nuestro equipo te responderá a la brevedad.
+                <p class="banner-subtitle anim-fade-down" style="--anim-order: 2;">
+                    ¿Tenés dudas sobre nuestros productos, envíos o tus pedidos? Completá el formulario y nuestro equipo te responderá a la brevedad.
                 </p>
             </div>
  
             <!-- Bloque de Imagen (60%) -->
-            <div class="col-md-6 align-self-stretch">
-                <img src="{{ asset('img/ui/consultas/portadaconsultas.png') }}" 
+            <div class="banner-img-container anim-fade-down">
+                <img src="{{ asset('img/ui/consultas/portada.webp') }}" 
                      alt="Portada Consultas" 
-                     class="img-fluid w-100 img-fade-left" 
-                     style="display: block;">
+                     class="banner-img">
             </div>
         </div>
     </section>
@@ -29,7 +28,7 @@
         <div class="col-md-5">
             <div class="d-flex flex-column h-100">
                 
-                <div class="p-4 mb-4 rounded shadow-sm" style="background-color: var(--surface-card); border: 1px solid var(--border-color);">
+                <div class="p-4 mb-4 rounded shadow-sm" style="background-color: var(--green-200); border: 1px solid var(--border-color);">
                     <h2 class="h4 mb-4" style="color: var(--text-main-title);">Otros medios de contacto</h2>
 
                     <div class="d-flex align-items-center mb-3">
@@ -71,7 +70,7 @@
 
                 </div>
 
-                <div class="p-4 rounded shadow-sm flex-grow-1" style="background-color: var(--surface-neutral); border: 1px solid var(--border-color);">
+                <div class="p-4 surfacerounded shadow-sm flex-grow-1" style="background-color: var(--coral-200); border: 1px solid var(--border-color);">
                     <h2 class="h4 mb-4" style="color: var(--text-main-title);">Tu satisfaccion es nuestra prioridad</h2>
                     <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Nos comprometemos a brindarte una atención rápida, cercana y personalizada.</p>
                     <div class="d-flex flex-column gap-3">
@@ -82,17 +81,16 @@
         </div>
 
         <div class="col-md-7">
-            <div class="p-3 mb-3 rounded shadow-sm d-flex align-items-center" style="background-color: var(--surface-card); border: 1px solid var(--border-color);">
+            <div class="p-3 mb-3 rounded shadow-sm d-flex align-items-center" style="background-color: var(--coral-200); border: 1px solid var(--border-color);">
                 <img src="{{ asset('img/icons/headphones.svg') }}" alt="Ubicación" class="me-3" style="width: 32px; height: 32px;">
                 <div>
-                    <h5 class="mb-1" style="color: var(--text-main-title);">Envianos tu consulta</h5>
+                    <h5 class="mb-1 text-center" style="color: var(--text-main-title);">Contactate con nosotros</h5>
                     <p class="mb-0 text-muted small">Completa el formulario y te responderemos lo antes posible.</p>
                 </div>
             </div>
 
-            <div class="rounded shadow-sm overflow-hidden" style="border: 1px solid var(--border-color); height: 400px;">
-<div class="card shadow-sm border-0 p-4" style="background-color: var(--surface-card); border: 1px solid var(--border-color);"> 
-    <h3 class="mb-4 fw-bold" style="color: var(--text-main-title);">Envianos tu consulta</h3>
+            <div class="card shadow-sm border-0 p-4 rounded" style="background-color: #fff; border: 1px solid var(--border-color);">
+    <h3 class="mb-4 fw-bold text-center" style="color: var(--text-main-title);">Envianos tu consulta</h3>
     
     <form action="#" method="POST">
         
@@ -136,14 +134,16 @@
             <textarea class="form-control shadow-none" id="mensaje" name="mensaje" rows="4" placeholder="Escribí tu mensaje aquí..." required></textarea>
         </div>
 
-        <button type="submit" class="btn w-100 py-2 fw-bold" style="background-color: var(--brand-primary); color: white; border-radius: 8px;">
+        <button type="submit" class="btn w-100 py-2 fw-bold btn-nature">
             Enviar Mensaje
         </button>
     </form>
     
-</div>    
-      
-    </section>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
   
 <section class="container my-5">
     <h2 class="mb-5 text-center fw-bold" style="color: var(--text-main-title);">Preguntas Frecuentes</h2>
@@ -249,8 +249,7 @@
     </div>
 </section>
 
-    </div>
-</section>
+
 
 
 
