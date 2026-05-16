@@ -1,0 +1,20 @@
+Tabla,Campos Principales,Propósito
+categories,"id, nombre","Define las agrupaciones principales (Ej: ""Ropa"", ""Accesorios"")."
+subcategories,"id, category_id, nombre","Define el tipo específico del producto (Ej: ""Buzo"", ""Juguete""). El campo category_id establece la relación N:1 con las categorías."
+products,"id, subcategory_id, nombre, descripcion, precio_base, tipo_mascota, activo","Guarda la información general. tipo_mascota es un ENUM ('perro', 'gato', 'ambos'). Agregué un booleano activo para poder ocultar productos sin borrarlos."
+colors,"id, nombre, hex_code","Diccionario global de colores (Ej: ""Rosa"", ""#FFC0CB"")."
+sizes,"id, nombre","Diccionario global de talles (Ej: ""S"", ""M"", ""XL"")."
+product_variations,"id, product_id, color_id, size_id, stock, precio_adicional, sku","La tabla mágica. Une el producto con 1 color y 1 talle específico, controlando su stock real. El sku (código de artículo) te servirá para identificar variaciones únicas en el depósito."
+product_images,"id, product_id, color_id (nullable), url, orden","Guarda las rutas de las fotos. Si color_id tiene un valor, al tocar el botón de color en la web, el carrusel filtrará solo esas fotos. El orden sirve para saber cuál es la foto de portada."
+
+La lógica de conexiones será esta:
+
+Category hasMany Subcategories.
+
+Subcategory hasMany Products // belongsTo Category.
+
+Product hasMany ProductVariations // hasMany ProductImages // belongsTo Subcategory.
+
+ProductVariation belongsTo Product // belongsTo Color // belongsTo Size.
+
+ProductImage belongsTo Product // belongsTo Color (opcional).

@@ -13,17 +13,51 @@ class Producto extends Model
     protected $table = 'productos';
 
     protected $fillable = [
+        'subcategoria_id',
+        'coleccion_id',
         'nombre',
         'descripcion',
-        'precio',
-        'stock',
-        'url_imagen'
+        'precio_base',
+        'tipo_mascota',
     ];
 
     protected $casts = [
-        'precio' => 'decimal:2',
-        'stock' => 'integer'
+        'precio_base' => 'decimal:2',
     ];
 
     protected $hidden = ['deleted_at'];
+
+    // ── Relaciones ──────────────────────────────────────────
+
+    /**
+     * Un producto pertenece a una subcategoría.
+     */
+    public function subcategoria()
+    {
+        return $this->belongsTo(Subcategoria::class, 'subcategoria_id');
+    }
+
+    /**
+     * Un producto puede pertenecer a una colección.
+     */
+    public function coleccion()
+    {
+        return $this->belongsTo(Coleccion::class, 'coleccion_id');
+    }
+
+    /**
+     * Un producto tiene muchas variaciones (color + talle).
+     */
+    public function variaciones()
+    {
+        return $this->hasMany(ProductoVariacion::class, 'producto_id');
+    }
+
+    /**
+     * Un producto tiene muchas imágenes.
+     */
+    public function imagenes()
+    {
+        return $this->hasMany(ProductoImagen::class, 'producto_id');
+    }
 }
