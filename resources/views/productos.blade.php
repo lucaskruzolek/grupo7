@@ -28,7 +28,9 @@
 <section class="container-fluid">
     <div class="row mt-4">
     
+        <aside class="col-md-3 bg-white border-end p-3">
             @include('partes.sidebar')
+        </aside>
 
         <main class="col-md-9 p-4">
             <div class="row row-cols-1 row-cols-md-3 g-4">
