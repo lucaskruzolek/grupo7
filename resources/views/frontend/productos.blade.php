@@ -1,102 +1,81 @@
-@extends('layout') {{-- Solo un extend al inicio --}}
+@extends('frontend.layout') {{-- Solo un extend al inicio --}}
 
 @section('contenido')
 
-{{-- 1. Banner Principal (Ancho completo arriba) --}}
-<section class="banner-hero theme-neutral">
-        <div class="banner-grid">
-            <!-- Bloque de Texto (40%) -->
-            <div class="banner-content">
-                <h1 class="banner-title mb-4 position-relative d-inline-block anim-fade-down" style="--anim-order: 1;">Productos <span class="paw-icon"></span>
-                </h1>
-                
-                <p class="banner-subtitle anim-fade-down" style="--anim-order: 2;">
-                    Descubrí nuestra colección de ropa y accesorios diseñados para que tu mascota se vea increíble y se sienta aún mejor.
-                </p>
-            </div>
- 
-            <!-- Bloque de Imagen (60%) -->
-            <div class="banner-img-container anim-fade-down">
-                <img src="{{ asset('img/ui/productos/portada.webp') }}" 
-                     alt="Portada Productos" 
-                     class="banner-img">
-            </div>
-        </div>
-    </section>
 
-{{-- 2. Cuerpo de la página: Sidebar + Productos --}}
+{{-- Cuerpo de la página: Sidebar + Productos --}}
 <section class="container-fluid">
-    <div class="row mt-4">
+    <div class="row">
     
-        <aside class="col-md-3 bg-white border-end p-3">
-            @include('partes.sidebar')
+        <aside class="col-md-3 bg-white border-end p-3 mt-4">
+            @include('frontend.partes.sidebar')
         </aside>
 
         <main class="col-md-9 p-4">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                 
                 {{-- Tarjeta de ejemplo --}}
-<div class="col">
-    <div class="card h-100 shadow-sm border-0">
-        <img src="{{ asset('img/ui/productos/juguete-pulpo.webp') }}" 
-             id="img-prod-1" 
-             class="card-img-top" 
-             alt="Producto">
+            <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="{{ asset('img/ui/productos/juguete-pulpo.webp') }}" 
+                    id="img-prod-1" 
+                    class="card-img-top" 
+                    alt="Producto">
 
-        <div class="card-body">
-            <h5 class="card-title fw-bold">juguetes</h5>
-            <p class="card-text text-muted">$10000</p>
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">juguetes</h5>
+                    <p class="card-text text-muted">$10000</p>
             
-            <div class="d-flex gap-2 mt-3">
-                <button type="button" 
-                    class="rounded-circle border-0" 
-                    style="width: 25px; height: 25px; background-color: #f8bbd0;" 
-                    onclick="document.getElementById('img-prod-1').src='{{ asset('img/ui/productos/juguete-pulpo.webp') }}'"
-                    title="Rosa">
-                </button>
+                <div class="d-flex gap-2 mt-3">
+                    <button type="button" 
+                        class="rounded-circle border-0" 
+                        style="width: 25px; height: 25px; background-color: #f8bbd0;" 
+                        onclick="document.getElementById('img-prod-1').src='{{ asset('img/ui/productos/juguete-pulpo.webp') }}'"
+                        title="Rosa">
+                    </button>
 
-                <button type="button" 
-                    class="rounded-circle border-0" 
-                    style="width: 25px; height: 25px; background-color: #f5f5dc; border: 1px solid #ddd !important;" 
-                    onclick="document.getElementById('img-prod-1').src='{{ asset('img/ui/productos/juguete-acordeon.webp') }}'"
-                    title="Beige">
-                </button>
+                    <button type="button" 
+                        class="rounded-circle border-0" 
+                        style="width: 25px; height: 25px; background-color: #f5f5dc; border: 1px solid #ddd !important;" 
+                        onclick="document.getElementById('img-prod-1').src='{{ asset('img/ui/productos/juguete-acordeon.webp') }}'"
+                        title="Beige">
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="col">
-    <div class="card h-100 shadow-sm border-0">
-        <img src="{{ asset('img/ui/productos/correa-urban.webp') }}" 
-             id="img-prod-3" 
-             class="card-img-top" 
-             alt="Producto">
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <img src="{{ asset('img/ui/productos/correa-urban.webp') }}" 
+                id="img-prod-3" 
+                class="card-img-top" 
+                alt="Producto">
 
-        <div class="card-body">
-            <h5 class="card-title fw-bold">Correas y arneces</h5>
-            <p class="card-text text-muted">$8000</p>
+            <div class="card-body">
+                <h5 class="card-title fw-bold">Correas y arneces</h5>
+                <p class="card-text text-muted">$8000</p>
             
-            <div class="d-flex gap-2 mt-3">
-                <button type="button" 
-                    class="rounded-circle border-0" 
-                    style="width: 25px; height: 25px; background-color: #f8bbd0;" 
-                    onclick="document.getElementById('img-prod-3').src='{{ asset('img/ui/productos/correa-urban.webp') }}'"
-                    title="Rosa">
-                </button>
+                <div class="d-flex gap-2 mt-3">
+                    <button type="button" 
+                        class="rounded-circle border-0" 
+                        style="width: 25px; height: 25px; background-color: #f8bbd0;" 
+                        onclick="document.getElementById('img-prod-3').src='{{ asset('img/ui/productos/correa-urban.webp') }}'"
+                        title="Rosa">
+                    </button>
 
-                <button type="button" 
-                    class="rounded-circle border-0" 
-                    style="width: 25px; height: 25px; background-color: #f8bbd0; border: 1px solid #ddd !important;" 
-                    onclick="document.getElementById('img-prod-3').src='{{ asset('img/ui/productos/arnes-rosa.webp') }}'"
-                    title="Beige">
-                </button>
+                    <button type="button" 
+                        class="rounded-circle border-0" 
+                        style="width: 25px; height: 25px; background-color: #f8bbd0; border: 1px solid #ddd !important;" 
+                        onclick="document.getElementById('img-prod-3').src='{{ asset('img/ui/productos/arnes-rosa.webp') }}'"
+                        title="Beige">
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="col">
+    <div class="col">
     <div class="card h-100 shadow-sm border-0">
         <img src="{{ asset('img/ui/productos/gato-buzo-ratones.webp') }}" 
              id="img-prod-5" 

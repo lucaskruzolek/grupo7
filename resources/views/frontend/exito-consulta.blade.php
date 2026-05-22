@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('frontend.layout')
 @section('contenido')
 <section class="container my-5 py-5 text-center">
     <div class="row justify-content-center">

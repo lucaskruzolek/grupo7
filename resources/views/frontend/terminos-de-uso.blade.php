@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('frontend.layout')
 
 @section('contenido')
     <!-- Banner Principal de Términos de Uso -->

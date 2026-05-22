@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('frontend.layout')
 @section('contenido')
 
 <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">

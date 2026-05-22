@@ -14,34 +14,34 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('principal');
+    return view('frontend.principal');
 });
 Route::get('/contacto', function () {
-    return view('contacto');
+    return view('frontend.contacto');
 });
 Route::get('/comercializacion', function () {
-    return view('comercializacion');
+    return view('frontend.comercializacion');
 });
 Route::get('/productos', function () {
-    return view('productos');
+    return view('frontend.productos');
 });
 Route::get('/quienes-somos', function () {
-    return view('quienes-somos');
+    return view('frontend.quienes-somos');
 });
 Route::get('/consultas', function () {
-    return view('consultas');
+    return view('frontend.consultas');
 });
 Route::post('/consultas', function () {
-    return view('exito-consulta');
+    return view('frontend.exito-consulta');
 });
 Route::get('/terminos', function () {
-    return view('terminos-de-uso');
+    return view('frontend.terminos-de-uso');
 });
 
 Route::get('/login', function () {
-    return view('login');
+    return view('backend.usuarios.login');
 })->name('login');
 
 Route::get('/register', function () {
-    return view('register');
+    return view('backend.usuarios.register');
 })->name('register');

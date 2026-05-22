@@ -17,13 +17,13 @@
 </head>
 
 <body>
-    @include('partes.navbar')
+    @include('frontend.partes.navbar')
     
     <main class="container-fluid py-0 px-0">
         <!-- Contenido específico de cada página -->
         @yield('contenido')
     </main>
-    @include('partes.footer')
+    @include('frontend.partes.footer')
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
         var prevScrollpos = window.pageYOffset;
