@@ -14,15 +14,24 @@ class Categoria extends Model
 
     protected $fillable = [
         'nombre',
+        'parent_id',
     ];
 
     // ── Relaciones ──────────────────────────────────────────
 
     /**
-     * Una categoría tiene muchas subcategorías.
+     * Una categoría pertenece a una categoría padre (opcional).
      */
-    public function subcategorias()
+    public function parent()
     {
-        return $this->hasMany(Subcategoria::class, 'categoria_id');
+        return $this->belongsTo(Categoria::class, 'parent_id');
+    }
+
+    /**
+     * Una categoría tiene muchas categorías hijas (subcategorías).
+     */
+    public function children()
+    {
+        return $this->hasMany(Categoria::class, 'parent_id');
     }
 }

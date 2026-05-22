@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('productos', function (Blueprint $table) {
             $table->foreignId('coleccion_id')
-                ->after('subcategoria_id')
+                ->after('categoria_id')
                 ->nullable()
                 ->constrained('colecciones')
                 ->onDelete('set null');

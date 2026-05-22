@@ -37,3 +37,11 @@ Route::post('/consultas', function () {
 Route::get('/terminos', function () {
     return view('terminos-de-uso');
 });
+
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('register');
+})->name('register');

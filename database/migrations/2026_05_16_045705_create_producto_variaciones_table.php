@@ -24,6 +24,7 @@ return new class extends Migration
                 ->constrained('talles')
                 ->onDelete('restrict');
             $table->integer('stock')->default(0);
+            $table->integer('stock_minimo')->default(0);
             $table->decimal('precio_adicional', 10, 2)->default(0.00);
             $table->string('sku', 50)->unique();
             $table->timestamps();

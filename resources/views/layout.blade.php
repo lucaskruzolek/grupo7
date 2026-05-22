@@ -10,9 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/principal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('css/filter-sidebar.css') }}">
 </head>
 
 <body>
@@ -32,7 +33,7 @@
                 document.getElementById("navbar").style.top = "0";
             } else {
                 // -100px asegura que el navbar se oculte por completo (ya que mide más de 50px con el padding)
-                document.getElementById("navbar").style.top = "-100px";
+                document.getElementById("navbar").style.top = "-132px";
             }
             prevScrollpos = currentScrollPos;
         }

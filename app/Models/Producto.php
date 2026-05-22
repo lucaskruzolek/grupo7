@@ -13,7 +13,7 @@ class Producto extends Model
     protected $table = 'productos';
 
     protected $fillable = [
-        'subcategoria_id',
+        'categoria_id',
         'coleccion_id',
         'nombre',
         'descripcion',
@@ -30,11 +30,11 @@ class Producto extends Model
     // ── Relaciones ──────────────────────────────────────────
 
     /**
-     * Un producto pertenece a una subcategoría.
+     * Un producto pertenece a una categoría.
      */
-    public function subcategoria()
+    public function categoria()
     {
-        return $this->belongsTo(Subcategoria::class, 'subcategoria_id');
+        return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
     /**

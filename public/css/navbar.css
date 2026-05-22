@@ -1,0 +1,160 @@
+/* --- Estilos para el Navbar de Dos Filas --- */
+
+:root {
+    --navbar-height: 62px; /* Altura aproximada en mobile (logo + paddings) */
+}
+
+@media (min-width: 992px) {
+    :root {
+        --navbar-height: 121px; /* Altura en desktop (Fila 1 py-3 + Fila 2 38px) */
+    }
+}
+
+
+/* Fila 1 (Superior) */
+.navbar-top-row {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--neutral-200);
+}
+
+/* Buscador */
+.search-bar-wrapper {
+    background-color: var(--neutral-50);
+    border: 1.5px solid var(--neutral-300);
+    border-radius: 30px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 2px;
+}
+
+.search-bar-wrapper:focus-within {
+    border-color: var(--green-400);
+    box-shadow: 0 0 0 3px rgba(124, 138, 118, 0.15);
+}
+
+.search-input {
+    border: none !important;
+    background-color: transparent !important;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    color: var(--neutral-800);
+    padding-left: 1.25rem;
+}
+
+.search-input::placeholder {
+    color: var(--neutral-400);
+}
+
+.search-btn {
+    border: none !important;
+    background-color: transparent !important;
+    color: var(--neutral-600);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 1.25rem;
+    transition: transform 0.2s ease;
+}
+
+.search-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Botones Fila 1 (Mismo color que el fondo) */
+.nav-desktop-btn {
+    background-color: #ffffff !important; /* Mismo color que el bg de la fila */
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-desktop-btn:hover {
+    background-color: var(--neutral-100) !important; /* Sutil hover del mismo tono */
+    transform: translateY(-1px);
+}
+
+.nav-desktop-btn.text-btn {
+    font-family: var(--font-main);
+    font-weight: 600;
+    color: var(--brand-dark) !important;
+    font-size: 0.95rem;
+}
+
+.nav-desktop-btn.icon-only-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+
+.nav-desktop-btn .nav-icon {
+    width: 24px;
+    height: 24px;
+    filter: none;
+}
+
+/* Fila 2 (Inferior) */
+.navbar-bottom-row {
+    background-color: var(--green-500);
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 38px; /* Menor altura */
+    display: flex;
+    align-items: center;
+}
+
+.nav-links-desktop {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-item-desktop {
+    display: block;
+}
+
+.nav-link-desktop-btn {
+    display: block;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none !important;
+    padding: 8px 20px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link-desktop-btn:hover {
+    background-color: var(--green-600);
+}
+
+/* Ajustes para Navbar Sticky */
+#navbar {
+    z-index: 1030;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Ajustes Responsive en la lista colapsable */
+#navbarNavMobile .nav-link {
+    font-family: var(--font-main);
+    font-weight: 500;
+    color: var(--brand-dark);
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+#navbarNavMobile .nav-link:hover {
+    background-color: var(--neutral-100);
+    color: var(--color-primary);
+}

@@ -20,12 +20,12 @@
     --green-200: #cfd4cd;
     --green-300: #B5BDB1;
     --green-400: #9ba596;
-    --green-500: #7C8A76;
-    --green-600: #677362;
-    --green-700: #535D4F;
-    --green-800: #40473D;
-    --green-900: #2C312A;
-    --green-950: #181b17;
+    --green-500: #7d8c78;
+    --green-600: #6a7866;
+    --green-700: #5a6557;
+    --green-800: #4a5348;
+    --green-900: #282e28;
+    --green-950: #161817;
 
     /* Familia Coral */
     --coral-50: #fbf4f2;
@@ -180,7 +180,7 @@ h6 {
 
 .navbar-light .navbar-nav .nav-link {
     color: var(--brand-dark);
-    font-weight: 500;
+    font-weight: 600;
     transition: color 0.2s;
     padding-left: 1.25rem !important;
     padding-right: 1.25rem !important;
@@ -1156,7 +1156,8 @@ h6 {
 .anim-fade-down {
     opacity: 0;
     transform: translateY(-20px);
-    transition: opacity 0.6s ease, transform 0.6s ease; /* Transición base por seguridad */
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    /* Transición base por seguridad */
 }
 
 /* La animación se dispara solo cuando el JS agrega la clase al entrar al viewport */
@@ -1171,86 +1172,4 @@ h6 {
         animation: none;
         opacity: 1;
     }
-}
-/* ------------- Estilos UI Específicos para el Sidebar de Filtros ------------ */
-
-.filter-sidebar-container {
-    background-color: #ffffff;
-    font-family: var(--font-main);
-}
-
-/* Tarjetas de filtros activas (Perros, Ropa, Clásicos) */
-.active-filter-card {
-    background-color: var(--green-100) !important;
-    border-color: var(--green-400) !important;
-    position: relative;
-}
-
-/* Indicador de check (tilde) discreto usando pseudoelementos */
-.active-filter-card::after {
-    content: '✓';
-    position: absolute;
-    top: 6px;
-    right: 10px;
-    font-size: 0.75rem;
-    color: var(--green-700);
-    font-weight: bold;
-}
-
-/* Estilo para los minibotones de la grilla 3x3 */
-.small-filter-btn {
-    font-size: 0.7rem !important;
-    font-weight: 500;
-    color: var(--neutral-700);
-    background-color: #ffffff;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-}
-
-.small-filter-btn:hover {
-    background-color: var(--neutral-50);
-    border-color: var(--neutral-400);
-}
-
-.btn-active-pill {
-    background-color: var(--green-500) !important;
-    color: #ffffff !important;
-    border-color: var(--green-600) !important;
-}
-
-/* Botones de Talle Cuadrados Ajustados */
-.square-filter-btn {
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-    font-size: 0.75rem !important;
-    font-weight: 600;
-    color: var(--neutral-800);
-    border-radius: 6px !important;
-    background-color: #ffffff;
-}
-
-/* Círculos selectores de color */
-.color-filter-dot {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
-}
-
-.color-filter-dot:hover {
-    transform: scale(1.15);
-}
-
-/* Customización del Slider de Rango de precios nativo de HTML5 */
-.custom-range-slider::-webkit-slider-thumb {
-    background: var(--green-500) !important;
-}
-.custom-range-slider::-moz-range-thumb {
-    background: var(--green-500) !important;
-}
-.custom-range-slider:focus {
-    box-shadow: 0 0 0 0.25rem rgba(124, 138, 118, 0.25) !important;
 }

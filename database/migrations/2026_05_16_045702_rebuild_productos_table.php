@@ -15,8 +15,8 @@ return new class extends Migration
 
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subcategoria_id')
-                ->constrained('subcategorias')
+            $table->foreignId('categoria_id')
+                ->constrained('categorias')
                 ->onDelete('restrict');
             $table->string('nombre', 150);
             $table->text('descripcion')->nullable();

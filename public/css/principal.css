@@ -104,10 +104,11 @@
     aspect-ratio: 16 / 9;
 
     /* Limitamos la altura al viewport menos el espacio del Navbar */
-    max-height: calc(100vh - 67px);
+    max-height: calc(100vh - var(--navbar-height));
 
     /* Para navegadores móviles modernos que ocultan barras de dirección */
-    max-height: calc(100dvh - 67px);
+    max-height: calc(100dvh - var(--navbar-height));
+
 
     background-color: transparent;
     overflow: hidden;
