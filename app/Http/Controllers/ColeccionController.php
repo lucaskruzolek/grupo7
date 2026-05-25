@@ -8,58 +8,76 @@ use Illuminate\Http\Request;
 class ColeccionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra el listado de todas las colecciones.
      */
     public function index()
     {
-        //
+        $colecciones = Coleccion::all();
+        return view('colecciones.index', compact('colecciones'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Formulario para crear una nueva colección.
      */
     public function create()
     {
-        //
+        return view('colecciones.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda la colección en la base de datos.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre'      => 'required|string|max:100',
+            'descripcion' => 'nullable|string',
+            'url_imagen'  => 'nullable|url', // Valida que sea un enlace correcto para el banner
+        ]);
+
+        Coleccion::create([
+            'nombre'      => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'url_imagen'  => $request->url_imagen,
+        ]);
+
+        return redirect()->route('colecciones.index')->with('exito', 'Colección creada con éxito.');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Coleccion $coleccion)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Formulario de edición.
      */
     public function edit(Coleccion $coleccion)
     {
-        //
+        return view('colecciones.edit', compact('coleccion'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza la colección seleccionada.
      */
     public function update(Request $request, Coleccion $coleccion)
     {
-        //
+        $request->validate([
+            'nombre'      => 'required|string|max:100',
+            'descripcion' => 'nullable|string',
+            'url_imagen'  => 'nullable|url',
+        ]);
+
+        $coleccion->update([
+            'nombre'      => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'url_imagen'  => $request->url_imagen,
+        ]);
+
+        return redirect()->route('colecciones.index')->with('exito', 'Colección actualizada con éxito.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Baja lógica de la colección (SoftDelete).
      */
     public function destroy(Coleccion $coleccion)
     {
-        //
+        $coleccion->delete();
+        return redirect()->route('colecciones.index')->with('exito', 'Colección dada de baja correctamente.');
     }
 }

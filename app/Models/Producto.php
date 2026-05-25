@@ -14,50 +14,44 @@ class Producto extends Model
 
     protected $fillable = [
         'categoria_id',
+        'marca_id',
         'coleccion_id',
+        'color_id',
+        'talle_id',
         'nombre',
         'descripcion',
-        'precio_base',
         'tipo_mascota',
+        'sku_base',
+        'sku',
+        'stock',
+        'stock_minimo',
+        'precio'
     ];
 
-    protected $casts = [
-        'precio_base' => 'decimal:2',
-    ];
+    // Relación comercial básica
+    public function categoria() { return $this->belongsTo(Categoria::class, 'categoria_id'); }
+    public function marca() { return $this->belongsTo(Marca::class, 'marca_id'); }
+    public function coleccion() { return $this->belongsTo(Coleccion::class, 'coleccion_id'); }
 
-    protected $hidden = ['deleted_at'];
-
-    // ── Relaciones ──────────────────────────────────────────
-
-    /**
-     * Un producto pertenece a una categoría.
-     */
-    public function categoria()
-    {
-        return $this->belongsTo(Categoria::class, 'categoria_id');
-    }
+    // Relación de atributos de variante
+    public function color() { return $this->belongsTo(Color::class, 'color_id'); }
+    public function talle() { return $this->belongsTo(Talle::class, 'talle_id'); }
 
     /**
-     * Un producto puede pertenecer a una colección.
-     */
-    public function coleccion()
-    {
-        return $this->belongsTo(Coleccion::class, 'coleccion_id');
-    }
-
-    /**
-     * Un producto tiene muchas variaciones (color + talle).
-     */
-    public function variaciones()
-    {
-        return $this->hasMany(ProductoVariacion::class, 'producto_id');
-    }
-
-    /**
-     * Un producto tiene muchas imágenes.
+     * Relación Inteligente: Un producto comparte imágenes con otros productos
+     * que tengan su mismo SKU_BASE (mismo modelo y color, distinto talle).
      */
     public function imagenes()
     {
-        return $this->hasMany(ProductoImagen::class, 'producto_id');
+        // Vinculamos usando el 'sku_base' local contra el 'sku_base' de la tabla de imágenes
+        return $this->hasMany(ProductoImagen::class, 'sku_base', 'sku_base');
+    }
+
+    /**
+     * Helper para obtener solo la imagen de portada (orden = 1)
+     */
+    public function imagenPortada()
+    {
+        return $this->hasOne(ProductoImagen::class, 'sku_base', 'sku_base')->where('orden', 1);
     }
 }

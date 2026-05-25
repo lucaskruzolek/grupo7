@@ -12,49 +12,14 @@ class ProductoImagen extends Model
     protected $table = 'producto_imagenes';
 
     protected $fillable = [
-        'producto_id',
-        'color_id',
+        'sku_base',
         'url',
-        'orden',
+        'orden'
     ];
 
-    protected $casts = [
-        'orden' => 'integer',
-    ];
-
-    // ── Scopes ──────────────────────────────────────────────
-
-    /**
-     * Imagen de portada (orden = 0).
-     */
-    public function scopeDePortada($query)
+    // Relación inversa: Muchas imágenes corresponden a un grupo de productos (sku_base)
+    public function productos()
     {
-        return $query->where('orden', 0);
-    }
-
-    /**
-     * Filtrar imágenes por color.
-     */
-    public function scopePorColor($query, int $colorId)
-    {
-        return $query->where('color_id', $colorId);
-    }
-
-    // ── Relaciones ──────────────────────────────────────────
-
-    /**
-     * Una imagen pertenece a un producto.
-     */
-    public function producto()
-    {
-        return $this->belongsTo(Producto::class, 'producto_id');
-    }
-
-    /**
-     * Una imagen puede pertenecer a un color (opcional).
-     */
-    public function color()
-    {
-        return $this->belongsTo(Color::class, 'color_id');
+        return $this->hasMany(Producto::class, 'sku_base', 'sku_base');
     }
 }

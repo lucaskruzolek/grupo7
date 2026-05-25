@@ -6,29 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('producto_imagenes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('producto_id')
-                ->constrained('productos')
-                ->onDelete('cascade');
-            $table->foreignId('color_id')
-                ->nullable()
-                ->constrained('colores')
-                ->onDelete('set null');
+            $table->string('sku_base', 50); // Vinculado al grupo de variantes del producto
             $table->string('url');
-            $table->unsignedSmallInteger('orden')->default(0);
+            $table->unsignedSmallInteger('orden')->default(0); // orden = 1 será la foto principal
             $table->timestamps();
+
+            // Indexamos para que las búsquedas del catálogo sean ultrarápidas
+            $table->index('sku_base');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('producto_imagenes');
