@@ -18,16 +18,34 @@ class ProductoController extends Controller
      * Muestra el catálogo unificado para la tienda virtual.
      * Agrupa las filas por 'sku_base' para que el cliente vea un modelo único por tarjeta.
      */
-    public function index()
-    {
-        // Usamos SQL puro o Eloquent adaptado para traer un registro representativo por modelo
-        $productos = Producto::select('sku_base', 'nombre', 'precio', 'categoria_id', 'marca_id')
-            ->with(['categoria', 'marca', 'imagenPortada'])
-            ->groupBy('sku_base', 'nombre', 'precio', 'categoria_id', 'marca_id')
-            ->get();
+public function index(Request $request)
+{
+    // Iniciamos la consulta base unificada por SKU_BASE
+    $query = Producto::select('sku_base', 'nombre', 'precio', 'categoria_id', 'marca_id', 'tipo_mascota')
+        ->with(['categoria', 'marca', 'imagenPortada'])
+        ->groupBy('sku_base', 'nombre', 'precio', 'categoria_id', 'marca_id', 'tipo_mascota');
 
-        return view('productos.index', compact('productos'));
+    // --- SISTEMA DE FILTRADO DINÁMICO ---
+
+    // Filtro por Tipo de Mascota (Perro / Gato / Ambos)
+    if ($request->has('mascota') && $request->mascota != '') {
+        $query->where('tipo_mascota', $request->mascota);
     }
+
+    // Filtro por Categoría (Ej: Buzos, Accesorios)
+    if ($request->has('categoria') && $request->categoria != '') {
+        $query->where('categoria_id', $request->categoria);
+    }
+
+    // Ejecutamos la consulta con los filtros aplicados
+    $productos = $query->get();
+
+    // Traemos las categorías del sistema para poder armar las selectores de filtro en la vista
+    $categorias = \App\Models\Categoria::all();
+
+    // Retornamos la vista del mostrador pasándole los productos filtrados y las categorías
+    return view('frontend.productos', compact('productos', 'categorias'));
+}
 
     /**
      * Formulario de creación de productos (Panel de Administración).

@@ -17,31 +17,38 @@ use App\Http\Controllers\ColeccionController;
 |
 */
 
+// 1. PÁGINAS INFORMATIVAS (FRONTEND STÁTICO Y HOME)
+// La raíz de tu sitio ahora carga correctamente el inicio de Petthreads sin ser pisada
 Route::get('/', function () {
     return view('frontend.principal');
-});
+})->name('inicio');
+
 Route::get('/contacto', function () {
     return view('frontend.contacto');
 });
+
 Route::get('/comercializacion', function () {
     return view('frontend.comercializacion');
 });
-Route::get('/productos', function () {
-    return view('frontend.productos');
-});
+
 Route::get('/quienes-somos', function () {
     return view('frontend.quienes-somos');
 });
+
 Route::get('/consultas', function () {
     return view('frontend.consultas');
 });
+
 Route::post('/consultas', function () {
     return view('frontend.exito-consulta');
 });
+
 Route::get('/terminos', function () {
     return view('frontend.terminos-de-uso');
 });
 
+
+// 2. AUTENTICACIÓN (LOGIN Y REGISTRO)
 Route::get('/login', function () {
     return view('backend.usuarios.login');
 })->name('login');
@@ -50,16 +57,19 @@ Route::get('/register', function () {
     return view('backend.usuarios.register');
 })->name('register');
 
-// Ruta principal de la tienda (Catálogo general de Petthreads)
-Route::get('/', [ProductoController::class, 'index'])->name('catalogo.index');
 
-// Rutas RESTful unificadas para Usuarios y Productos
-Route::resource('usuarios', UsuarioController::class);
-// Rutas de administración de Productos (quitamos 'show' del resource para que no se duplique)
-Route::resource('productos', ProductoController::class)->except(['index', 'show']);
+// 3. MOSTRADOR DE PRODUCTOS DINÁMICO (CON FILTROS)
+// Carga el controlador para procesar los filtros del sidebar, NO una vista estática
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 
-// Ajuste para que el detalle busque por 'sku_base' en vez del ID numérico
-// Esta es la ÚNICA ruta encargada de mostrar el detalle de la prenda mediante su código de modelo
+// Esta es la ruta encargada de mostrar el detalle de la prenda mediante su código de modelo
 Route::get('productos/{sku_base}', [ProductoController::class, 'show'])->name('productos.show');
+
+
+// 4. MANTENIMIENTO Y CRUD DE ADMINISTRACIÓN (BACKEND)
+Route::resource('usuarios', UsuarioController::class);
 Route::resource('categorias', CategoriaController::class);
 Route::resource('colecciones', ColeccionController::class);
+
+// Rutas CRUD de Productos (excepto 'index' y 'show' que ya configuramos arriba para el cliente)
+Route::resource('productos', ProductoController::class)->except(['index', 'show']);
