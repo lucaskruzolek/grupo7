@@ -14,7 +14,6 @@ class Producto extends Model
 
     protected $fillable = [
         'categoria_id',
-        'marca_id',
         'coleccion_id',
         'color_id',
         'talle_id',
@@ -22,6 +21,7 @@ class Producto extends Model
         'descripcion',
         'tipo_mascota',
         'sku_base',
+        'sku_color',
         'sku',
         'stock',
         'stock_minimo',
@@ -30,7 +30,6 @@ class Producto extends Model
 
     // Relación comercial básica
     public function categoria() { return $this->belongsTo(Categoria::class, 'categoria_id'); }
-    public function marca() { return $this->belongsTo(Marca::class, 'marca_id'); }
     public function coleccion() { return $this->belongsTo(Coleccion::class, 'coleccion_id'); }
 
     // Relación de atributos de variante
@@ -39,12 +38,12 @@ class Producto extends Model
 
     /**
      * Relación Inteligente: Un producto comparte imágenes con otros productos
-     * que tengan su mismo SKU_BASE (mismo modelo y color, distinto talle).
+     * que tengan su mismo SKU_COLOR (mismo modelo y color, distinto talle).
      */
     public function imagenes()
     {
-        // Vinculamos usando el 'sku_base' local contra el 'sku_base' de la tabla de imágenes
-        return $this->hasMany(ProductoImagen::class, 'sku_base', 'sku_base');
+        // Vinculamos usando el 'sku_color' local contra el 'sku_color' de la tabla de imágenes
+        return $this->hasMany(ProductoImagen::class, 'sku_color', 'sku_color');
     }
 
     /**
@@ -52,6 +51,6 @@ class Producto extends Model
      */
     public function imagenPortada()
     {
-        return $this->hasOne(ProductoImagen::class, 'sku_base', 'sku_base')->where('orden', 1);
+        return $this->hasOne(ProductoImagen::class, 'sku_color', 'sku_color')->where('orden', 1);
     }
 }

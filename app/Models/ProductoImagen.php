@@ -12,14 +12,14 @@ class ProductoImagen extends Model
     protected $table = 'producto_imagenes';
 
     protected $fillable = [
-        'sku_base',
+        'sku_color',
         'url',
         'orden'
     ];
 
-    // Relación inversa: Muchas imágenes corresponden a un grupo de productos (sku_base)
+    // Relación inversa: Muchas imágenes corresponden a un grupo de productos (sku_color)
     public function productos()
     {
-        return $this->hasMany(Producto::class, 'sku_base', 'sku_base');
+        return $this->hasMany(Producto::class, 'sku_color', 'sku_color');
     }
 }

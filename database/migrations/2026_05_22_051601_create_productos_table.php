@@ -17,9 +17,6 @@ return new class extends Migration
             $table->foreignId('categoria_id')
                 ->constrained('categorias')
                 ->onDelete('restrict');
-            $table->foreignId('marca_id')
-                ->constrained('marcas')
-                ->onDelete('restrict');
             $table->foreignId('coleccion_id')->nullable()
                 ->constrained('colecciones')
                 ->onDelete('set null');
@@ -36,6 +33,7 @@ return new class extends Migration
             $table->enum('tipo_mascota', ['perro', 'gato', 'ambos'])->default('ambos');
 // Stock e Identificadores de variante
             $table->string('sku_base', 50);      // Agrupa variantes (Ej: "BUZO-POLAR")
+            $table->string('sku_color', 80)->index(); // Agrupa variantes por color (Ej: "BUZO-POLAR-ROJO")
             $table->string('sku', 50)->unique(); // Variante única (Ej: "BUZO-POLAR-S-ROJO")
             $table->integer('stock')->default(0);
             $table->integer('stock_minimo')->default(0);

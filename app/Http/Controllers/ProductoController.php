@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use App\Models\Categoria;
-use App\Models\Marca;
 use App\Models\Coleccion;
 use App\Models\Color;
 use App\Models\Talle;
@@ -20,10 +19,10 @@ class ProductoController extends Controller
      */
 public function index(Request $request)
 {
-    // Iniciamos la consulta base unificada por SKU_BASE
-    $query = Producto::select('sku_base', 'nombre', 'precio', 'categoria_id', 'marca_id', 'tipo_mascota')
-        ->with(['categoria', 'marca', 'imagenPortada'])
-        ->groupBy('sku_base', 'nombre', 'precio', 'categoria_id', 'marca_id', 'tipo_mascota');
+    // Iniciamos la consulta base unificada por SKU_BASE (añadiendo MAX(sku_color) para poder asociar la imagen de portada y removiendo marca_id)
+    $query = Producto::select('sku_base', 'nombre', 'precio', 'categoria_id', 'tipo_mascota', DB::raw('MAX(sku_color) as sku_color'))
+        ->with(['categoria', 'imagenPortada'])
+        ->groupBy('sku_base', 'nombre', 'precio', 'categoria_id', 'tipo_mascota');
 
     // --- SISTEMA DE FILTRADO DINÁMICO ---
 
@@ -53,12 +52,11 @@ public function index(Request $request)
     public function create()
     {
         $categorias = Categoria::all();
-        $marcas = Marca::all();
         $colecciones = Coleccion::all();
         $colores = Color::all();
         $talles = Talle::all();
 
-        return view('productos.create', compact('categorias', 'marcas', 'colecciones', 'colores', 'talles'));
+        return view('productos.create', compact('categorias', 'colecciones', 'colores', 'talles'));
     }
 
     /**
@@ -71,7 +69,6 @@ public function index(Request $request)
             'nombre'        => 'required|string|max:150',
             'sku_base'      => 'required|string|max:50',
             'categoria_id'  => 'required|exists:categorias,id',
-            'marca_id'      => 'required|exists:marcas,id',
             'coleccion_id'  => 'nullable|exists:colecciones,id',
             'color_id'      => 'required|exists:colores,id',
             'tipo_mascota'  => 'required|in:perro,gato,ambos',
@@ -92,17 +89,18 @@ public function index(Request $request)
 
         try {
             $skuBase = strtoupper($request->sku_base);
+            $colorNom = Color::find($request->color_id)->nombre;
+            $skuColor = $skuBase . '-' . strtoupper($colorNom);
 
             // 1. Guardar cada variante de talle como una fila única en 'productos'
             foreach ($request->variantes as $variante) {
                 
                 // Buscamos el nombre corto del talle (Ej: "S", "M") para armar el SKU final de inventario
                 $talleNom = Talle::find($variante['talle_id'])->nombre;
-                $skuVariante = $skuBase . '-' . strtoupper($talleNom);
+                $skuVariante = $skuColor . '-' . strtoupper($talleNom);
 
                 Producto::create([
                     'categoria_id' => $request->categoria_id,
-                    'marca_id'     => $request->marca_id,
                     'coleccion_id' => $request->coleccion_id,
                     'color_id'     => $request->color_id,
                     'talle_id'     => $variante['talle_id'],
@@ -110,6 +108,7 @@ public function index(Request $request)
                     'descripcion'  => $request->descripcion,
                     'tipo_mascota' => $request->tipo_mascota,
                     'sku_base'     => $skuBase,
+                    'sku_color'    => $skuColor,
                     'sku'          => $skuVariante,
                     'stock'        => $variante['stock'],
                     'stock_minimo' => $request->stock_minimo ?? 2,
@@ -117,11 +116,11 @@ public function index(Request $request)
                 ]);
             }
 
-            // 2. Guardar las URLs de las imágenes asociándolas al grupo común (sku_base)
+            // 2. Guardar las URLs de las imágenes asociándolas al grupo común (sku_color)
             if ($request->has('imagenes')) {
                 foreach ($request->imagenes as $index => $url) {
                     ProductoImagen::create([
-                        'sku_base' => $skuBase,
+                        'sku_color' => $skuColor,
                         'url'      => $url,
                         'orden'    => $index + 1 // El primero indexado será orden = 1 (Portada)
                     ]);
@@ -144,7 +143,7 @@ public function index(Request $request)
     public function show($sku_base)
     {
         // Traemos el producto base para la descripción
-        $productoBase = Producto::where('sku_base', $sku_base)->with(['categoria', 'marca', 'color'])->firstOrFail();
+        $productoBase = Producto::where('sku_base', $sku_base)->with(['categoria', 'color'])->firstOrFail();
 
         // Traemos todas las variantes de talle que tengan stock disponible
         $variantesDisponibles = Producto::where('sku_base', $sku_base)
@@ -152,8 +151,8 @@ public function index(Request $request)
             ->where('stock', '>', 0)
             ->get();
 
-        // Traemos el carrusel de imágenes asociadas
-        $imagenes = ProductoImagen::where('sku_base', $sku_base)->orderBy('orden', 'asc')->get();
+        // Traemos el carrusel de imágenes asociadas al color de la variante base
+        $imagenes = ProductoImagen::where('sku_color', $productoBase->sku_color)->orderBy('orden', 'asc')->get();
 
         return view('productos.show', compact('productoBase', 'variantesDisponibles', 'imagenes'));
     }
