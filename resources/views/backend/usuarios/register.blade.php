@@ -30,19 +30,36 @@
                         <p class="content-text text-center text-muted mb-4" style="font-size: 0.95rem;">Unite a la comunidad de Pet Threads</p>
                         
                         <!-- Formulario de Registro -->
-                        <form action="{{ url('/register') }}" method="POST" class="w-100 text-start">
+                        <form action="{{ route('register.registrar') }}" method="POST" class="w-100 text-start">
                             @csrf
+                            
+                            {{-- Mensajes de error de validación --}}
+                            @if ($errors->any())
+                            <div class="alert alert-danger py-2 px-3 mb-3" style="border-radius: 8px; font-size: 0.85rem;">
+                                <ul class="mb-0 ps-3">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
                             
                             <!-- Input Nombre -->
                             <div class="mb-3">
-                                <label for="nombre" class="form-label fw-bold" style="color: var(--color-text-secondary); font-size: 0.9rem;">Nombre Completo</label>
-                                <input type="text" class="form-control shadow-none" id="nombre" name="nombre" placeholder="Juan Pérez" required style="border-color: var(--neutral-300); border-radius: 8px; padding: 0.5rem 1rem;">
+                                <label for="nombre" class="form-label fw-bold" style="color: var(--color-text-secondary); font-size: 0.9rem;">Nombre</label>
+                                <input type="text" class="form-control shadow-none" id="nombre" name="nombre" value="{{ old('nombre') }}" placeholder="Juan" required style="border-color: var(--neutral-300); border-radius: 8px; padding: 0.5rem 1rem;">
+                            </div>
+
+                            <!-- Input Apellido -->
+                            <div class="mb-3">
+                                <label for="apellido" class="form-label fw-bold" style="color: var(--color-text-secondary); font-size: 0.9rem;">Apellido</label>
+                                <input type="text" class="form-control shadow-none" id="apellido" name="apellido" value="{{ old('apellido') }}" placeholder="Pérez" required style="border-color: var(--neutral-300); border-radius: 8px; padding: 0.5rem 1rem;">
                             </div>
                             
                             <!-- Input Correo -->
                             <div class="mb-3">
                                 <label for="email" class="form-label fw-bold" style="color: var(--color-text-secondary); font-size: 0.9rem;">Correo Electrónico</label>
-                                <input type="email" class="form-control shadow-none" id="email" name="email" placeholder="correo@ejemplo.com" required style="border-color: var(--neutral-300); border-radius: 8px; padding: 0.5rem 1rem;">
+                                <input type="email" class="form-control shadow-none" id="email" name="email" value="{{ old('email') }}" placeholder="correo@ejemplo.com" required style="border-color: var(--neutral-300); border-radius: 8px; padding: 0.5rem 1rem;">
                             </div>
                             
                             <!-- Input Contraseña -->

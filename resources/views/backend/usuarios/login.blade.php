@@ -30,19 +30,36 @@
                         <p class="content-text text-center text-muted mb-4" style="font-size: 0.95rem;">Te damos la bienvenida a Pet Threads</p>
                         
                         <!-- Formulario de Login -->
-                        <form action="{{ url('/login') }}" method="POST" class="w-100 text-start">
+                        <form action="{{ route('login.autenticar') }}" method="POST" class="w-100 text-start">
                             @csrf
+                            
+                            {{-- Mensajes de error de validación --}}
+                            @if ($errors->any())
+                            <div class="alert alert-danger py-2 px-3 mb-3" style="border-radius: 8px; font-size: 0.85rem;">
+                                <ul class="mb-0 ps-3">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
                             
                             <!-- Input Correo -->
                             <div class="mb-3">
                                 <label for="email" class="form-label fw-bold" style="color: var(--color-text-secondary); font-size: 0.9rem;">Correo Electrónico</label>
-                                <input type="email" class="form-control shadow-none" id="email" name="email" placeholder="correo@ejemplo.com" required style="border-color: var(--neutral-300); border-radius: 8px; padding: 0.5rem 1rem;">
+                                <input type="email" class="form-control shadow-none" id="email" name="email" value="{{ old('email') }}" placeholder="correo@ejemplo.com" required style="border-color: var(--neutral-300); border-radius: 8px; padding: 0.5rem 1rem;">
                             </div>
                             
                             <!-- Input Contraseña -->
-                            <div class="mb-4">
+                            <div class="mb-3">
                                 <label for="password" class="form-label fw-bold" style="color: var(--color-text-secondary); font-size: 0.9rem;">Contraseña</label>
                                 <input type="password" class="form-control shadow-none" id="password" name="password" placeholder="••••••••" required style="border-color: var(--neutral-300); border-radius: 8px; padding: 0.5rem 1rem;">
+                            </div>
+
+                            <!-- Recordarme -->
+                            <div class="mb-4 form-check text-start">
+                                <input type="checkbox" class="form-check-input shadow-none" id="remember" name="remember" style="border-color: var(--neutral-300); cursor: pointer;">
+                                <label class="form-check-label text-muted" for="remember" style="font-size: 0.85rem; cursor: pointer; user-select: none;">Recordarme en este dispositivo</label>
                             </div>
                             
                             <!-- Botón Ingresar -->

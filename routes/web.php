@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController; 
@@ -48,17 +49,22 @@ Route::get('/terminos', function () {
 });
 
 
-// 2. AUTENTICACIÓN (LOGIN Y REGISTRO)
-Route::get('/login', function () {
-    return view('backend.usuarios.login');
-})->name('login');
+// 2. AUTENTICACIÓN (LOGIN, REGISTRO Y LOGOUT)
+// Rutas accesibles solo para visitantes NO autenticados (guest)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'formularioLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'autenticar'])->name('login.autenticar');
+    Route::get('/register', [AuthController::class, 'formularioRegistro'])->name('register');
+    Route::post('/register', [AuthController::class, 'registrar'])->name('register.registrar');
+});
 
-Route::get('/register', function () {
-    return view('backend.usuarios.register');
-})->name('register');
+// Logout requiere estar autenticado
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
 
 
-// 3. MOSTRADOR DE PRODUCTOS DINÁMICO (CON FILTROS)
+// 3. MOSTRADOR DE PRODUCTOS DINÁMICO (CON FILTROS) — PÚBLICO
 // Carga el controlador para procesar los filtros del sidebar, NO una vista estática
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 
@@ -66,10 +72,13 @@ Route::get('/productos', [ProductoController::class, 'index'])->name('productos.
 Route::get('productos/{sku_base}', [ProductoController::class, 'show'])->name('productos.show');
 
 
-// 4. MANTENIMIENTO Y CRUD DE ADMINISTRACIÓN (BACKEND)
-Route::resource('usuarios', UsuarioController::class);
-Route::resource('categorias', CategoriaController::class);
-Route::resource('colecciones', ColeccionController::class);
+// 4. MANTENIMIENTO Y CRUD DE ADMINISTRACIÓN (BACKEND) — PROTEGIDO
+// Solo usuarios autenticados con rol 'admin' pueden acceder
+Route::middleware(['auth', 'rol:admin'])->group(function () {
+    Route::resource('usuarios', UsuarioController::class);
+    Route::resource('categorias', CategoriaController::class);
+    Route::resource('colecciones', ColeccionController::class);
 
-// Rutas CRUD de Productos (excepto 'index' y 'show' que ya configuramos arriba para el cliente)
-Route::resource('productos', ProductoController::class)->except(['index', 'show']);
+    // Rutas CRUD de Productos (excepto 'index' y 'show' que son públicas arriba)
+    Route::resource('productos', ProductoController::class)->except(['index', 'show']);
+});

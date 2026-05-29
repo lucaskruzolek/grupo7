@@ -13,7 +13,7 @@ class Usuario extends Authenticatable
     use HasFactory, Notifiable, SoftDeletes;
     
     protected $table    = 'usuarios';
-    protected $fillable = ['nombre', 'email', 'password', 'rol_id'];
+    protected $fillable = ['nombre','apellido', 'email', 'password', 'rol_id'];
     protected $hidden   = ['password', 'remember_token']; // nunca expuestos en JSON
     
     protected function casts(): array {
