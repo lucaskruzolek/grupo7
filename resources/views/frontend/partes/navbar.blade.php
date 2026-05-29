@@ -40,7 +40,7 @@
                 @if(auth()->check())
                     @if(auth()->user()->rol && auth()->user()->rol->nombre === 'admin')
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2" href="{{ url('/admin') }}">
+                            <a class="nav-link d-flex align-items-center gap-2" href="{{ route('admin.dashboard') }}">
                                 <img src="{{ asset('img/icons/user.svg') }}" alt="Admin" style="width: 20px; height: 20px;">
                                 Panel de Administración
                             </a>
@@ -113,7 +113,7 @@
                         </button>
                         <div class="nav-dropdown-menu">
                             <span class="dropdown-header px-3 py-2 text-muted fw-bold d-block" style="font-size: 0.75rem; text-transform: uppercase;">Administrador</span>
-                            <a class="nav-dropdown-item" href="{{ url('/admin') }}">
+                            <a class="nav-dropdown-item" href="{{ route('admin.dashboard') }}">
                                 Panel de Administración
                             </a>
                             <div class="nav-dropdown-divider"></div>

@@ -1,0 +1,85 @@
+/* ------------- Estilos del Sidebar del Panel Administrativo ------------ */
+
+.admin-sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    background-color: var(--navy-900);
+    color: #ffffff;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-brand {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--font-heading);
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sidebar-brand:hover {
+    color: #ffffff;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 1.5rem 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.sidebar-item a {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1.5rem;
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-family: var(--font-main);
+    transition: all 0.25s ease;
+    border-left: 4px solid transparent;
+}
+
+.sidebar-item a:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.04);
+    padding-left: 1.65rem;
+}
+
+.sidebar-item.active a {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-left: 4px solid var(--color-primary); /* Resaltado verde tierra */
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.btn-logout {
+    transition: color 0.2s ease, transform 0.2s ease;
+    font-size: 1.1rem;
+}
+
+.btn-logout:hover {
+    transform: scale(1.1);
+    color: var(--coral-500) !important;
+}
+
+@media (max-width: 992px) {
+    .admin-sidebar {
+        width: 100%;
+        min-width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}

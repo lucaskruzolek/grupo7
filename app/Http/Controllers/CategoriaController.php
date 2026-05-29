@@ -14,7 +14,7 @@ class CategoriaController extends Controller
     {
         // Trae solo las categorías raíz (padres) y precarga sus hijas para evitar el problema N+1
         $categorias = Categoria::whereNull('parent_id')->with('children')->get();
-        return view('categorias.index', compact('categorias'));
+        return view('backend.admin.categorias', compact('categorias'));
     }
 
     /**
@@ -24,7 +24,7 @@ class CategoriaController extends Controller
     {
         // Traemos las categorías raíz por si el administrador quiere crear una subcategoría asignándole un padre
         $categoriasPadre = Categoria::whereNull('parent_id')->get();
-        return view('categorias.create', compact('categoriasPadre'));
+        return view('backend.admin.categorias', compact('categoriasPadre'));
     }
 
     /**
@@ -51,7 +51,7 @@ class CategoriaController extends Controller
     public function edit(Categoria $categoria)
     {
         $categoriasPadre = Categoria::whereNull('parent_id')->where('id', '!=', $categoria->id)->get();
-        return view('categorias.edit', compact('categoria', 'categoriasPadre'));
+        return view('backend.admin.categorias', compact('categoria', 'categoriasPadre'));
     }
 
     /**

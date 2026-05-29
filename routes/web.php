@@ -6,6 +6,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController; 
 use App\Http\Controllers\ColeccionController; 
+use App\Http\Controllers\AdminController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -74,11 +75,21 @@ Route::get('productos/{sku_base}', [ProductoController::class, 'show'])->name('p
 
 // 4. MANTENIMIENTO Y CRUD DE ADMINISTRACIÓN (BACKEND) — PROTEGIDO
 // Solo usuarios autenticados con rol 'admin' pueden acceder
-Route::middleware(['auth', 'rol:admin'])->group(function () {
-    Route::resource('usuarios', UsuarioController::class);
-    Route::resource('categorias', CategoriaController::class);
-    Route::resource('colecciones', ColeccionController::class);
+Route::middleware(['auth', 'rol:admin'])->prefix('admin')->group(function () {
+    // Panel principal y páginas estáticas de administración
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/pedidos', [AdminController::class, 'pedidos'])->name('admin.pedidos');
+    Route::get('/consultas', [AdminController::class, 'consultas'])->name('admin.consultas');
+    Route::get('/clientes', [AdminController::class, 'clientes'])->name('admin.clientes');
 
-    // Rutas CRUD de Productos (excepto 'index' y 'show' que son públicas arriba)
-    Route::resource('productos', ProductoController::class)->except(['index', 'show']);
+    // Listado de productos administrativo (separado del catálogo público)
+    Route::get('/productos', [ProductoController::class, 'adminIndex'])->name('admin.productos.index');
+
+    // Recursos CRUD del panel
+    Route::resource('usuarios', UsuarioController::class)->names('admin.usuarios');
+    Route::resource('categorias', CategoriaController::class)->names('admin.categorias');
+    Route::resource('colecciones', ColeccionController::class)->names('admin.colecciones');
+    
+    // Rutas CRUD de Productos (excepto 'index' y 'show' públicos)
+    Route::resource('productos', ProductoController::class)->except(['index', 'show'])->names('admin.productos');
 });

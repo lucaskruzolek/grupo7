@@ -52,6 +52,15 @@ class ProductoController extends Controller
     }
 
     /**
+     * Muestra el listado de productos en el panel de administración.
+     */
+    public function adminIndex()
+    {
+        $productos = Producto::with('categoria')->get();
+        return view('backend.admin.productos', compact('productos'));
+    }
+
+    /**
      * Formulario de creación de productos (Panel de Administración).
      */
     public function create()
@@ -60,7 +69,7 @@ class ProductoController extends Controller
         $colecciones = Coleccion::all();
         $colores = Color::all();
 
-        return view('productos.create', compact('categorias', 'colecciones', 'colores'));
+        return view('backend.admin.productos', compact('categorias', 'colecciones', 'colores'));
     }
 
     /**

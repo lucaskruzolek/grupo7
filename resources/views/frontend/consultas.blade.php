@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="p-4 surfacerounded shadow-sm flex-grow-1" style="background-color: var(--coral-200); border: 1px solid var(--border-color);">
-                    <h2 class="h4 mb-4" style="color: var(--text-main-title);">Tu satisfaccion es nuestra prioridad</h2>
+                    <h2 class="h4 mb-4" style="color: var(--text-main-title);">Tu satisfacción es nuestra prioridad</h2>
                     <p class="mb-0 fw-bold" style="color: var(--brand-primary);">Nos comprometemos a brindarte una atención rápida, cercana y personalizada.</p>
                     <div class="d-flex flex-column gap-3">
                         
