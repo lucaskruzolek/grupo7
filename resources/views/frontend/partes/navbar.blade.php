@@ -82,7 +82,7 @@
     <!-- VISTA DESKTOP (d-none d-lg-block) -->
     <div class="w-100 d-none d-lg-block">
         <!-- Fila 1: Logo (2/12), Searchbar (8/12), Dinámica (1/12), Carrito (1/12) -->
-        <div class="row align-items-center w-100 mx-0 py-3 px-4 navbar-top-row">
+        <div class="row align-items-center w-100 mx-0 py-2 px-4 navbar-top-row">
             <!-- Logo (2/12) -->
             <div class="col-lg-2 d-flex align-items-center justify-content-center">
                 <a class="navbar-brand m-0" href="{{ url('/') }}">
