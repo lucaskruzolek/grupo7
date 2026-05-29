@@ -158,3 +158,86 @@
     background-color: var(--neutral-100);
     color: var(--color-primary);
 }
+
+/* --- Navbar User Dropdown (Hover Desktop) --- */
+.nav-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--brand-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    height: 44px;
+}
+
+.nav-dropdown-toggle:hover {
+    color: var(--color-primary);
+    background-color: var(--neutral-100);
+}
+
+.nav-dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 0.5rem 0;
+    min-width: 200px;
+    z-index: 1050;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: 0.25rem;
+}
+
+/* Solo en desktop habilitamos el hover */
+@media (min-width: 992px) {
+    .nav-dropdown-wrapper:hover .nav-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+
+.nav-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    color: var(--brand-dark);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.nav-dropdown-item:hover {
+    background-color: var(--neutral-100);
+    color: var(--color-primary);
+}
+
+.nav-dropdown-divider {
+    height: 1px;
+    background-color: var(--neutral-200);
+    margin: 0.4rem 0;
+}
+

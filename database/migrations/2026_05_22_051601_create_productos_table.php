@@ -25,8 +25,6 @@ return new class extends Migration
                 ->constrained('colores')
                 ->onDelete('restrict');
             
-            // ❌ SE ELIMINÓ: $table->foreignId('talle_id') ...
-
             // Información descriptiva (Flat Model)
             $table->string('nombre', 150);
             $table->text('descripcion')->nullable();
@@ -36,8 +34,6 @@ return new class extends Migration
             $table->string('sku_base', 50);           // Agrupa variantes por modelo (Ej: "BUZO-POLAR")
             $table->string('sku_color', 80)->index(); // Agrupa variantes por color (Ej: "BUZO-POLAR-ROJO")
             $table->string('sku', 50)->unique();      // Variante única (Ej: "BUZO-POLAR-ROJO-S")
-            
-            // ───   AQUÍ EL CAMBIO SUGERIDO   ───
             $table->string('talle', 10);              // Almacena directo el talle como texto ('S', 'M', 'L', '1', etc.)
             
             $table->integer('stock')->default(0);
@@ -47,7 +43,6 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            // ───   REGLA DE NEGOCIO ACTUALIZADA   ───
             // Evita que el mismo modelo repita la combinación de color y talle en el disco
             $table->unique(['sku_base', 'color_id', 'talle'], 'variacion_unica');
         });

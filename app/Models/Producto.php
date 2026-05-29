@@ -16,7 +16,7 @@ class Producto extends Model
         'categoria_id',
         'coleccion_id',
         'color_id',
-        'talle_id',
+        'talle',
         'nombre',
         'descripcion',
         'tipo_mascota',
@@ -34,7 +34,6 @@ class Producto extends Model
 
     // Relación de atributos de variante
     public function color() { return $this->belongsTo(Color::class, 'color_id'); }
-    public function talle() { return $this->belongsTo(Talle::class, 'talle_id'); }
 
     /**
      * Relación Inteligente: Un producto comparte imágenes con otros productos

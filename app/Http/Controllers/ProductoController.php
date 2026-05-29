@@ -36,6 +36,11 @@ class ProductoController extends Controller
             $query->where('categoria_id', $request->categoria);
         }
 
+        // Filtro por Talle
+        if ($request->has('talle') && $request->talle != '') {
+            $query->where('talle', $request->talle);
+        }
+
         // Ejecutamos la consulta con los filtros aplicados
         $productos = $query->get();
 
@@ -54,9 +59,8 @@ class ProductoController extends Controller
         $categorias = Categoria::all();
         $colecciones = Coleccion::all();
         $colores = Color::all();
-        $talles = Talle::all();
 
-        return view('productos.create', compact('categorias', 'colecciones', 'colores', 'talles'));
+        return view('productos.create', compact('categorias', 'colecciones', 'colores'));
     }
 
     /**
@@ -76,8 +80,8 @@ class ProductoController extends Controller
             
             // Validamos que envíe al menos un talle con su stock
             'variantes'     => 'required|array|min:1',
-            'variantes.*.talle_id' => 'required|exists:talles,id',
-            'variantes.*.stock'    => 'required|integer|min:0',
+            'variantes.*.talle' => 'required|string|max:10',
+            'variantes.*.stock' => 'required|integer|min:0',
             
             // Validamos las imágenes
             'imagenes'      => 'nullable|array',
@@ -95,15 +99,15 @@ class ProductoController extends Controller
             // 1. Guardar cada variante de talle como una fila única en 'productos'
             foreach ($request->variantes as $variante) {
                 
-                // Buscamos el nombre corto del talle (Ej: "S", "M") para armar el SKU final de inventario
-                $talleNom = Talle::find($variante['talle_id'])->nombre;
+                // Obtenemos el talle directamente de la variante (string)
+                $talleNom = $variante['talle'];
                 $skuVariante = $skuColor . '-' . strtoupper($talleNom);
 
                 Producto::create([
                     'categoria_id' => $request->categoria_id,
                     'coleccion_id' => $request->coleccion_id,
                     'color_id'     => $request->color_id,
-                    'talle_id'     => $variante['talle_id'],
+                    'talle'        => $talleNom,
                     'nombre'       => $request->nombre,
                     'descripcion'  => $request->descripcion,
                     'tipo_mascota' => $request->tipo_mascota,
@@ -147,7 +151,6 @@ class ProductoController extends Controller
 
         // Traemos todas las variantes de talle que tengan stock disponible
         $variantesDisponibles = Producto::where('sku_base', $sku_base)
-            ->with('talle')
             ->where('stock', '>', 0)
             ->get();
 

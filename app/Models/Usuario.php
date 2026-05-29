@@ -16,11 +16,9 @@ class Usuario extends Authenticatable
     protected $fillable = ['nombre','apellido', 'email', 'password', 'rol_id'];
     protected $hidden   = ['password', 'remember_token']; // nunca expuestos en JSON
     
-    protected function casts(): array {
-        return [
-            'password' => 'hashed',       // hashea automáticamente al asignar
-        ];
-    }
+    protected $casts = [
+        'password' => 'hashed',       // hashea automáticamente al asignar
+    ];
      // Relación: un Usuario pertenece a un Rol  →  se usa como $usuario->rol
     public function rol() {
         return $this->belongsTo(Rol::class, 'rol_id');

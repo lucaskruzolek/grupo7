@@ -33,6 +33,7 @@ class AuthController extends Controller
         // Validación con nombres de campos correctos (coinciden con la migración)
         $request->validate([
             'nombre'   => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
             'email'    => 'required|email|unique:usuarios,email',
             'password' => 'required|min:6|confirmed',
         ]);
@@ -46,6 +47,7 @@ class AuthController extends Controller
         // Crear el usuario — el cast 'hashed' del modelo hashea el password automáticamente
         $usuario = Usuario::create([
             'nombre'   => $request->nombre,
+            'apellido' => $request->apellido,
             'email'    => $request->email,
             'password' => $request->password,
             'rol_id'   => $rolCliente->id,
