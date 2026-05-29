@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
 
+            // Claves Foráneas Relacionales
             $table->foreignId('categoria_id')
                 ->constrained('categorias')
                 ->onDelete('restrict');
@@ -23,26 +24,32 @@ return new class extends Migration
             $table->foreignId('color_id')
                 ->constrained('colores')
                 ->onDelete('restrict');
-            $table->foreignId('talle_id')
-                ->nullable()
-                ->constrained('talles')
-                ->onDelete('restrict');
-// Información descriptiva (Flat Model)
+            
+            // ❌ SE ELIMINÓ: $table->foreignId('talle_id') ...
+
+            // Información descriptiva (Flat Model)
             $table->string('nombre', 150);
             $table->text('descripcion')->nullable();
             $table->enum('tipo_mascota', ['perro', 'gato', 'ambos'])->default('ambos');
-// Stock e Identificadores de variante
-            $table->string('sku_base', 50);      // Agrupa variantes (Ej: "BUZO-POLAR")
+
+            // Stock, Talle e Identificadores de variante
+            $table->string('sku_base', 50);           // Agrupa variantes por modelo (Ej: "BUZO-POLAR")
             $table->string('sku_color', 80)->index(); // Agrupa variantes por color (Ej: "BUZO-POLAR-ROJO")
-            $table->string('sku', 50)->unique(); // Variante única (Ej: "BUZO-POLAR-S-ROJO")
+            $table->string('sku', 50)->unique();      // Variante única (Ej: "BUZO-POLAR-ROJO-S")
+            
+            // ───   AQUÍ EL CAMBIO SUGERIDO   ───
+            $table->string('talle', 10);              // Almacena directo el talle como texto ('S', 'M', 'L', '1', etc.)
+            
             $table->integer('stock')->default(0);
             $table->integer('stock_minimo')->default(0);
             $table->decimal('precio', 10, 2)->default(0.00);
+            
             $table->timestamps();
             $table->softDeletes();
 
-// Regla de negocio: Evita que el mismo modelo repita combinación de color y talle
-            $table->unique(['sku_base', 'color_id', 'talle_id'], 'variacion_unica');
+            // ───   REGLA DE NEGOCIO ACTUALIZADA   ───
+            // Evita que el mismo modelo repita la combinación de color y talle en el disco
+            $table->unique(['sku_base', 'color_id', 'talle'], 'variacion_unica');
         });
     }
 
