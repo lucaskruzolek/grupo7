@@ -13,16 +13,16 @@ use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
-    /**
-     * Muestra el catálogo unificado para la tienda virtual.
-     * Agrupa las filas por 'sku_base' para que el cliente vea un modelo único por tarjeta.
-     */
+/**
+ * Muestra el catálogo unificado para la tienda virtual.
+ * Agrupa las filas por 'sku_base' para que el cliente vea un modelo único por tarjeta.
+ */
     public function index(Request $request)
     {
-        // Iniciamos la consulta base unificada por SKU_BASE (añadiendo MAX(sku_color) para poder asociar la imagen de portada)
-        $query = Producto::select('sku_base', 'nombre', 'precio', 'categoria_id', 'tipo_mascota', DB::raw('MAX(sku_color) as sku_color'))
-            ->with(['categoria', 'imagenPortada'])
-            ->groupBy('sku_base', 'nombre', 'precio', 'categoria_id', 'tipo_mascota');
+        // 1. Iniciamos la consulta unificada por SKU_BASE
+        $query = Producto::select('sku_base', 'nombre', 'precio', 'categoria_id', 'tipo_mascota', 'coleccion_id', DB::raw('MAX(sku_color) as sku_color'))
+            ->with(['categoria', 'imagenPortada']) // Mantenemos relaciones limpias
+            ->groupBy('sku_base', 'nombre', 'precio', 'categoria_id', 'tipo_mascota', 'coleccion_id');
 
         // --- SISTEMA DE FILTRADO DINÁMICO ---
 
@@ -31,25 +31,56 @@ class ProductoController extends Controller
             $query->where('tipo_mascota', $request->mascota);
         }
 
-        // Filtro por Categoría (Ej: Buzos, Accesorios)
+        // ─── FILTRO AVANZADO: Categorías y Subcategorías (parent_id) ───
         if ($request->has('categoria') && $request->categoria != '') {
-            $query->where('categoria_id', $request->categoria);
+            $categoriaId = $request->categoria;
+
+            // Consultamos si el ID seleccionado es padre de otras subcategorías
+            $subcategoriasIds = Categoria::where('parent_id', $categoriaId)->pluck('id');
+
+            if ($subcategoriasIds->isNotEmpty()) {
+                // CASO A: Es categoría Padre (ej: Seleccionó "Ropa")
+                // Filtramos por todas sus subcategorías hijas (ej: Buzos, Suéteres)
+                $query->whereIn('categoria_id', $subcategoriasIds);
+            } else {
+                // CASO B: Es una subcategoría directa (ej: Seleccionó "Juguetes" directamente)
+                // Filtramos únicamente por ese ID específico
+                $query->where('categoria_id', $categoriaId);
+            }
         }
 
-        // Filtro por Talle
-        if ($request->has('talle') && $request->talle != '') {
-            $query->where('talle', $request->talle);
+        // Filtro por Colección
+        if ($request->has('coleccion') && $request->coleccion != '') {
+            $query->where('coleccion_id', $request->coleccion);
         }
 
-        // Ejecutamos la consulta con los filtros aplicados
+        // Ejecutamos la consulta final con los filtros aplicados
         $productos = $query->get();
 
-        // Traemos las categorías del sistema para poder armar las selectores de filtro en la vista
-        $categorias = \App\Models\Categoria::all();
+        // Recuperamos las colecciones y categorías para poblar dinámicamente los selectores del Sidebar
+        $categorias = Categoria::all();
+        $colecciones = Coleccion::all();
 
-        // Retornamos la vista del mostrador pasándole los productos filtrados y las categorías
-        return view('frontend.productos', compact('productos', 'categorias'));
+        // Retornamos la vista enviando las colecciones y categorías dinámicas
+        return view('frontend.productos', compact('productos', 'categorias', 'colecciones'));
+
+
+          // --- FILTROS DE VARIANTES (Talle y Color) ---
+        // Filtro por Talle
+        if ($request->has('talle') && $request->talle != '') {
+        $query->where('talle', $request->talle);
     }
+
+        // Filtro por Color (Asumiendo que mapeas por relación o por el string del campo)
+        if ($request->has('color') && $request->color != '') {
+        // Si tu tabla guarda el nombre formateado o usas slugs
+        $query->whereHas('color', function($q) use ($request) {
+            $q->where('nombre', 'LIKE', '%' . $request->color . '%');
+    });
+}
+    }
+
+  
 
     /**
      * Muestra el listado de productos en el panel de administración.
