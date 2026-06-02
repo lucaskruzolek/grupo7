@@ -93,5 +93,8 @@ Route::middleware(['auth', 'rol:admin'])->prefix('admin')->group(function () {
     // Rutas CRUD de Productos (excepto 'index' y 'show' públicos)
     Route::get('productos/{sku_base}/details', [ProductoController::class, 'getDetails'])->name('admin.productos.details');
     Route::post('productos/update-group', [ProductoController::class, 'updateGroup'])->name('admin.productos.updateGroup');
+    Route::post('productos/images/upload', [ProductoController::class, 'uploadImage'])->name('admin.productos.images.upload');
+    Route::delete('productos/images/{id}', [ProductoController::class, 'deleteImage'])->name('admin.productos.images.delete');
+    Route::post('productos/images/{id}/cover', [ProductoController::class, 'setCoverImage'])->name('admin.productos.images.cover');
     Route::resource('productos', ProductoController::class)->except(['index', 'show', 'create'])->names('admin.productos');
 });

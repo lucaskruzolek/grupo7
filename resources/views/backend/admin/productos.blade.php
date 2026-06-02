@@ -165,13 +165,20 @@
                             </div>
                         </div>
 
-                        <!-- Carga/Edición de URLs (Visible en Modo Edición) -->
+                        <!-- Carga/Edición de Imágenes (Visible en Modo Edición) -->
                         <div class="edit-mode mt-3">
-                            <label class="form-label-admin">Imágenes del Color Activo (URLs):</label>
-                            <div class="image-url-list" id="edit-image-urls-container">
-                                <!-- URLs dinámicas -->
+                            <label class="form-label-admin d-block mb-2">Imágenes del Color Activo</label>
+                            <div class="uploaded-images-grid d-flex flex-wrap gap-2 mb-3" id="edit-images-container">
+                                <!-- Renderizado dinámico de miniaturas -->
                             </div>
-                            <button class="btn btn-sm btn-outline-secondary mt-1 py-0" style="font-size: 0.75rem;" disabled>+ Agregar URL</button>
+                            <div class="image-upload-zone p-3 border border-dashed rounded text-center position-relative" style="border-style: dashed !important; border-color: var(--neutral-400) !important; background-color: var(--neutral-100); cursor: pointer;">
+                                <input type="file" id="image-upload-input" accept="image/*" multiple style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                                <div class="upload-zone-content">
+                                    <span class="upload-icon fs-3 d-block mb-1">📤</span>
+                                    <span class="small text-muted d-block">Haz clic o arrastra imágenes aquí</span>
+                                    <span class="text-muted" style="font-size: 0.7rem;">Máx. 5MB por imagen. Se optimizarán automáticamente a WebP.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -497,6 +504,9 @@
             tallesSystem: @json($tallesSystem),
             defaultImagePath: "{{ asset('img/ui/productos/perro-buzo-verde.webp') }}",
             updateGroupUrl: "{{ route('admin.productos.updateGroup') }}",
+            uploadImageUrl: "{{ route('admin.productos.images.upload') }}",
+            deleteImageUrl: "{{ url('admin/productos/images') }}",
+            coverImageUrl: "{{ url('admin/productos/images') }}",
             csrfToken: "{{ csrf_token() }}",
             productosUrl: "{{ url('admin/productos') }}"
         };

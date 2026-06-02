@@ -9,6 +9,8 @@ use App\Models\Color;
 use App\Models\ProductoImagen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use App\Services\ImageOptimizerService;
 
 class ProductoController extends Controller
 {
@@ -402,11 +404,21 @@ class ProductoController extends Controller
             if ($v->color) {
                 $colorKey = strtolower($v->color->nombre);
                 if (!isset($colorMedia[$colorKey])) {
-                    $imgs = $v->imagenes->sortBy('orden')->pluck('url')->toArray();
+                    $sortedImgs = $v->imagenes->sortBy('orden');
+                    $imgsData = [];
+                    foreach ($sortedImgs as $img) {
+                        $imgsData[] = [
+                            'id' => $img->id,
+                            'url' => $img->url,
+                            'orden' => $img->orden
+                        ];
+                    }
+                    $imgsUrls = $sortedImgs->pluck('url')->toArray();
                     $colorMedia[$colorKey] = [
-                        'main' => count($imgs) > 0 ? $imgs[0] : asset('img/ui/productos/perro-buzo-verde.webp'),
-                        'thumbs' => count($imgs) > 0 ? $imgs : [asset('img/ui/productos/perro-buzo-verde.webp')],
-                        'urls' => count($imgs) > 0 ? $imgs : [asset('img/ui/productos/perro-buzo-verde.webp')]
+                        'main' => count($imgsUrls) > 0 ? $imgsUrls[0] : asset('img/ui/productos/perro-buzo-verde.webp'),
+                        'thumbs' => count($imgsUrls) > 0 ? $imgsUrls : [asset('img/ui/productos/perro-buzo-verde.webp')],
+                        'urls' => count($imgsUrls) > 0 ? $imgsUrls : [asset('img/ui/productos/perro-buzo-verde.webp')],
+                        'images' => $imgsData
                     ];
                 }
             }
@@ -435,7 +447,140 @@ class ProductoController extends Controller
         return response()->json($productData);
     }
 
+    /**
+     * Sube y procesa una imagen para guardarla en Cloudflare R2 y registrarla.
+     */
+    public function uploadImage(Request $request, ImageOptimizerService $imageOptimizer)
+    {
+        $request->validate([
+            'sku_color' => 'required|string',
+            'image' => 'required|image|max:5120', // Máx 5MB
+        ]);
 
+        try {
+            $skuColor = $request->input('sku_color');
+            $file = $request->file('image');
+
+            // Optimizar y convertir a WebP usando el servicio de GD
+            $tempPath = $imageOptimizer->convertToWebp($file, 1200, 80);
+
+            // Generar un nombre único de archivo
+            $fileName = '/img/productos/' . strtolower($skuColor) . '_' . time() . '_' . uniqid() . '.webp';
+
+            // Subir a Cloudflare R2 (mediante el disco s3)
+            $path = Storage::disk('s3')->putFileAs('', new \Illuminate\Http\File($tempPath), $fileName, 'public');
+
+            // Borrar el archivo temporal
+            if (file_exists($tempPath)) {
+                unlink($tempPath);
+            }
+
+            if (!$path) {
+                return response()->json(['success' => false, 'message' => 'No se pudo subir la imagen al almacenamiento.'], 500);
+            }
+
+            // Obtener la URL pública del archivo
+            $url = Storage::disk('s3')->url($fileName);
+
+            // Calcular el orden secuencial siguiente
+            $nextOrden = ProductoImagen::where('sku_color', $skuColor)->max('orden') ?? 0;
+            $nextOrden++;
+
+            // Crear el registro en la base de datos
+            $productoImagen = ProductoImagen::create([
+                'sku_color' => $skuColor,
+                'url' => $url,
+                'orden' => $nextOrden,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'image' => [
+                    'id' => $productoImagen->id,
+                    'url' => $productoImagen->url,
+                    'orden' => $productoImagen->orden,
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Elimina una imagen del almacenamiento físico y de la base de datos.
+     */
+    public function deleteImage($id)
+    {
+        try {
+            $img = ProductoImagen::findOrFail($id);
+            $skuColor = $img->sku_color;
+
+            // Extraer la ruta relativa de la URL para borrar de R2
+            $urlPath = parse_url($img->url, PHP_URL_PATH);
+            $relativeStoragePath = ltrim($urlPath, '/');
+
+            // Si la URL contiene un prefijo 'storage/', lo removemos (común en testing/fakes)
+            if (str_starts_with($relativeStoragePath, 'storage/')) {
+                $relativeStoragePath = substr($relativeStoragePath, 8);
+            }
+
+            // Eliminar de R2
+            if (Storage::disk('s3')->exists($relativeStoragePath)) {
+                Storage::disk('s3')->delete($relativeStoragePath);
+            }
+
+            // Eliminar de base de datos
+            $img->delete();
+
+            // Reordenar las imágenes restantes de este sku_color
+            $remaining = ProductoImagen::where('sku_color', $skuColor)->orderBy('orden', 'asc')->get();
+            foreach ($remaining as $index => $item) {
+                $item->update(['orden' => $index + 1]);
+            }
+
+            return response()->json(['success' => true, 'message' => 'Imagen eliminada correctamente.']);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Define una imagen como portada (orden = 1) y reordena el resto.
+     */
+    public function setCoverImage($id)
+    {
+        try {
+            $coverImg = ProductoImagen::findOrFail($id);
+            $skuColor = $coverImg->sku_color;
+
+            DB::beginTransaction();
+
+            // Poner todas las imágenes del sku_color temporalmente con un orden alto o reordenarlas
+            $allImgs = ProductoImagen::where('sku_color', $skuColor)->get();
+            
+            // Asignar orden = 1 a la seleccionada
+            $coverImg->update(['orden' => 1]);
+
+            // Reordenar las demás imágenes a partir de orden = 2
+            $order = 2;
+            foreach ($allImgs as $img) {
+                if ($img->id !== $coverImg->id) {
+                    $img->update(['orden' => $order]);
+                    $order++;
+                }
+            }
+
+            DB::commit();
+
+            return response()->json(['success' => true, 'message' => 'Imagen de portada establecida correctamente.']);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
 
     /**
      * Detalle de un producto en la tienda virtual.

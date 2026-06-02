@@ -14,6 +14,7 @@ let filteredProducts = [...ALL_PRODUCTS];
 let currentPage = 1;
 let hasMorePages = filteredProducts.length > 20;
 let isLoading = false;
+let searchTimeout = null;
 
 
 /**
@@ -513,18 +514,227 @@ function renderGalleryAndUrls() {
         thumbContainer.appendChild(img);
     });
 
-    const container = document.getElementById('edit-image-urls-container');
-    container.innerHTML = '';
-    media.urls.forEach(url => {
-        const div = document.createElement('div');
-        div.className = 'image-url-item mb-1';
-        div.innerHTML = `
-                    <input type="text" class="form-control form-control-sm form-control-admin" value="${url}" readonly>
-                    <button class="btn btn-sm btn-outline-danger p-1 py-0" disabled>🗑️</button>
-                `;
-        container.appendChild(div);
+    // Cargar grilla de imágenes locales para edición
+    const editContainer = document.getElementById('edit-images-container');
+    if (editContainer) {
+        editContainer.innerHTML = '';
+        const images = media.images || [];
+        images.forEach(img => {
+            const isCover = img.orden === 1;
+            const div = document.createElement('div');
+            div.className = `position-relative border rounded p-1 d-flex flex-column align-items-center bg-white ${isCover ? 'border-primary shadow-sm' : ''}`;
+            div.style.width = '100px';
+            div.style.height = '120px';
+
+            div.innerHTML = `
+                <img src="${img.url}" style="width: 100%; height: 70px; object-fit: cover;" class="rounded mb-1">
+                <div class="d-flex justify-content-between w-100 px-1" style="font-size: 0.75rem;">
+                    <button type="button" class="btn btn-xs p-0 border-0 text-danger" onclick="event.stopPropagation(); deleteProductImage(${img.id}, '${currentActiveColor}')" title="Eliminar">🗑️</button>
+                    ${isCover
+                    ? '<span class="badge bg-primary text-white" style="font-size: 0.6rem; padding: 2px 4px;">Portada</span>'
+                    : `<button type="button" class="btn btn-xs p-0 border-0 text-primary" onclick="event.stopPropagation(); setAsCoverImage(${img.id}, '${currentActiveColor}')" title="Hacer Portada">⭐</button>`
+                }
+                </div>
+            `;
+            editContainer.appendChild(div);
+        });
+    }
+}
+
+/**
+ * Escucha los eventos del selector de archivos y de arrastre para la carga local de imágenes.
+ */
+function setupImageUploadEvents() {
+    const fileInput = document.getElementById('image-upload-input');
+    const uploadZone = document.querySelector('.image-upload-zone');
+
+    if (!fileInput || !uploadZone) return;
+
+    fileInput.addEventListener('change', function () {
+        handleFilesUpload(this.files);
+    });
+
+    // Drag and Drop styling and behavior
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadZone.style.backgroundColor = 'var(--neutral-200)';
+            uploadZone.style.borderColor = 'var(--color-primary)';
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadZone.style.backgroundColor = 'var(--neutral-100)';
+            uploadZone.style.borderColor = 'var(--neutral-400)';
+        }, false);
+    });
+
+    uploadZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFilesUpload(files);
+    }, false);
+}
+
+/**
+ * Realiza las llamadas ajax para subir imágenes locales.
+ */
+function handleFilesUpload(files) {
+    if (!activeProduct || !currentActiveColor) {
+        alert('Seleccione un producto y color primero.');
+        return;
+    }
+
+    const skuBase = activeProduct.sku_base;
+    const colorObj = activeProduct.colores.find(c => c.key === currentActiveColor);
+    if (!colorObj) return;
+
+    const skuColor = `${skuBase}-${colorObj.nombre.toUpperCase()}`;
+
+    Array.from(files).forEach(file => {
+        if (file.size > 5 * 1024 * 1024) {
+            alert(`La imagen "${file.name}" supera el límite de 5MB.`);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('sku_color', skuColor);
+        formData.append('image', file);
+
+        const editContainer = document.getElementById('edit-images-container');
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'position-relative border rounded p-1 d-flex flex-column align-items-center justify-content-center bg-light';
+        loadingDiv.style.width = '100px';
+        loadingDiv.style.height = '120px';
+        loadingDiv.innerHTML = `<span class="spinner-border spinner-border-sm text-secondary mb-1" role="status"></span><span style="font-size: 0.6rem;">Subiendo...</span>`;
+        editContainer.appendChild(loadingDiv);
+
+        fetch(window.LaravelConfig.uploadImageUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': window.LaravelConfig.csrfToken
+            },
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Upload failed');
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    const media = activeProduct.colorMedia[currentActiveColor];
+                    if (!media.images) media.images = [];
+                    media.images.push(data.image);
+                    media.images.sort((a, b) => a.orden - b.orden);
+
+                    const urls = media.images.map(img => img.url);
+                    media.main = urls.length > 0 ? urls[0] : window.LaravelConfig.defaultImagePath;
+                    media.thumbs = urls.length > 0 ? urls : [window.LaravelConfig.defaultImagePath];
+                    media.urls = urls.length > 0 ? urls : [window.LaravelConfig.defaultImagePath];
+
+                    renderGalleryAndUrls();
+                } else {
+                    alert('Error al subir: ' + data.message);
+                    renderGalleryAndUrls();
+                }
+            })
+            .catch(error => {
+                console.error('Error uploading:', error);
+                alert('Ocurrió un error al subir la imagen.');
+                renderGalleryAndUrls();
+            });
     });
 }
+
+/**
+ * Elimina una imagen del backend de forma asíncrona.
+ */
+function deleteProductImage(id, colorKey) {
+    if (!confirm('¿Estás seguro de que deseas eliminar esta imagen?')) return;
+
+    fetch(`${window.LaravelConfig.deleteImageUrl}/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': window.LaravelConfig.csrfToken,
+            'Accept': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Delete failed');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                const media = activeProduct.colorMedia[colorKey];
+                media.images = media.images.filter(i => i.id !== id);
+                media.images.sort((a, b) => a.orden - b.orden);
+                media.images.forEach((img, idx) => img.orden = idx + 1);
+
+                const urls = media.images.map(img => img.url);
+                media.main = urls.length > 0 ? urls[0] : window.LaravelConfig.defaultImagePath;
+                media.thumbs = urls.length > 0 ? urls : [window.LaravelConfig.defaultImagePath];
+                media.urls = urls.length > 0 ? urls : [window.LaravelConfig.defaultImagePath];
+
+                renderGalleryAndUrls();
+            } else {
+                alert('Error al eliminar: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting:', error);
+            alert('Ocurrió un error al intentar eliminar la imagen.');
+        });
+}
+
+/**
+ * Define una imagen como portada asíncronamente.
+ */
+function setAsCoverImage(id, colorKey) {
+    fetch(`${window.LaravelConfig.coverImageUrl}/${id}/cover`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': window.LaravelConfig.csrfToken,
+            'Accept': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Set cover failed');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                const media = activeProduct.colorMedia[colorKey];
+                media.images.forEach(img => {
+                    if (img.id === id) {
+                        img.orden = 1;
+                    } else {
+                        if (img.orden < 2) img.orden = 2;
+                    }
+                });
+                media.images.sort((a, b) => a.orden - b.orden);
+                media.images.forEach((img, idx) => img.orden = idx + 1);
+
+                const urls = media.images.map(img => img.url);
+                media.main = urls.length > 0 ? urls[0] : window.LaravelConfig.defaultImagePath;
+                media.thumbs = urls.length > 0 ? urls : [window.LaravelConfig.defaultImagePath];
+                media.urls = urls.length > 0 ? urls : [window.LaravelConfig.defaultImagePath];
+
+                renderGalleryAndUrls();
+            } else {
+                alert('Error al establecer portada: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error setting cover:', error);
+            alert('Ocurrió un error al intentar establecer la imagen de portada.');
+        });
+}
+
+/**
 
 /**
  * Actualiza la imagen principal del carrusel y resalta la miniatura correspondiente.
@@ -1031,9 +1241,16 @@ function getFilteredProducts() {
 
         // 3. Filtro de Mascota
         if (pet) {
-            if (prod.tipo_mascota !== pet) return false;
+            if (pet === 'perro') {
+                if (prod.tipo_mascota !== 'perro' && prod.tipo_mascota !== 'ambos') return false;
+            } else if (pet === 'gato') {
+                if (prod.tipo_mascota !== 'gato' && prod.tipo_mascota !== 'ambos') return false;
+            } else {
+                if (prod.tipo_mascota !== pet) return false;
+            }
         }
 
+        return true;
     }).sort((a, b) => a.nombre_base.localeCompare(b.nombre_base, 'es', { sensitivity: 'base' }));
 }
 
@@ -1068,6 +1285,22 @@ function triggerLocalSearch() {
     } else {
         clearProductDetails();
     }
+}
+
+/**
+ * Implementa un mecanismo antirrebote (debounce) básico para agrupar las llamadas
+ * de filtrado de productos cuando el usuario escribe en el buscador o cambia filtros.
+ * 
+ * @function filterProducts
+ * @returns {void}
+ */
+function filterProducts() {
+    if (searchTimeout) {
+        clearTimeout(searchTimeout);
+    }
+    searchTimeout = setTimeout(() => {
+        triggerLocalSearch();
+    }, 250);
 }
 
 /**
@@ -1208,6 +1441,7 @@ window.onload = function () {
     }
     updateProductsCount();
     initInfiniteScroll();
+    setupImageUploadEvents();
 
     document.getElementById('search-prod-input').addEventListener('input', filterProducts);
     document.getElementById('filter-category').addEventListener('change', filterProducts);

@@ -44,6 +44,10 @@ Este documento detalla el análisis técnico de las funciones implementadas en e
 36. [collectProductPayload](#36-collectproductpayload)
 37. [validateProductPayload](#37-validateproductpayload)
 38. [saveProductChanges](#38-saveproductchanges)
+39. [setupImageUploadEvents](#39-setupimageuploadevents)
+40. [handleFilesUpload](#40-handlefilesupload)
+41. [deleteProductImage](#41-deleteproductimage)
+42. [setAsCoverImage](#42-setascoverimage)
 
 ---
 
@@ -594,7 +598,7 @@ Este documento detalla el análisis técnico de las funciones implementadas en e
     3. Ejecuta un `.filter()` sobre la colección global `ALL_PRODUCTS` aplicando tres condiciones opcionales:
        * Si hay texto de búsqueda: valida coincidencia en minúsculas en el nombre del producto o el SKU base.
        * Si hay categoría seleccionada: valida coincidencia exacta con el ID de la categoría o el ID de su categoría padre.
-       * Si hay mascota seleccionada: valida coincidencia exacta con el tipo de mascota.
+       * Si hay mascota seleccionada: valida coincidencia con el tipo de mascota (si se selecciona 'perro' o 'gato', incluye de forma inclusiva también a los productos marcados como 'ambos').
     4. Aplica `.sort()` sobre el resultado filtrado comparando alfabéticamente sus nombres base.
     5. Retorna la lista resultante.
 *   **Efectos Secundarios**: Ninguno (es una función pura respecto al DOM, no muta la lista original `ALL_PRODUCTS`).
@@ -962,3 +966,107 @@ Este documento detalla el análisis técnico de las funciones implementadas en e
        * Si falla: Habilita el botón, restaura su HTML de "Guardar" y emite una alerta detallando el error.
 *   **Efectos Secundarios**: Deshabilita y modifica clases, textos y atributos del DOM; muta `activeProduct` y `ALL_PRODUCTS`; remueve del objeto caché `PRODUCT_CACHE`; realiza peticiones I/O de red y lanza `alert()`.
 *   **Asincronismo y Dependencias**: Asíncrono (Fetch y Promesas). Depende de `activeProduct`, `ALL_PRODUCTS`, `PRODUCT_CACHE`, `LaravelConfig`, `collectProductPayload()`, `validateProductPayload()`, `renderVariantsTable()` y del DOM.
+
+---
+
+### 39. `setupImageUploadEvents`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Escucha los eventos del selector de archivos y de arrastre para la carga local de imágenes.
+     * 
+     * @function setupImageUploadEvents
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Inicializar los escuchadores de eventos para la carga de imágenes, incluyendo click en el dropzone y funcionalidad de arrastrar y soltar (drag and drop).
+*   **Flujo Lógico**:
+    1. Obtiene las referencias del input file `#image-upload-input` y de la zona de arrastre `.image-upload-zone`.
+    2. Agrega escuchador al evento `change` en el input para disparar `handleFilesUpload(this.files)`.
+    3. Asigna manejadores a los eventos de arrastre (`dragenter`, `dragover`, `dragleave`, `drop`) para controlar el estilo visual (cambiar color de fondo y borde) y prevenir la acción por defecto del navegador.
+    4. En el evento `drop`, extrae los archivos con `e.dataTransfer.files` e invoca `handleFilesUpload(files)`.
+*   **Efectos Secundarios**: Agrega escuchadores de eventos al DOM y modifica dinámicamente estilos css inline del dropzone durante la interacción de arrastre.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de la API de eventos del DOM y de `handleFilesUpload()`.
+
+---
+
+### 40. `handleFilesUpload`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Realiza las llamadas ajax para subir imágenes locales.
+     * 
+     * @function handleFilesUpload
+     * @param {FileList} files - Lista de archivos a subir.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Procesar y subir múltiples imágenes locales de manera secuencial a través de AJAX al servidor.
+*   **Flujo Lógico**:
+    1. Valida que existan `activeProduct` y `currentActiveColor` cargados.
+    2. Encuentra el objeto de color activo y define `skuColor` concatenando el SKU base con el nombre del color.
+    3. Para cada archivo proporcionado:
+       * Comprueba que su tamaño no supere los 5MB. Si excede, despliega un aviso.
+       * Crea un objeto `FormData` y añade `sku_color` y el archivo `image`.
+       * Inserta dinámicamente una miniatura de carga (loading spinner) en `#edit-images-container` para proveer feedback al usuario.
+       * Realiza una petición `fetch` tipo `POST` al endpoint `window.LaravelConfig.uploadImageUrl` con la cabecera CSRF.
+       * **Al resolverse la promesa**:
+         * Si es exitosa, inserta el objeto de la nueva imagen retornado en `activeProduct.colorMedia[currentActiveColor].images`, ordena el array por `orden` de menor a mayor, y actualiza los arrays planos de compatibilidad (`main`, `thumbs`, `urls`).
+         * Llama a `renderGalleryAndUrls()` para refrescar la galería y eliminar la miniatura de carga temporal.
+*   **Efectos Secundarios**: Añade y remueve elementos HTML en el DOM, muta el objeto local `activeProduct.colorMedia`, realiza peticiones I/O de red, e invoca `alert()`.
+*   **Asincronismo y Dependencias**: Asíncrono (Fetch y Promesas). Depende de `activeProduct`, `currentActiveColor`, `LaravelConfig`, `renderGalleryAndUrls()`, `FormData` y de las APIs del DOM.
+
+---
+
+### 41. `deleteProductImage`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Elimina una imagen del backend de forma asíncrona.
+     * 
+     * @function deleteProductImage
+     * @param {number} id - Identificador de la imagen a eliminar.
+     * @param {string} colorKey - Clave identificadora del color activo.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Enviar una solicitud de borrado de imagen al servidor y actualizar el estado local multimedia.
+*   **Flujo Lógico**:
+    1. Solicita confirmación al usuario mediante `confirm()`. Si es cancelada, aborta la operación.
+    2. Envia una petición asíncrona `fetch` con el método `DELETE` a la ruta `window.LaravelConfig.deleteImageUrl/{id}` con el token CSRF.
+    3. **Al resolverse la promesa**:
+       * Si es exitosa, filtra la imagen del array `activeProduct.colorMedia[colorKey].images`.
+       * Reordena secuencialmente las imágenes restantes reasignando sus valores `orden` a partir de `1`.
+       * Actualiza los arrays de compatibilidad (`main`, `thumbs`, `urls`) en base a los elementos restantes.
+       * Llama a `renderGalleryAndUrls()` para refrescar la grilla de edición y el carrusel de lectura.
+*   **Efectos Secundarios**: Lanza diálogos nativos `confirm()` y `alert()`, muta el estado local `activeProduct`, remueve elementos del DOM y realiza peticiones de red.
+*   **Asincronismo y Dependencias**: Asíncrono (Fetch y Promesas). Depende de `activeProduct`, `LaravelConfig`, `renderGalleryAndUrls()` y de la Web API `confirm`.
+
+---
+
+### 42. `setAsCoverImage`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Define una imagen como portada asíncronamente.
+     * 
+     * @function setAsCoverImage
+     * @param {number} id - Identificador de la imagen seleccionada.
+     * @param {string} colorKey - Clave del color activo.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Designar una imagen específica como la portada o imagen principal (orden = 1) para un grupo de color y reordenar las imágenes restantes en base de datos y localmente.
+*   **Flujo Lógico**:
+    1. Realiza una petición `fetch` tipo `POST` al endpoint `window.LaravelConfig.coverImageUrl/{id}/cover` con la cabecera CSRF.
+    2. **Al resolverse la promesa**:
+       * Si es exitosa, actualiza localmente el array `activeProduct.colorMedia[colorKey].images` estableciendo el `orden` de la imagen seleccionada en `1` e incrementando el de las demás.
+       * Ordena el array local y recalcula los índices de forma consecutiva (1, 2, 3, etc.).
+       * Sincroniza los campos de compatibilidad (`main`, `thumbs`, `urls`), estableciendo la imagen con `orden === 1` como la principal.
+       * Llama a `renderGalleryAndUrls()` para redibujar la galería principal y las miniaturas con sus nuevos bordes de destaque.
+*   **Efectos Secundarios**: Realiza peticiones de red, muta la variable `activeProduct`, altera las clases css y elementos del DOM a través de `renderGalleryAndUrls()`, y lanza `alert()`.
+*   **Asincronismo y Dependencias**: Asíncrono (Fetch y Promesas). Depende de `activeProduct`, `LaravelConfig` y `renderGalleryAndUrls()`.
