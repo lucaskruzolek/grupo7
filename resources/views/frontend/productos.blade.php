@@ -5,11 +5,14 @@
 {{-- Cuerpo de la página: Sidebar + Productos --}}
 <section class="container-fluid">
     <div class="row">
-    
-        <aside class="col-md-3 bg-white border-end p-3 mt-4">
-            @include('frontend.partes.sidebar')
-        </aside>
+    <aside class="col-md-3 bg-white border-end p-3">
+            
+            <form action="{{ route('productos.index') }}" method="GET" id="form-filtros-tienda">
+                @include('frontend.partes.sidebar')
+            </form>
 
+    </aside>
+    
         <main class="col-md-9 p-4">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                 
@@ -180,12 +183,32 @@
             </div>
         </div>
     </div>
+    
 </div>
 
             </div> 
         </main> 
     </div> 
+    
 </section>
+
+<script>
+    //---------- Script para filtro automatico sin necesidad de recargar el sitio-------------//
+    document.addEventListener('DOMContentLoaded', function () {
+        // Buscamos todos los inputs que tengan la clase 'filtro-automatico'
+        const filtros = document.querySelectorAll('.filtro-automatico');
+        // Buscamos el formulario contenedor
+        const formulario = document.getElementById('form-filtros-tienda');
+
+        // Escuchamos cuando cualquiera de ellos cambie de estado
+        filtros.forEach(input => {
+            input.addEventListener('change', function () {
+                // Forzamos el envío del formulario inmediatamente
+                formulario.submit();
+            });
+        });
+    });
+</script>
 
 @endsection
 
