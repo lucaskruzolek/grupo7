@@ -36,6 +36,14 @@ class Producto extends Model
     public function color() { return $this->belongsTo(Color::class, 'color_id'); }
 
     /**
+     * Accesor virtual para obtener el nombre base del producto sin talle ni color
+     */
+    public function getNombreBaseAttribute()
+    {
+        return explode(' - ', $this->nombre)[0];
+    }
+
+    /**
      * Relación Inteligente: Un producto comparte imágenes con otros productos
      * que tengan su mismo SKU_COLOR (mismo modelo y color, distinto talle).
      */

@@ -91,5 +91,7 @@ Route::middleware(['auth', 'rol:admin'])->prefix('admin')->group(function () {
     Route::resource('colecciones', ColeccionController::class)->names('admin.colecciones');
     
     // Rutas CRUD de Productos (excepto 'index' y 'show' públicos)
-    Route::resource('productos', ProductoController::class)->except(['index', 'show'])->names('admin.productos');
+    Route::get('productos/{sku_base}/details', [ProductoController::class, 'getDetails'])->name('admin.productos.details');
+    Route::post('productos/update-group', [ProductoController::class, 'updateGroup'])->name('admin.productos.updateGroup');
+    Route::resource('productos', ProductoController::class)->except(['index', 'show', 'create'])->names('admin.productos');
 });

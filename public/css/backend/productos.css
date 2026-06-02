@@ -1,0 +1,374 @@
+/* ------------- Estilos de la Vista de Productos (Admin) ------------ */
+
+/* --- Columna Izquierda: Listado de Productos --- */
+.product-list-scroll {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 0;
+}
+
+/* Custom scrollbar para el listado */
+.product-list-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.product-list-scroll::-webkit-scrollbar-track {
+    background: var(--neutral-100);
+}
+
+.product-list-scroll::-webkit-scrollbar-thumb {
+    background: var(--neutral-300);
+}
+
+.product-list-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--neutral-400);
+}
+
+.product-list-card {
+    background-color: #ffffff;
+    border: 1px solid var(--neutral-100);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.product-list-card:hover {
+    border-color: var(--neutral-100);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    background-color: var(--green-50);
+}
+
+.product-list-card.active {
+    border-color: var(--green-100);
+    background-color: var(--green-200);
+}
+
+.product-list-card.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 15px;
+    bottom: 15px;
+    background-color: var(--color-primary);
+}
+
+.product-list-thumb {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: var(--neutral-200);
+}
+
+.product-list-info {
+    flex-grow: 1;
+    min-width: 0;
+    text-align: left;
+}
+
+.product-list-title {
+    font-family: var(--font-main);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--neutral-900);
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-truncate: ellipsis;
+}
+
+.product-list-sku {
+    font-family: var(--font-main);
+    font-size: 0.75rem;
+    color: var(--neutral-500);
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+/* --- Columna Derecha: Detalle del Producto --- */
+.detail-card {
+    background-color: #ffffff;
+    border: 1px solid var(--neutral-100);
+    border-radius: 16px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    flex-grow: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar para la ficha de detalle */
+.detail-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.detail-card::-webkit-scrollbar-track {
+    background: var(--neutral-100);
+    border-radius: 16px;
+}
+
+.detail-card::-webkit-scrollbar-thumb {
+    background: var(--neutral-300);
+    border-radius: 16px;
+}
+
+.detail-card::-webkit-scrollbar-thumb:hover {
+    background: var(--neutral-400);
+}
+
+/* --- Sección Galería Multimedia --- */
+.media-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+.main-image-wrapper {
+    flex: 1;
+    height: 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--neutral-100);
+    border: 1px solid var(--neutral-200);
+    position: relative;
+}
+
+.main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.gallery-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s;
+    font-size: 0.8rem;
+    z-index: 2;
+}
+
+.gallery-nav-btn:hover {
+    background-color: #ffffff;
+}
+
+.gallery-nav-prev {
+    left: 10px;
+}
+
+.gallery-nav-next {
+    right: 10px;
+}
+
+.thumbnail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 60px;
+}
+
+.thumbnail-item {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, opacity 0.2s;
+    opacity: 0.7;
+    background-color: var(--neutral-100);
+}
+
+.thumbnail-item:hover,
+.thumbnail-item.active {
+    border-color: var(--color-primary);
+    opacity: 1;
+}
+
+/* --- Tabla de Variantes (Talle y Color) --- */
+.color-dot-indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.admin-table tr {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.admin-table tr:hover td {
+    background-color: var(--neutral-50);
+}
+
+/* Fila activa que representa la variante de color siendo editada/visualizada arriba */
+.admin-table tr.color-row-active td {
+    background-color: var(--green-200) !important;
+}
+
+
+.admin-table tr.color-row-active td {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.stock-badge-input {
+    width: 70px;
+    text-align: center;
+    border: 1px solid var(--neutral-300);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    padding: 0.2rem 0.4rem;
+    font-weight: normal;
+    display: none;
+    /* Se activa en modo edición */
+}
+
+.stock-badge-text {
+    display: inline-block;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    background-color: var(--neutral-100);
+    color: var(--neutral-800);
+    font-weight: 500;
+}
+
+.stock-badge-low {
+    background-color: var(--coral-100);
+    color: var(--coral-800);
+}
+
+/* --- Formulario de Edición de Imágenes por URL --- */
+.image-url-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 140px;
+    overflow-y: auto;
+    border: 1px solid var(--neutral-300);
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.image-url-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.image-url-item input {
+    flex-grow: 1;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+}
+
+/* Estructura para el modo edición vs vista */
+.view-mode {
+    display: block;
+}
+
+.edit-mode {
+    display: none;
+}
+
+.is-editing .view-mode {
+    display: none;
+}
+
+.is-editing .edit-mode {
+    display: block;
+}
+
+.is-editing .stock-badge-input {
+    display: inline-block;
+}
+
+.is-editing .stock-badge-text {
+    display: none;
+}
+
+/* Botón "+" para crear variaciones vacías */
+.btn-add-var-cell {
+    border-color: var(--neutral-300);
+    color: var(--neutral-500);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.5rem;
+    transition: all 0.2s ease;
+    background-color: transparent;
+}
+
+.btn-add-var-cell:hover {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff !important;
+}
+
+#products-count-text {
+    font-size: 0.65rem;
+    font-family: var(--font-main);
+    color: var(--neutral-500);
+    display: inline-block;
+    align-self: center;
+    width: 80px;
+    min-width: 80px;
+    flex-shrink: 0;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* --- Precio Base (Nueva ubicación) --- */
+.price-container-wrapper {
+    background-color: #ffffff;
+    padding: 0.75rem 1rem;
+}
+
+/* --- Refinamiento de Thumbnails --- */
+.thumbnail-item {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid var(--neutral-200) !important;
+    transition: border-color 0.2s, opacity 0.2s, transform 0.2s;
+    opacity: 0.8;
+    background-color: var(--neutral-100);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    color: var(--neutral-800);
+}
+
+.thumbnail-item:hover {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+.thumbnail-item.active {
+    border-color: var(--color-primary) !important;
+    opacity: 1;
+    box-shadow: 0 0 0 2px rgba(216, 127, 105, 0.2);
+}

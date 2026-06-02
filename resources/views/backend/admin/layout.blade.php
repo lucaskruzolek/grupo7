@@ -17,7 +17,7 @@
     <!-- Estilos de Administración Separados -->
     <link rel="stylesheet" href="{{ asset('css/backend/general.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend/sidebar.css') }}">
-    
+    <link rel="icon" type="image/png" href="{{ asset('img/logo/favicon.png') }}">
     @yield('styles')
 </head>
 <body class="theme-neutral">

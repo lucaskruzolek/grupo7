@@ -78,7 +78,7 @@ class AuthController extends Controller
 
             // Acceso correcto al rol a través de la relación Eloquent
             if (Auth::user()->rol->nombre === 'admin') {
-                return redirect('/admin');
+                return redirect('/admin/dashboard');
             }
 
             return redirect()->route('inicio');

@@ -1,7 +1,6 @@
-@extends('frontend.layout') {{-- Solo un extend al inicio --}}
+@extends('frontend.layout')
 
 @section('contenido')
-
 
 {{-- Cuerpo de la página: Sidebar + Productos --}}
 <section class="container-fluid">

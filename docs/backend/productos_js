@@ -1,0 +1,964 @@
+# Documentación Técnica del Módulo de Gestión de Productos (`productos.js`)
+
+Este documento detalla el análisis técnico de las funciones implementadas en el archivo [productos.js](file:///c:/Users/lucas/Herd/grupo7/public/js/backend/productos.js). Este módulo administra de forma interactiva el listado, filtrado, visualización y edición en tiempo real de productos y sus variantes en el panel de administración.
+
+---
+
+## Índice de Funciones
+
+1. [openCreateProductModal](#1-opencreateproductmodal)
+2. [addVariantToNewProduct](#2-addvarianttonewproduct)
+3. [removeVariantFromNewProduct](#3-removevariantfromnewproduct)
+4. [renderNewProductVariants](#4-rendernewproductvariants)
+5. [validateCreateProductForm](#5-validatecreateproductform)
+6. [openAddTalleModal](#6-openaddtallemodal)
+7. [populateTalleSelect](#7-populatetalleselect)
+8. [confirmAddTalle](#8-confirmaddtalle)
+9. [openAddColorModal](#9-openaddcolormodal)
+10. [populateColorSelect](#10-populatecolorselect)
+11. [confirmAddColor](#11-confirmaddcolor)
+12. [openCreateVariationModal](#12-opencreatevariationmodal)
+13. [confirmCreateVariation](#13-confirmcreatevariation)
+14. [selectColorRow](#14-selectcolorrow)
+15. [renderGalleryAndUrls](#15-rendergalleryandurls)
+16. [setMainImage](#16-setmainimage)
+17. [nextImage](#17-nextimage)
+18. [prevImage](#18-previmage)
+19. [renderVariantsTable](#19-rendervariantstable)
+20. [toggleEditMode](#20-toggleeditmode)
+21. [selectProduct](#21-selectproduct)
+22. [renderProductDetails](#22-renderproductdetails)
+23. [getFilteredProducts](#23-getfilteredproducts)
+24. [filterProducts](#24-filterproducts)
+25. [triggerLocalSearch](#25-triggerlocalsearch)
+26. [clearProductDetails](#26-clearproductdetails)
+27. [initInfiniteScroll](#27-initinfinitescroll)
+28. [loadNextPage](#28-loadnextpage)
+29. [appendProductsToList](#29-appendproductstolist)
+30. [updateProductsCount](#30-updateproductscount)
+31. [deleteTalle](#31-deletetalle)
+32. [deleteColor](#32-deletecolor)
+33. [deleteVariant](#33-deletevariant)
+34. [enterEditMode](#34-entereditmode)
+35. [cancelEditMode](#35-canceleditmode)
+36. [collectProductPayload](#36-collectproductpayload)
+37. [validateProductPayload](#37-validateproductpayload)
+38. [saveProductChanges](#38-saveproductchanges)
+
+---
+
+### 1. `openCreateProductModal`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Limpia el formulario de creación de productos, inicializa una variante por defecto
+     * y abre el modal correspondiente de Bootstrap.
+     * 
+     * @function openCreateProductModal
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Preparar y abrir la interfaz de creación de un nuevo producto con su estado inicial limpio.
+*   **Flujo Lógico**:
+    1. Llama al método `.reset()` en el elemento formulario del modal para borrar entradas previas.
+    2. Reinicia la colección global `newProductVariants` como un array vacío.
+    3. Si la constante global `SYSTEM_COLORS` tiene al menos un color, añade una variante por defecto al array utilizando el primer color disponible con talle `'-'` y stock de `10`.
+    4. Invoca a `renderNewProductVariants()` para actualizar visualmente la tabla de variantes del modal.
+    5. Instancia el componente de Bootstrap `Modal` sobre el elemento `#modalCreateProduct` y ejecuta `.show()`.
+*   **Efectos Secundarios**: Modifica la variable global `newProductVariants`, altera el DOM (resetea formulario, actualiza tabla y despliega modal).
+*   **Asincronismo y Dependencias**: Síncrono. Depende de las globales `SYSTEM_COLORS`, `newProductVariants`, de la función `renderNewProductVariants()` y de la biblioteca externa `bootstrap.Modal`.
+
+---
+
+### 2. `addVariantToNewProduct`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Valida y agrega una variante de color, talle y stock a la lista local de creación.
+     * 
+     * @function addVariantToNewProduct
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Permitir al administrador añadir múltiples variantes (combinaciones de color y talle con stock) antes de confirmar la creación del producto.
+*   **Flujo Lógico**:
+    1. Recupera las referencias DOM del color, talle y stock.
+    2. Extrae los valores e intenta convertirlos a tipos de datos numéricos enteros (`color_id`, `stock`).
+    3. Obtiene el nombre del color del atributo `data-name` de la opción seleccionada.
+    4. Valida que los datos ingresados sean válidos. Si falla alguno, despliega una alerta y retorna.
+    5. Comprueba si existe duplicación de la combinación color/talle en `newProductVariants`. Si existe duplicado, alerta y retorna.
+    6. Inserta el nuevo objeto variante en `newProductVariants`.
+    7. Invoca a `renderNewProductVariants()`.
+    8. Restablece el input de stock en el DOM a su valor inicial de `10`.
+*   **Efectos Secundarios**: Muta la variable global `newProductVariants`, interactúa con el DOM y genera alertas mediante `alert()`.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `newProductVariants`, `renderNewProductVariants()` y del DOM.
+
+---
+
+### 3. `removeVariantFromNewProduct`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Remueve una variante específica de la lista temporal de creación por su índice.
+     * 
+     * @function removeVariantFromNewProduct
+     * @param {number} index - Posición de la variante en el array.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Permitir al administrador deshacer o remover una variante añadida incorrectamente en el modal de creación.
+*   **Flujo Lógico**:
+    1. Remueve un elemento del array global `newProductVariants` en la posición dada por `index` usando `.splice(index, 1)`.
+    2. Llama a `renderNewProductVariants()` para actualizar el listado visual.
+*   **Efectos Secundarios**: Muta por referencia directa el array global `newProductVariants` y altera el DOM al re-renderizar.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `newProductVariants` y de la función `renderNewProductVariants()`.
+
+---
+
+### 4. `renderNewProductVariants`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Dibuja las variantes en la tabla del modal de creación y genera inputs ocultos en el DOM
+     * para permitir que Laravel procese la matriz de variantes al hacer POST del formulario.
+     * 
+     * @function renderNewProductVariants
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Mantener sincronizada la tabla visual de variantes en el modal de creación y estructurar los datos del formulario HTTP.
+*   **Flujo Lógico**:
+    1. Limpia los contenedores del DOM del cuerpo de la tabla (`#new-product-variants-table-body`) y de los inputs ocultos (`#new-prod-hidden-inputs`).
+    2. Si `newProductVariants` está vacío, dibuja una fila con un mensaje informativo indicando la falta de variantes y detiene la ejecución.
+    3. Itera sobre `newProductVariants` y por cada elemento crea un nodo de fila `<tr>` en la tabla con un botón de eliminación que vincula el índice.
+    4. Genera e inyecta al contenedor oculto los inputs `hidden` con la estructura de arreglos asociativos de PHP: `variantes[index][color_id]`, `variantes[index][talle]` y `variantes[index][stock]`.
+*   **Efectos Secundarios**: Modificaciones masivas de contenido y estructura en el DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de la variable global `newProductVariants` y de la API del DOM.
+
+---
+
+### 5. `validateCreateProductForm`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Valida que exista al menos una variante antes de enviar el formulario de creación al servidor.
+     * 
+     * @function validateCreateProductForm
+     * @param {Event} event - El evento onSubmit del formulario.
+     * @returns {boolean} Retorna true si es válido, false en caso contrario.
+     */
+    ```
+*   **Propósito**: Impedir el envío de un producto sin stock ni variantes asociadas al servidor.
+*   **Flujo Lógico**:
+    1. Comprueba si el array `newProductVariants` está vacío.
+    2. Si está vacío, muestra una alerta al usuario, bloquea el envío llamando a `event.preventDefault()` y devuelve `false`.
+    3. Si tiene elementos, retorna `true`.
+*   **Efectos Secundarios**: Llama a `alert()` y previene el comportamiento predeterminado del evento.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de la global `newProductVariants`.
+
+---
+
+### 6. `openAddTalleModal`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Prepara e inicializa el modal para añadir un nuevo talle al producto seleccionado.
+     * 
+     * @function openAddTalleModal
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Desplegar la interfaz para ampliar la curva de talles del producto activo.
+*   **Flujo Lógico**:
+    1. Valida que exista un producto activo en `activeProduct`. Si no, sale inmediatamente.
+    2. Llama a `populateTalleSelect()`.
+    3. Instancia y muestra el modal `#modalAddTalle` mediante la biblioteca de Bootstrap.
+*   **Efectos Secundarios**: Modificaciones del DOM (inicialización y despliegue del modal).
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `populateTalleSelect()` y de `bootstrap.Modal`.
+
+---
+
+### 7. `populateTalleSelect`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Rellena el selector de talles del modal omitiendo los que el producto activo ya posee.
+     * 
+     * @function populateTalleSelect
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Garantizar que el usuario solo pueda seleccionar y añadir talles inexistentes en el producto actual.
+*   **Flujo Lógico**:
+    1. Obtiene el elemento `<select>` de talles del DOM.
+    2. Filtra la constante global `SYSTEM_TALLES` (de `window.LaravelConfig`) manteniendo únicamente aquellos que no están incluidos en `activeProduct.talles`.
+    3. Si el array filtrado de talles disponibles está vacío:
+       * Inserta una opción deshabilitada indicando la falta de talles.
+       * Deshabilita el botón de confirmación en el modal.
+       * Finaliza la función.
+    4. Si hay talles disponibles, habilita el botón y recorre cada talle creando y agregando elementos `<option>` al selector del DOM.
+*   **Efectos Secundarios**: Modifica propiedades de habilitación y contenidos interactivos en el DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `SYSTEM_TALLES` y de la API del DOM.
+
+---
+
+### 8. `confirmAddTalle`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Confirma e inserta el talle seleccionado en el producto y re-renderiza la tabla.
+     * 
+     * @function confirmAddTalle
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Añadir un talle al producto actual, actualizando la matriz de variantes.
+*   **Flujo Lógico**:
+    1. Recupera el valor seleccionado del selector de talles.
+    2. Si el valor es inválido o no hay un `activeProduct`, aborta la operación.
+    3. Añade el talle a la lista `activeProduct.talles`.
+    4. Llama a `renderVariantsTable()` para añadir la columna correspondiente.
+    5. Recupera la instancia del modal activo mediante `bootstrap.Modal.getInstance` y lo oculta.
+*   **Efectos Secundarios**: Modifica la propiedad `.talles` del objeto global `activeProduct`, altera el DOM (re-render de tabla y ocultar modal).
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `renderVariantsTable()` y `bootstrap.Modal`.
+
+---
+
+### 9. `openAddColorModal`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Prepara e inicializa el modal para añadir un nuevo color al producto seleccionado.
+     * 
+     * @function openAddColorModal
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Desplegar la interfaz para ampliar la gama de colores del producto activo.
+*   **Flujo Lógico**:
+    1. Si no hay `activeProduct` seleccionado, aborta la operación.
+    2. Invoca a `populateColorSelect()`.
+    3. Instancia y muestra el modal `#modalAddColor` usando la API de Bootstrap.
+*   **Efectos Secundarios**: Muestra un modal alterando el DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `populateColorSelect()` y `bootstrap.Modal`.
+
+---
+
+### 10. `populateColorSelect`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Llena el selector de colores del modal omitiendo los colores que el producto activo ya posee.
+     * 
+     * @function populateColorSelect
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Impedir que el usuario añada un color duplicado en el producto activo.
+*   **Flujo Lógico**:
+    1. Recupera la referencia del elemento selector del DOM.
+    2. Crea una lista con los IDs de colores que ya posee `activeProduct.colores`.
+    3. Filtra la constante global `SYSTEM_COLORS` (de `window.LaravelConfig`) excluyendo los IDs ya asignados.
+    4. Si el array de colores disponibles está vacío, añade una opción vacía y deshabilita el botón de confirmación.
+    5. Si hay colores, habilita el botón y recorre cada color disponible insertando un elemento `<option>` con su ID y nombre correspondiente.
+*   **Efectos Secundarios**: Altera estados de habilitación y contenido del selector en el DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `SYSTEM_COLORS` y del DOM.
+
+---
+
+### 11. `confirmAddColor`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Vincula el color seleccionado al producto activo, inicializa la estructura multimedia
+     * por defecto para ese color si es necesario, y actualiza la UI.
+     * 
+     * @function confirmAddColor
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Completar el proceso de adición de color en el producto activo y configurar su multimedia por defecto.
+*   **Flujo Lógico**:
+    1. Lee el ID del selector de color en el modal.
+    2. Busca el objeto completo del color correspondiente dentro de `SYSTEM_COLORS`. Si no lo encuentra, aborta.
+    3. Añade el color a `activeProduct.colores` mapeando sus propiedades (`id`, `nombre`, `hex_code`, `key`).
+    4. Verifica si `activeProduct.colorMedia[color.key]` está definida; si no lo está, la inicializa vinculando la ruta de imagen por defecto `window.LaravelConfig.defaultImagePath`.
+    5. Establece el nuevo color como activo actualizando `currentActiveColor`.
+    6. Llama a `renderVariantsTable()` y `renderGalleryAndUrls()`.
+    7. Oculta el modal de adición de color.
+*   **Efectos Secundarios**: Muta el objeto global `activeProduct` y la variable global `currentActiveColor`. Altera la visualización en el DOM (tabla, galería e interactividad del modal).
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `SYSTEM_COLORS`, `defaultImagePath` (de `LaravelConfig`), `currentActiveColor`, `renderVariantsTable()`, `renderGalleryAndUrls()` y `bootstrap.Modal`.
+
+---
+
+### 12. `openCreateVariationModal`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Prepara y despliega el modal para definir el stock inicial de una combinación
+     * de color y talle que aún no tiene variante instanciada.
+     * 
+     * @function openCreateVariationModal
+     * @param {HTMLButtonElement} button - Botón clickeado en la celda correspondiente.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Iniciar la creación rápida de una variante desde la intersección vacía de la tabla de stock.
+*   **Flujo Lógico**:
+    1. Localiza el nodo `<td>` (celda) y `<tr>` (fila) contenedores del botón a través del método `.closest()`.
+    2. Extrae las propiedades de la variante desde los atributos del DOM (`data-color-name`, `data-color-id`, `data-talle`, `data-color`).
+    3. Escribe el nombre del producto y la combinación color/talle en el DOM del modal. Resetea el stock inicial a `0`.
+    4. Almacena en la variable global temporal `window.targetCellForVariation` la información necesaria para procesar la confirmación.
+    5. Muestra el modal `#modalCreateVariation`.
+*   **Efectos Secundarios**: Altera el DOM (textos del modal) e inicializa la propiedad global `window.targetCellForVariation`.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, del DOM y de `bootstrap.Modal`.
+
+---
+
+### 13. `confirmCreateVariation`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Valida el stock ingresado y crea la nueva variante en el objeto de producto,
+     * calculando su SKU y actualizando la visualización de la tabla.
+     * 
+     * @function confirmCreateVariation
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Consolidar y guardar localmente la variante creada en la celda vacía de la matriz.
+*   **Flujo Lógico**:
+    1. Valida que el stock ingresado sea un número no-negativo. De lo contrario, alerta y detiene la ejecución.
+    2. Recupera la información almacenada en la variable global `window.targetCellForVariation`.
+    3. Si existe, verifica e inicializa el objeto del color en `activeProduct.variantes` en caso de ser la primera de ese color.
+    4. Crea e inserta la variante calculando el SKU bajo el formato `[sku_base]-[COLOR_KEY]-[TALLE]`: `{ sku, stock, id: null }`.
+    5. Llama a `renderVariantsTable()`.
+    6. Cierra el modal de creación rápida y despliega un modal de éxito (`#modalSuccessVariation`).
+*   **Efectos Secundarios**: Muta `activeProduct.variantes`, altera el DOM (matriz de stock y modales) y utiliza `alert()`.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `window.targetCellForVariation`, `renderVariantsTable()` y `bootstrap.Modal`.
+
+---
+
+### 14. `selectColorRow`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Activa una fila de color al hacerle clic en la tabla de stock,
+     * actualizando la clase visual de selección y la galería multimedia.
+     * 
+     * @function selectColorRow
+     * @param {HTMLTableRowElement} row - Fila HTML de la tabla correspondiente al color.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Sincronizar la fila seleccionada con las imágenes y URLs de la galería multimedia asociadas a ese color.
+*   **Flujo Lógico**:
+    1. Extrae la clave del color (`data-color`) de los atributos de la fila.
+    2. Comprueba que el color y su galería multimedia existan en `activeProduct`.
+    3. Remueve la clase CSS `.color-row-active` de todas las filas y la asigna a la fila seleccionada.
+    4. Muta `currentActiveColor` con la clave del color y reinicia `currentImageIndex` a `0`.
+    5. Invoca a `renderGalleryAndUrls()`.
+*   **Efectos Secundarios**: Muta las globales `currentActiveColor` y `currentImageIndex`, y manipula clases en el DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `currentActiveColor`, `currentImageIndex` y de la función `renderGalleryAndUrls()`.
+
+---
+
+### 15. `renderGalleryAndUrls`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Carga y dibuja las imágenes principales, miniaturas y campos de URL
+     * correspondientes al color activo del producto.
+     * 
+     * @function renderGalleryAndUrls
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Actualizar el carrusel de imágenes y el panel de edición multimedia según la variante de color activa.
+*   **Flujo Lógico**:
+    1. Valida que exista `activeProduct` y `currentActiveColor`.
+    2. Recupera las referencias DOM del visor de imagen y del contenedor de miniaturas.
+    3. Aplica un efecto visual de transición bajando la opacidad de la imagen principal a `0` y, tras un retardo de `100ms`, actualiza su atributo `src` con la imagen principal del color y restaura la opacidad a `1`.
+    4. Limpia el contenedor de miniaturas y crea elementos `<img>` para cada imagen disponible, asignando el callback `setMainImage` en su evento `onclick`.
+    5. Limpia y dibuja la sección de URLs de imágenes del panel de edición como inputs de solo lectura.
+*   **Efectos Secundarios**: Altera múltiples contenidos y estilos (opacidad) del DOM. Ejecuta lógica retardada mediante temporizadores.
+*   **Asincronismo y Dependencias**: Asíncrono no bloqueante (utiliza `setTimeout`). Depende de `activeProduct`, `currentActiveColor`, `currentImageIndex`, `setMainImage()` y del DOM.
+
+---
+
+### 16. `setMainImage`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Cambia la fuente de la imagen principal de la galería por la de la miniatura seleccionada.
+     * 
+     * @function setMainImage
+     * @param {HTMLImageElement} thumb - Imagen miniatura cliqueada.
+     * @param {number} index - Índice de la miniatura seleccionada.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Permitir al usuario navegar y visualizar de forma interactiva las imágenes de un producto.
+*   **Flujo Lógico**:
+    1. Actualiza el atributo `src` del elemento imagen principal con el origen de la miniatura cliqueada.
+    2. Muta la variable global `currentImageIndex` al valor del parámetro `index`.
+    3. Remueve la clase CSS `active` de todas las miniaturas y se la asigna a la miniatura actual.
+*   **Efectos Secundarios**: Muta la global `currentImageIndex` y manipula clases y atributos en el DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende del DOM y de `currentImageIndex`.
+
+---
+
+### 17. `nextImage`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Avanza circularmente a la siguiente imagen en la galería del color activo.
+     * 
+     * @function nextImage
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Implementar la funcionalidad del botón "Siguiente" del visor de imágenes.
+*   **Flujo Lógico**:
+    1. Valida que exista producto y color activo.
+    2. Obtiene el conjunto multimedia del color.
+    3. Calcula el siguiente índice aplicando módulo: `(currentImageIndex + 1) % longitud`.
+    4. Localiza el elemento miniatura en el DOM y llama a `setMainImage()` pasándole el nuevo índice.
+*   **Efectos Secundarios**: Muta la global `currentImageIndex` indirectamente e interactúa con el DOM a través de `setMainImage()`.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `currentActiveColor`, `currentImageIndex` y `setMainImage()`.
+
+---
+
+### 18. `prevImage`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Retrocede circularmente a la imagen anterior en la galería del color activo.
+     * 
+     * @function prevImage
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Implementar la funcionalidad del botón "Anterior" del visor de imágenes.
+*   **Flujo Lógico**:
+    1. Obtiene el conjunto multimedia del color activo.
+    2. Calcula el índice anterior previniendo valores negativos: `(currentImageIndex - 1 + longitud) % longitud`.
+    3. Busca la miniatura correspondiente y ejecuta `setMainImage()`.
+*   **Efectos Secundarios**: Muta la global `currentImageIndex` e interactúa con el DOM indirectamente a través de `setMainImage()`.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `currentActiveColor`, `currentImageIndex` y `setMainImage()`.
+
+---
+
+### 19. `renderVariantsTable`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Renderiza la tabla bidimensional de colores y talles del producto activo,
+     * administrando la visibilidad de los inputs de stock según el modo (lectura o edición).
+     * 
+     * @function renderVariantsTable
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Dibujar la matriz de inventario y variantes del producto de forma dinámica y reactiva.
+*   **Flujo Lógico**:
+    1. Si no hay `activeProduct`, cancela.
+    2. Ordena los talles en el orden estándar de prendas (`XS, S, M, L...`).
+    3. Obtiene el valor de stock mínimo del producto (`activeProduct.stock_minimo`, cayendo a `2` si está indefinido).
+    4. Genera la fila de cabecera `<thead>` añadiendo celdas por cada talle habilitado en el producto y un botón para removerlo.
+    5. Itera sobre cada color para crear las filas `<tr>`.
+    6. Por cada color, recorre los talles disponibles para rellenar las celdas `<td>`.
+       * Si existe una variante (color/talle) cargada: dibuja el badge de cantidad (lectura) y el input numérico envuelto en un wrapper con su cruz de eliminación (edición). Si el stock es menor o igual al stock mínimo, le inyecta la clase CSS `.stock-badge-low`.
+       * Si no existe: dibuja el botón de creación rápida `+`.
+    7. Identifica si el contenedor del panel se encuentra en modo edición (`.is-editing`).
+    8. Oculta o muestra los elementos de entrada numéricos según el estado del panel lateral.
+*   **Efectos Secundarios**: Modifica masivamente la estructura y elementos en el DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `currentActiveColor`, `openCreateVariationModal()` y del DOM.
+
+---
+
+### 20. `toggleEditMode`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Cambia el estado del panel de detalle entre modo lectura y modo edición.
+     * Actúa como despachador delegando en funciones especializadas según el estado.
+     * 
+     * @function toggleEditMode
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Actuar como despachador de estados de edición, delegando en funciones específicas para entrar en modo edición o persistir cambios.
+*   **Flujo Lógico**:
+    1. Verifica si `#detail-card-container` contiene la clase `.is-editing`.
+    2. Si no está en edición, invoca a `enterEditMode()`.
+    3. Si ya está en edición, invoca a `saveProductChanges()`.
+*   **Efectos Secundarios**: Ninguno directo.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `enterEditMode()` y `saveProductChanges()`.
+
+---
+
+### 21. `selectProduct`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Administra la selección de un producto en la lista. Si los detalles del producto
+     * están en caché local los despliega, si no, realiza una petición AJAX para obtenerlos.
+     * 
+     * @function selectProduct
+     * @param {HTMLDivElement} card - Elemento de tarjeta del producto en la barra lateral.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Proveer carga eficiente bajo demanda (Lazy Loading) de los detalles de un producto al seleccionarlo de la lista lateral.
+*   **Flujo Lógico**:
+    1. Remueve la clase `.active` de todas las tarjetas del listado y la asigna a la tarjeta cliqueada.
+    2. Lee el atributo `data-sku` de la tarjeta para identificar el producto.
+    3. Si el SKU ya existe en la caché local `PRODUCT_CACHE`, invoca a `renderProductDetails()` con los datos almacenados y termina la ejecución.
+    4. Si no está en caché:
+       * Oculta el contenedor de detalles e introduce el spinner de carga en pantalla.
+       * Ejecuta un `fetch` de tipo `GET` a la ruta `/admin/productos/{skuBase}/details`.
+       * **Al resolverse la promesa**:
+         * Registra los datos del producto en `PRODUCT_CACHE[skuBase]`.
+         * Valida que la tarjeta actual activa del listado siga siendo la del producto solicitado (evita condiciones de carrera si el usuario hace clics rápidos).
+         * Coincidiendo el SKU, ejecuta `renderProductDetails()`, oculta el spinner y visualiza el panel de detalles.
+*   **Efectos Secundarios**: Modificaciones de estilos y clases en el DOM, activa visualizadores de carga, muta `PRODUCT_CACHE` y realiza llamadas I/O de red.
+*   **Asincronismo y Dependencias**: Asíncrono (usa Fetch y Promesas). Depende de `PRODUCT_CACHE`, `renderProductDetails()` y de la API del DOM.
+
+---
+
+### 22. `renderProductDetails`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Escribe la información detallada del producto en el panel lateral y
+     * actualiza la tabla de variantes y la galería del color activo.
+     * 
+     * @function renderProductDetails
+     * @param {Object} product - Estructura completa del producto con sus variantes e imágenes.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Rellenar y formatear de forma exhaustiva el panel lateral con los datos del producto activo.
+*   **Flujo Lógico**:
+    1. Almacena el objeto del producto en la referencia global `activeProduct`.
+    2. Rellena los contenedores de texto e inputs de edición con la información básica (SKU base, nombre, precio, descripción, mascota, stock mínimo, fechas).
+    3. Actualiza el atributo `action` del formulario de eliminación de producto (`delete-product-form`) con el SKU base correspondiente.
+    4. Dibuja los tags de categoría padre e hijo según corresponda.
+    5. Selecciona el primer color disponible de la lista como activo en `currentActiveColor` (o `null` si no posee variantes).
+    6. Reinicia el visor de imágenes `currentImageIndex` a `0`.
+    7. Dispara `renderVariantsTable()` y `renderGalleryAndUrls()`.
+*   **Efectos Secundarios**: Modificaciones múltiples de contenido de texto, valores de input y atributos de formularios en el DOM. Muta las globales `activeProduct`, `currentActiveColor` y `currentImageIndex`.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de las variables globales de estado, `LaravelConfig.productosUrl`, `renderVariantsTable()`, `renderGalleryAndUrls()` y del DOM.
+
+---
+
+### 23. `getFilteredProducts`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Filtra la colección local de productos según el texto de búsqueda,
+     * categoría y mascota, retornando la lista ordenada de forma alfabética.
+     * 
+     * @function getFilteredProducts
+     * @returns {Array<Object>} Lista filtrada y ordenada de productos.
+     */
+    ```
+*   **Propósito**: Calcular en memoria y en tiempo real el conjunto de productos que cumplen con los filtros seleccionados por el administrador.
+*   **Flujo Lógico**:
+    1. Lee los valores de los inputs de búsqueda de texto, categoría y mascota del DOM.
+    2. Limpia los espacios en blanco del texto de búsqueda y lo pasa a minúsculas.
+    3. Ejecuta un `.filter()` sobre la colección global `ALL_PRODUCTS` aplicando tres condiciones opcionales:
+       * Si hay texto de búsqueda: valida coincidencia en minúsculas en el nombre del producto o el SKU base.
+       * Si hay categoría seleccionada: valida coincidencia exacta con el ID de la categoría o el ID de su categoría padre.
+       * Si hay mascota seleccionada: valida coincidencia exacta con el tipo de mascota.
+    4. Aplica `.sort()` sobre el resultado filtrado comparando alfabéticamente sus nombres base.
+    5. Retorna la lista resultante.
+*   **Efectos Secundarios**: Ninguno (es una función pura respecto al DOM, no muta la lista original `ALL_PRODUCTS`).
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `ALL_PRODUCTS` y de la API del DOM.
+
+---
+
+### 24. `filterProducts`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Implementa un mecanismo antirrebote (debounce) básico para agrupar las llamadas
+     * de filtrado de productos cuando el usuario escribe en el buscador.
+     * 
+     * @function filterProducts
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Optimizar el rendimiento de la búsqueda reduciendo el re-renderizado innecesario durante la escritura.
+*   **Flujo Lógico**:
+    1. Si existe un temporizador activo almacenado en `searchTimeout`, lo cancela usando `clearTimeout()`.
+    2. Registra un nuevo temporizador de `0ms` (para derivar la llamada al final de la cola del event loop) que ejecuta `triggerLocalSearch()`.
+*   **Efectos Secundarios**: Modifica la variable global `searchTimeout` y registra procesos en el event loop.
+*   **Asincronismo y Dependencias**: Asíncrono no bloqueante. Depende del temporizador global `searchTimeout` y de `triggerLocalSearch()`.
+
+---
+
+### 25. `triggerLocalSearch`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Actualiza el listado de productos de la barra lateral tras aplicar filtros,
+     * reiniciando la paginación y auto-seleccionando el primer resultado de la lista.
+     * 
+     * @function triggerLocalSearch
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Actualizar la interfaz del catálogo local de acuerdo a los resultados del motor de búsqueda.
+*   **Flujo Lógico**:
+    1. Activa la bandera `isLoading` a `true` y reinicia el control de scroll `currentPage` a `1`.
+    2. Limpia el contenedor del listado de tarjetas en el DOM.
+    3. Obtiene el nuevo conjunto filtrado invocando a `getFilteredProducts()` y lo asigna a la global `filteredProducts`.
+    4. Extrae los primeros 20 productos y los dibuja llamando a `appendProductsToList()`.
+    5. Evalúa si hay páginas restantes para scroll infinito actualizando `hasMorePages`.
+    6. Intenta seleccionar la primera tarjeta resultante llamando a `selectProduct()`; si la búsqueda está vacía, limpia la interfaz llamando a `clearProductDetails()`.
+    7. Desactiva la bandera `isLoading` a `false`.
+*   **Efectos Secundarios**: Modificaciones del DOM (tarjetas y detalles), muta variables globales (`filteredProducts`, `currentPage`, `hasMorePages`, `isLoading`).
+*   **Asincronismo y Dependencias**: Síncrono. Depende de las variables de estado, `getFilteredProducts()`, `appendProductsToList()`, `selectProduct()`, `clearProductDetails()` y del DOM.
+
+---
+
+### 26. `clearProductDetails`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Limpia la información en el panel lateral de detalles de producto.
+     * 
+     * @function clearProductDetails
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Limpiar la interfaz de detalles cuando no existen resultados de búsqueda en el catálogo.
+*   **Flujo Lógico**:
+    1. Establece la variable global `activeProduct` a `null`.
+    2. Reemplaza todos los textos e inputs editables del DOM del panel a guiones informativos o campos vacíos.
+    3. Carga en la imagen principal un gif transparente de 1x1 píxeles codificado en base64 para evitar errores de imagen rota.
+    4. Limpia la lista de miniaturas de la galería y vacía las variantes de la tabla del DOM.
+*   **Efectos Secundarios**: Muta `activeProduct` y realiza manipulaciones generales de reinicio sobre elementos del DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct` y de la API del DOM.
+
+---
+
+### 27. `initInfiniteScroll`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Inicializa un IntersectionObserver sobre el final del contenedor de productos
+     * para disparar la carga diferida del listado de la barra lateral al hacer scroll.
+     * 
+     * @function initInfiniteScroll
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Habilitar scroll infinito interactivo para optimizar el renderizado del listado lateral de productos.
+*   **Flujo Lógico**:
+    1. Recupera la referencia del centinela `#scroll-sentinel` del DOM. Si no existe, detiene la ejecución.
+    2. Instancia un objeto `IntersectionObserver` definiendo como root a `#product-list-container` y un margen inferior de `100px`.
+    3. En el callback, evalúa si la entrada de observación intersecta y no se está realizando otra carga (`!isLoading`), además de contar con páginas restantes (`hasMorePages`). De cumplirse las condiciones, ejecuta `loadNextPage()`.
+    4. Registra al centinela para ser observado.
+*   **Efectos Secundarios**: Registra observadores y eventos asíncronos en el navegador a través de las APIs del DOM.
+*   **Asincronismo y Dependencias**: Asíncrono basado en eventos de Intersection Observer. Depende de la Web API `IntersectionObserver`, de las variables globales de carga y de `loadNextPage()`.
+
+---
+
+### 28. `loadNextPage`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Carga el siguiente lote de productos en el listado lateral
+     * simulando un retardo visual para suavizar la experiencia de usuario.
+     * 
+     * @function loadNextPage
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Incorporar la paginación local de productos en el scroll infinito de la interfaz.
+*   **Flujo Lógico**:
+    1. Establece la bandera `isLoading` a `true` y remueve la clase `.d-none` del spinner del listado para mostrarlo.
+    2. Abre un temporizador de `50ms` (`setTimeout`):
+       * Calcula las posiciones de rebanada (`start`, `end`) usando el valor de `currentPage`.
+       * Corta la lista de `filteredProducts` con dichos límites.
+       * Incorpora las tarjetas llamando a `appendProductsToList()`.
+       * Incrementa la variable global `currentPage` en `1`.
+       * Evalúa si existen páginas adicionales asignando a `hasMorePages`.
+       * Desactiva la bandera `isLoading` y vuelve a ocultar el spinner.
+*   **Efectos Secundarios**: Modificaciones en el DOM (spinner y tarjetas) y muta las variables globales `isLoading`, `currentPage` y `hasMorePages`.
+*   **Asincronismo y Dependencias**: Asíncrono no bloqueante (utiliza `setTimeout`). Depende de `currentPage`, `filteredProducts`, `appendProductsToList()` y del DOM.
+
+---
+
+### 29. `appendProductsToList`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Crea elementos HTML de tarjetas de productos y los añade al listado de la barra lateral,
+     * previniendo la inserción de duplicados ya presentes en la vista.
+     * 
+     * @function appendProductsToList
+     * @param {Array<Object>} products - Lista de productos a inyectar en la interfaz.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Generar y añadir tarjetas de producto interactivas al DOM.
+*   **Flujo Lógico**:
+    1. Recupera la referencia del contenedor de tarjetas del listado lateral.
+    2. Recorre cada producto:
+       * Valida si ya existe una tarjeta con el SKU base correspondiente en el listado para evitar duplicación.
+       * Crea un nuevo elemento `div` asignándole la clase `.product-list-card`, escribiendo su SKU base en un atributo e inyectando un handler `onclick` para que al hacer clic llame a `selectProduct(this)`.
+       * Rellena el HTML de la tarjeta con la imagen miniatura, el nombre, el SKU base, el badge de estado activo y la cantidad de colores/talles del producto.
+       * Añade la tarjeta al final del contenedor.
+    3. Invoca a `updateProductsCount()`.
+*   **Efectos Secundarios**: Crea e inyecta elementos del DOM, y actualiza el contador textual.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `selectProduct()`, `updateProductsCount()` y del DOM.
+
+---
+
+### 30. `updateProductsCount`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Actualiza el indicador numérico total de productos visibles en la vista del catálogo.
+     * 
+     * @function updateProductsCount
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Sincronizar el indicador de la cantidad de productos resultantes de la búsqueda en tiempo real.
+*   **Flujo Lógico**:
+    1. Escribe la longitud del array global `filteredProducts` formateada como texto (`X productos`) en el elemento del DOM `#products-count-text`.
+*   **Efectos Secundarios**: Altera el contenido de texto de un elemento del DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende del DOM y de `filteredProducts`.
+
+---
+
+### 31. `deleteTalle`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Elimina localmente un talle (columna) de la grilla de variantes del producto activo,
+     * siempre y cuando no existan variantes de stock definidas para ese talle.
+     * 
+     * @function deleteTalle
+     * @param {string} talle - Nombre del talle a eliminar (ej. 'M').
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Permitir remover una columna de talle de la matriz del producto activo en el cliente.
+*   **Flujo Lógico**:
+    1. Valida la existencia de `activeProduct`.
+    2. Recorre todos los colores en `activeProduct.variantes` buscando si existe alguna variante con stock/definición para el talle provisto.
+    3. Si se encuentra alguna variante asociada, emite un aviso de error mediante `alert()` y bloquea el borrado.
+    4. Si está libre de variantes, filtra la lista `activeProduct.talles` para excluir el talle seleccionado.
+    5. Invoca a `renderVariantsTable()` para redibujar la tabla sin esa columna.
+*   **Efectos Secundarios**: Modifica la propiedad `.talles` del objeto global `activeProduct`, re-renderiza la tabla en el DOM y lanza un `alert()`.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `renderVariantsTable()` y del DOM.
+
+---
+
+### 32. `deleteColor`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Elimina localmente un color (fila) de la grilla de variantes del producto activo,
+     * validando previamente que no existan variantes de stock definidas para ese color.
+     * También limpia el color de la galería multimedia y reasigna el color activo.
+     * 
+     * @function deleteColor
+     * @param {string} colorKey - Identificador clave del color a eliminar (ej. 'negro').
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Permitir remover una fila de color de la matriz y galería del producto seleccionado en el cliente.
+*   **Flujo Lógico**:
+    1. Valida la existencia de `activeProduct`.
+    2. Verifica si el color posee variantes registradas dentro de `activeProduct.variantes[colorKey]` iterando sobre los talles de ese color.
+    3. Si existen variantes, lanza un `alert()` informando del error y bloquea el borrado.
+    4. Si está libre de variantes, filtra la lista de `activeProduct.colores` para remover el color.
+    5. Borra la galería multimedia del color en `activeProduct.colorMedia` y su estructura en `activeProduct.variantes`.
+    6. Si el color eliminado era el color actualmente seleccionado en pantalla (`currentActiveColor`), actualiza la selección al primer color restante o a `null` si ya no quedan colores, reiniciando `currentImageIndex` a `0`.
+    7. Llama a `renderVariantsTable()` y `renderGalleryAndUrls()`.
+*   **Efectos Secundarios**: Modifica las propiedades `.colores`, `.colorMedia` y `.variantes` del objeto global `activeProduct`, muta `currentActiveColor` y `currentImageIndex`, actualiza el DOM (tabla y galería) y ejecuta `alert()`.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `currentActiveColor`, `currentImageIndex`, `renderVariantsTable()`, `renderGalleryAndUrls()` y del DOM.
+
+---
+
+### 33. `deleteVariant`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Elimina una variante de stock individual (celda) de la matriz del producto activo
+     * solicitando previamente confirmación al usuario.
+     * 
+     * @function deleteVariant
+     * @param {string} colorKey - Clave identificadora del color.
+     * @param {string} talle - Nombre del talle.
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Restablecer la celda de una variante con stock a un estado vacío (botón `+`).
+*   **Flujo Lógico**:
+    1. Solicita confirmación al usuario mediante un cuadro de diálogo del navegador (`confirm`).
+    2. Si el usuario acepta la acción, elimina el registro correspondiente en la estructura local del producto: `delete activeProduct.variantes[colorKey][talle]`.
+    3. Llama a `renderVariantsTable()` para redibujar la tabla, lo cual reemplazará el input y botón de cruz por el botón de adición rápida `+`.
+*   **Efectos Secundarios**: Muta por referencia la estructura de variantes del objeto global `activeProduct`, ejecuta `confirm()`, y altera el DOM al actualizar la tabla.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct`, `renderVariantsTable()` y de la Web API `confirm`.
+
+---
+
+### 34. `enterEditMode`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Habilita el modo de edición en la vista detallada del producto.
+     * 
+     * @function enterEditMode
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Cambiar la visualización de los datos del producto a inputs de edición y habilitar las opciones de gestión de variantes.
+*   **Flujo Lógico**:
+    1. Agrega la clase `.is-editing` a `#detail-card-container`.
+    2. Copia los valores del nombre y descripción desde los textos del DOM a sus respectivos inputs.
+    3. Selecciona todos los botones de borrado de talles y colores en la tabla y los muestra.
+    4. Muestra los inputs numéricos de stock y sus respectivos botones de eliminación de variante (`.stock-edit-wrapper`), ocultando los textos simples de cantidad.
+*   **Efectos Secundarios**: Modificaciones visuales de visualización y estados en el DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de la API del DOM.
+
+---
+
+### 35. `cancelEditMode`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Cancela el modo de edición actual del producto, descartando cualquier cambio
+     * y restaurando la visualización del estado anterior de la base de datos.
+     * 
+     * @function cancelEditMode
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Salir del modo edición descartando las modificaciones locales del formulario y variantes, y restaurando el estado original.
+*   **Flujo Lógico**:
+    1. Remueve la clase `.is-editing` de `#detail-card-container` (lo que oculta automáticamente el botón "Cancelar" y restablece el estilo base).
+    2. Si existe un producto seleccionado en la global `activeProduct`, invoca a `renderProductDetails(activeProduct)` para reconstruir la vista detallada con los valores inalterados.
+*   **Efectos Secundarios**: Modifica clases y elementos del DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct` y de `renderProductDetails()`.
+
+---
+
+### 36. `collectProductPayload`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Recopila los datos ingresados en el formulario de edición y construye el payload.
+     * 
+     * @function collectProductPayload
+     * @returns {Object} El payload estructurado para enviar al servidor.
+     */
+    ```
+*   **Propósito**: Agrupar los valores actuales de los inputs principales y de la grilla de variantes para conformar el paquete de datos HTTP.
+*   **Flujo Lógico**:
+    1. Extrae los valores de nombre, descripción, precio, mascota y stock mínimo desde los inputs de edición.
+    2. Recorre todos los inputs de stock (`.stock-badge-input`) en la tabla de variantes y extrae sus atributos `data-color-id`, `data-talle` y sus valores numéricos.
+    3. Retorna un objeto con la estructura requerida por el backend: `{ sku_base, nombre_base, descripcion, precio, tipo_mascota, stock_minimo, variantes }`.
+*   **Efectos Secundarios**: Ninguno (es de sólo lectura respecto al DOM).
+*   **Asincronismo y Dependencias**: Síncrono. Depende de `activeProduct` y de la API del DOM.
+
+---
+
+### 37. `validateProductPayload`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Valida los datos recopilados del formulario de edición.
+     * 
+     * @function validateProductPayload
+     * @param {Object} payload - Los datos del producto a validar.
+     * @returns {boolean} True si pasa la validación, false en caso contrario.
+     */
+    ```
+*   **Propósito**: Evitar el envío de peticiones con datos erróneos, incompletos o negativos al servidor.
+*   **Flujo Lógico**:
+    1. Valida que el nombre no sea una cadena vacía.
+    2. Valida que el precio sea numérico y no-negativo.
+    3. Valida que el stock mínimo sea numérico y no-negativo.
+    4. Muestra un mensaje mediante `alert()` en caso de fallar alguna validación y retorna `false`. Retorna `true` ante éxito.
+*   **Efectos Secundarios**: Ejecuta llamadas a `alert()`.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de la Web API `alert`.
+
+---
+
+### 38. `saveProductChanges`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Gestiona el envío asíncrono de cambios al servidor y actualiza el estado/UI correspondientes.
+     * 
+     * @function saveProductChanges
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Sincronizar las modificaciones del producto con la base de datos y actualizar el listado y detalle local tras una operación exitosa.
+*   **Flujo Lógico**:
+    1. Llama a `collectProductPayload()` para obtener los datos de la ficha.
+    2. Valida los datos llamando a `validateProductPayload(payload)`. Si no es válido, detiene la ejecución.
+    3. Deshabilita el botón de guardar y establece el texto "💾 Guardando...".
+    4. Realiza una llamada `fetch` tipo `POST` al endpoint `/admin/productos/update-group`.
+    5. **Al resolverse la promesa**:
+       * Si tiene éxito:
+         1. Remueve de `PRODUCT_CACHE` la entrada para este SKU base para forzar carga fresca la próxima vez.
+         2. Muta las propiedades de la global `activeProduct` con los nuevos datos comerciales.
+         3. Recorre cada input de la tabla y reconstruye las variantes locales asociadas a ese color y talle en `activeProduct.variantes`.
+         4. Sincroniza los datos principales de búsqueda en `ALL_PRODUCTS` para el producto editado.
+         5. Actualiza los textos de sólo lectura en el DOM (nombre, precio, descripción, mascota, stock mínimo).
+         6. Sincroniza la información de la tarjeta del catálogo izquierdo.
+         7. Remueve la clase `.is-editing` para regresar a modo lectura.
+         8. Ejecuta `renderVariantsTable()`.
+         9. Despliega una alerta de éxito.
+       * Si falla: Habilita el botón, restaura su HTML de "Guardar" y emite una alerta detallando el error.
+*   **Efectos Secundarios**: Deshabilita y modifica clases, textos y atributos del DOM; muta `activeProduct` y `ALL_PRODUCTS`; remueve del objeto caché `PRODUCT_CACHE`; realiza peticiones I/O de red y lanza `alert()`.
+*   **Asincronismo y Dependencias**: Asíncrono (Fetch y Promesas). Depende de `activeProduct`, `ALL_PRODUCTS`, `PRODUCT_CACHE`, `LaravelConfig`, `collectProductPayload()`, `validateProductPayload()`, `renderVariantsTable()` y del DOM.
