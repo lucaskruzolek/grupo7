@@ -25,7 +25,8 @@ class Producto extends Model
         'sku',
         'stock',
         'stock_minimo',
-        'precio'
+        'precio',
+        'favorito'
     ];
 
     // Relación comercial básica

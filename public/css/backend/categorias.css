@@ -1,0 +1,177 @@
+/* Estilos específicos para la Gestión de Categorías */
+
+.category-parent-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.3s ease;
+}
+
+.category-parent-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.category-parent-card .card-header {
+    background-color: #ffffff;
+    transition: background-color 0.2s ease;
+    border-radius: 12px !important;
+}
+
+.category-parent-card .card-header:not(.collapsed) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+/* Indicador Chevron colapsable */
+.collapse-chevron {
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--neutral-500);
+}
+
+.card-header.collapsed .collapse-chevron {
+    transform: rotate(-90deg);
+}
+
+/* Círculo del Icono de Categoría Principal */
+.category-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--green-100);
+    border: 1px solid rgba(125, 140, 120, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.category-parent-card .card-header:hover .category-icon-circle {
+    transform: scale(1.05);
+}
+
+.category-icon-circle img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+/* Árbol de Subcategorías (Conectores CSS) */
+.subcategories-tree-container {
+    position: relative;
+    padding-top: 1rem;
+}
+
+.subcategories-list {
+    position: relative;
+    padding-left: 2.75rem;
+    list-style: none;
+    margin-bottom: 0;
+}
+
+.subcategories-list::before {
+    content: '';
+    position: absolute;
+    left: 1.25rem;
+    top: 0;
+    bottom: 1rem;
+    width: 1.5px;
+    border-left: 1.5px dashed var(--neutral-300);
+}
+
+.subcategory-item {
+    position: relative;
+    padding-left: 0.5rem;
+    transition: background-color 0.2s;
+    border-radius: 8px;
+}
+
+.subcategory-item::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 50%;
+    width: 1.25rem;
+    height: 1px;
+    border-top: 1.5px dashed var(--neutral-300);
+}
+
+/* Botones de acción tipo link estilizados */
+.btn-link-action {
+    font-family: var(--font-main);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.btn-link-action-secondary {
+    color: var(--neutral-600) !important;
+}
+
+.btn-link-action-secondary:hover {
+    background-color: var(--neutral-100);
+    color: var(--neutral-800) !important;
+}
+
+.btn-link-action-danger {
+    color: #c94a38 !important;
+}
+
+.btn-link-action-danger:hover {
+    background-color: #fdf2f0;
+    color: #a63121 !important;
+}
+
+/* Botón dashed de agregar subcategoría */
+.btn-outline-dashed-light {
+    width: 100%;
+    max-width: 380px;
+    background-color: #fcfbf9;
+    border: 1.5px dashed var(--neutral-400);
+    color: var(--neutral-700);
+    font-family: var(--font-main);
+    font-weight: 600;
+    font-size: 0.82rem;
+    padding: 0.55rem 1.25rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.btn-outline-dashed-light:hover {
+    background-color: var(--green-100);
+    border-color: var(--green-400);
+    color: var(--green-700);
+    transform: translateY(-1px);
+}
+
+.btn-outline-dashed-light:active {
+    transform: translateY(0);
+}
+
+.add-subcategory-wrapper {
+    margin-bottom: 0.5rem;
+}
+
+/* Ajustes de Modal */
+.form-select.form-control-admin {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%235d4633' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px 10px;
+    appearance: none;
+    -webkit-appearance: none;
+}

@@ -31,7 +31,7 @@ return new class extends Migration
             $table->enum('tipo_mascota', ['perro', 'gato', 'ambos'])->default('ambos');
 
             // Stock, Talle e Identificadores de variante
-            $table->string('sku_base', 50);           // Agrupa variantes por modelo (Ej: "BUZO-POLAR")
+            $table->string('sku_base', 50)->index();   // Agrupa variantes por modelo (Ej: "BUZO-POLAR")
             $table->string('sku_color', 80)->index(); // Agrupa variantes por color (Ej: "BUZO-POLAR-ROJO")
             $table->string('sku', 50)->unique();      // Variante única (Ej: "BUZO-POLAR-ROJO-S")
             $table->string('talle', 10);              // Almacena directo el talle como texto ('S', 'M', 'L', '1', etc.)
@@ -39,6 +39,7 @@ return new class extends Migration
             $table->integer('stock')->default(0);
             $table->integer('stock_minimo')->default(0);
             $table->decimal('precio', 10, 2)->default(0.00);
+            $table->boolean('favorito')->default(false);
             
             $table->timestamps();
             $table->softDeletes();

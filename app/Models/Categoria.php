@@ -15,6 +15,7 @@ class Categoria extends Model
     protected $fillable = [
         'nombre',
         'parent_id',
+        'icono',
     ];
 
     // ── Relaciones ──────────────────────────────────────────
@@ -33,5 +34,13 @@ class Categoria extends Model
     public function children()
     {
         return $this->hasMany(Categoria::class, 'parent_id');
+    }
+
+    /**
+     * Una categoría tiene muchos productos asociados.
+     */
+    public function productos()
+    {
+        return $this->hasMany(Producto::class, 'categoria_id');
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
                 ->constrained('categorias')
                 ->onDelete('cascade');
             $table->string('nombre', 100);
+            $table->string('icono', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
