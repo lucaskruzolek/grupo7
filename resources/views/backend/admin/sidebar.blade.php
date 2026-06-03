@@ -20,7 +20,7 @@
         
         <!-- Catálogo (Colapsable) -->
         @php
-            $isCatalogActive = Request::is('admin/productos*') || Request::is('productos*') || Request::is('admin/categorias*') || Request::is('categorias*');
+            $isCatalogActive = Request::is('admin/productos*') || Request::is('productos*') || Request::is('admin/categorias*') || Request::is('categorias*') || Request::is('admin/colecciones*') || Request::is('colecciones*');
         @endphp
         <li class="sidebar-item has-submenu {{ $isCatalogActive ? 'open submenu-active' : '' }}" data-tooltip="Catálogo">
             <a href="#" class="submenu-toggle" onclick="toggleSubmenu(event, this)">
@@ -37,6 +37,11 @@
                 <li class="{{ Request::is('admin/categorias*') || Request::is('categorias*') ? 'active' : '' }}">
                     <a href="{{ url('/admin/categorias') }}">
                         <span class="sidebar-text">Categorías</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('admin/colecciones*') || Request::is('colecciones*') ? 'active' : '' }}">
+                    <a href="{{ url('/admin/colecciones') }}">
+                        <span class="sidebar-text">Colecciones</span>
                     </a>
                 </li>
             </ul>

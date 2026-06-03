@@ -43,22 +43,15 @@
                             <div class="category-icon-circle">
                                 @if($parent->icono)
                                     <img src="{{ $parent->icono }}" alt="{{ $parent->nombre }}" class="category-icon-img">
-                                @else
-                                    <!-- Fallback si no tiene icono subido -->
-                                    @if($parentSlug == 'ropa')
-                                        <img src="{{ asset('img/icons/shirt.svg') }}" alt="Ropa">
-                                    @elseif($parentSlug == 'accesorios')
-                                        <img src="{{ asset('img/icons/ball.svg') }}" alt="Accesorios">
-                                    @else
-                                        <img src="{{ asset('img/icons/catalogo.svg') }}" alt="Categoría">
-                                    @endif
+                                @else               
+                                    <img src="{{ asset('img/icons/catalogo.svg') }}" alt="Categoría">
                                 @endif
                             </div>
 
                             <!-- Nombre y cantidad de subcategorías -->
                             <div class="d-flex align-items-center gap-2">
-                                <span class="fw-bold text-dark text-uppercase fs-5 mb-0 poppins-bold">{{ $parent->nombre }}</span>
-                                <span class="badge bg-light text-muted border rounded-pill px-3 py-1 font-main" style="font-size: 0.72rem;">
+                                <span class="fw-bold text-dark text-uppercase fs-6 mb-0 poppins-bold">{{ $parent->nombre }}</span>
+                                <span class="badge bg-light text-muted border rounded-pill px-3 py-1 font-main" style="font-size: 0.65rem;">
                                     {{ $subCount }} {{ $subCount === 1 ? 'subcategoría' : 'subcategorías' }}
                                 </span>
                             </div>
@@ -66,14 +59,14 @@
 
                         <!-- Acciones a la derecha de la Categoría Principal -->
                         <div class="d-flex gap-2 align-items-center" onclick="event.stopPropagation()">
-                            <button type="button" class="btn-link-action btn-link-action-secondary" onclick="openEditModal({{ $parent->id }}, '{{ $parent->nombre }}', null, '{{ $parent->icono }}')">
-                                ✏️ <span class="d-none d-sm-inline">Editar</span>
+                            <button type="button" class="btn-link-action btn-link-action-secondary" title="Editar" onclick="openEditModal({{ $parent->id }}, '{{ $parent->nombre }}', null, '{{ $parent->icono }}')">
+                                ✏️
                             </button>
                             <form action="{{ route('admin.categorias.destroy', $parent->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas dar de baja la categoría principal &quot;{{ $parent->nombre }}&quot; y todas sus subcategorías asociadas? Esto no borrará productos pero sí se desvincularán.');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn-link-action btn-link-action-danger">
-                                    🗑️ <span class="d-none d-sm-inline">Eliminar</span>
+                                <button type="submit" class="btn-link-action btn-link-action-danger" title="Eliminar">
+                                    🗑️
                                 </button>
                             </form>
                         </div>
@@ -96,14 +89,14 @@
 
                                                 <!-- Acciones de la Subcategoría -->
                                                 <div class="d-flex gap-2 align-items-center">
-                                                    <button type="button" class="btn-link-action btn-link-action-secondary" onclick="openEditModal({{ $child->id }}, '{{ $child->nombre }}', {{ $parent->id }}, null)">
-                                                        ✏️ <span class="d-none d-sm-inline">Editar</span>
+                                                    <button type="button" class="btn-link-action btn-link-action-secondary" title="Editar" onclick="openEditModal({{ $child->id }}, '{{ $child->nombre }}', {{ $parent->id }}, null)">
+                                                        ✏️
                                                     </button>
                                                     <form action="{{ route('admin.categorias.destroy', $child->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar la subcategoría &quot;{{ $child->nombre }}&quot;?');">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn-link-action btn-link-action-danger">
-                                                            🗑️ <span class="d-none d-sm-inline">Eliminar</span>
+                                                        <button type="submit" class="btn-link-action btn-link-action-danger" title="Eliminar">
+                                                            🗑️
                                                         </button>
                                                     </form>
                                                 </div>

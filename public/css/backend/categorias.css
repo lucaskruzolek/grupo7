@@ -36,8 +36,8 @@
 
 /* Círculo del Icono de Categoría Principal */
 .category-icon-circle {
-    width: 44px;
-    height: 44px;
+    width: 33px;
+    height: 33px;
     border-radius: 50%;
     background-color: var(--green-100);
     border: 1px solid rgba(125, 140, 120, 0.15);
@@ -52,8 +52,8 @@
 }
 
 .category-icon-circle img {
-    width: 22px;
-    height: 22px;
+    width: 16px;
+    height: 16px;
     object-fit: contain;
 }
 
