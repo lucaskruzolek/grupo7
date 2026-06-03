@@ -78,6 +78,20 @@ class ProductoController extends Controller
         $query->whereHas('color', function($q) use ($request) {
             $q->where('nombre', 'LIKE', '%' . $request->color . '%');
     });
+        // --- FILTRO DE PRECIOS POR RANGOS PREDEFINIDOS ---
+        if ($request->has('precio_rango') && $request->precio_rango != '') {
+            // Usamos 'explode' para separar el string por el guion (ej: '5000-12000' se convierte en [5000, 12000])
+            $partesPrecio = explode('-', $request->precio_rango);
+    
+        // Validamos que efectivamente tengamos las dos partes (mínimo y máximo)
+        if (count($partesPrecio) === 2) {
+            $precioMin = (float) $partesPrecio[0];
+            $precioMax = (float) $partesPrecio[1];
+        
+        // Filtramos los productos cuyo precio esté dentro de ese rango
+            $query->whereBetween('precio', [$precioMin, $precioMax]);
+    }
+}
 }
     }
 
