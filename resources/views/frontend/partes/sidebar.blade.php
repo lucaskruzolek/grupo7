@@ -106,7 +106,7 @@
         <i class="bi bi-chevron-down text-secondary small"></i>
     </div>
     <div class="d-flex justify-content-between gap-1">
-        @foreach(['XS', 'S', 'M', 'L', 'L', 'XL', 'XXL'] as $talle)
+        @foreach(['XS', 'S', 'M', 'L', 'XL', 'XXL'] as $talle)
             <div>
                 <input type="radio" name="talle" value="{{ $talle }}" id="talle_{{ $talle }}" class="d-none filtro-automatico" {{ request('talle') == $talle ? 'checked' : '' }}>
                 
@@ -152,34 +152,40 @@
     </div>
 </div>
 
-    <hr class="my-3" style="opacity: 0.1;">
+<hr class="my-3" style="opacity: 0.1;">
 
-    {{-- FILA 6: Rango de Precio --}}
-    <div class="mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="poppins-bold text-main fs-6 d-flex align-items-center gap-2">
-                <img src="{{ asset('img/icons/price-tag.svg') }}" alt="Precios" style="width: 18px; height: 18px; opacity: 0.7;">RANGO DE PRECIO
-            </span>
-            <i class="bi bi-chevron-down text-secondary small"></i>
-        </div>
-        
-        {{-- Slider Nativo --}}
-        <div class="px-2">
-            <input type="range" class="form-range custom-range-slider" min="0" max="2500" value="2500">
-            <div class="d-flex justify-content-between text-muted mt-1" style="font-size: 0.8rem;">
-                <span class="poppins-semibold">$0</span>
-                <span class="poppins-semibold">$2,500+</span>
-            </div>
-        </div>
-
-        {{-- Rangos Rápidos Predefinidos --}}
-        <div class="row g-2 mt-2">
-            <div class="col-6"><button class="btn btn-light border rounded-3 w-100 py-1 px-1 text-center font-main text-muted" style="font-size:0.75rem;" type="button">$0 - $499</button></div>
-            <div class="col-6"><button class="btn btn-light border rounded-3 w-100 py-1 px-1 text-center font-main text-muted" style="font-size:0.75rem;" type="button">$500 - $999</button></div>
-            <div class="col-6"><button class="btn btn-light border rounded-3 w-100 py-1 px-1 text-center font-main text-muted" style="font-size:0.75rem;" type="button">$1,000 - $1,999</button></div>
-            <div class="col-6"><button class="btn btn-light border rounded-3 w-100 py-1 px-1 text-center font-main text-muted" style="font-size:0.75rem;" type="button">$2,000+</button></div>
-        </div>
+{{-- FILA 6: Rangos de Precio --}}
+<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="poppins-bold text-main fs-6 d-flex align-items-center gap-2">
+            <span class="fs-5" style="opacity: 0.7;">$</span>PRECIO
+        </span>
+        <i class="bi bi-chevron-down text-secondary small"></i>
     </div>
+    
+    <div class="d-flex flex-column gap-2">
+        @php
+            // Definimos los rangos estáticos para los botones
+            // El formato 'min-max' nos facilitará la lectura en el controlador
+            $rangos = [
+                ['label' => 'Hasta $5.000', 'value' => '0-5000'],
+                ['label' => '$5.000 a $12.000', 'value' => '5000-12000'],
+                ['label' => '$12.000 a $25.000', 'value' => '12000-25000'],
+                ['label' => 'Más de $25.000', 'value' => '25000-999999'],
+            ];
+        @endphp
+
+        @foreach($rangos as $rango)
+            <div>
+                <input type="radio" name="precio_rango" value="{{ $rango['value'] }}" id="precio_{{ $rango['value'] }}" class="d-none filtro-automatico" {{ request('precio_rango') == $rango['value'] ? 'checked' : '' }}>
+                
+                <label for="precio_{{ $rango['value'] }}" class="btn btn-light border w-100 text-start py-2 px-3 small rounded-3 poppins-medium {{ request('precio_rango') == $rango['value'] ? 'active-filter-card border-primary bg-primary text-white' : '' }}" style="cursor: pointer;">
+                    {{ $rango['label'] }}
+                </label>
+            </div>
+        @endforeach
+    </div>
+</div>
 
     <hr class="my-3" style="opacity: 0.1;">
 
