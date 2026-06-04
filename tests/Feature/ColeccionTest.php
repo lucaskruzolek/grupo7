@@ -97,6 +97,9 @@ class ColeccionTest extends TestCase
         // Extraer ruta relativa de R2 a partir de url_imagen
         $urlPath = parse_url($coleccion->url_imagen, PHP_URL_PATH);
         $relativeStoragePath = ltrim($urlPath, '/');
+        if (str_starts_with($relativeStoragePath, 'storage/')) {
+            $relativeStoragePath = substr($relativeStoragePath, 8);
+        }
         
         Storage::disk('s3')->assertExists($relativeStoragePath);
     }
@@ -106,14 +109,14 @@ class ColeccionTest extends TestCase
         $coleccion = Coleccion::create([
             'nombre' => 'Otoño Original',
             'descripcion' => 'Descripción vieja',
-            'url_imagen' => 'https://example.com/otoño.jpg',
+            'url_imagen' => 'https://example.com/otono.jpg',
         ]);
 
         $response = $this->actingAs($this->admin)
             ->put(route('admin.colecciones.update', $coleccion->id), [
                 'nombre' => 'Otoño Editado',
                 'descripcion' => 'Nueva descripción',
-                'url_imagen' => 'https://example.com/nuevo_otoño.jpg',
+                'url_imagen' => 'https://example.com/nuevo_otono.jpg',
             ]);
 
         $response->assertRedirect(route('admin.colecciones.index'));
@@ -123,7 +126,7 @@ class ColeccionTest extends TestCase
             'id' => $coleccion->id,
             'nombre' => 'Otoño Editado',
             'descripcion' => 'Nueva descripción',
-            'url_imagen' => 'https://example.com/nuevo_otoño.jpg',
+            'url_imagen' => 'https://example.com/nuevo_otono.jpg',
         ]);
     }
 

@@ -33,6 +33,8 @@ function openCreateProductModal() {
 
     renderNewProductVariants();
 
+    handleNewProductCategoryChange();
+
     const modal = new bootstrap.Modal(document.getElementById('modalCreateProduct'));
     modal.show();
 }
@@ -784,82 +786,125 @@ function prevImage() {
     }
 }
 
+/**
+ * Renderiza o actualiza la tabla de variantes del producto.
+ * 
+ * @function renderVariantsTable
+ * @returns {void}
+ */
 function renderVariantsTable() {
     if (!activeProduct) return;
 
     const headerRow = document.getElementById('variants-table-header-row');
     const tbody = document.getElementById('variants-table-body');
 
-    const standardOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
-    activeProduct.talles.sort((a, b) => standardOrder.indexOf(a) - standardOrder.indexOf(b));
+    const acceptsSize = categoryAcceptsSize(activeProduct.categoria_id);
+    const acceptsColor = categoryAcceptsColor(activeProduct.categoria_id);
 
     const isEditing = document.getElementById('detail-card-container').classList.contains('is-editing');
 
     // Obtener stock mínimo del producto (por defecto 2 si no está definido)
     const minStock = activeProduct.stock_minimo !== undefined && activeProduct.stock_minimo !== null ? parseInt(activeProduct.stock_minimo) : 2;
 
-    let headerHtml = '<th>Color</th>';
-    activeProduct.talles.forEach(talle => {
-        headerHtml += `
-            <th class="text-center" data-talle="${talle}">
-                <div class="d-flex align-items-center justify-content-center gap-1">
-                    <span>${talle}</span>
-                    <button type="button" class="btn btn-sm p-0 lh-1 border-0 edit-mode text-danger" 
-                            style="font-size: 0.95rem; background: none; margin-left: 4px; font-weight: bold; cursor: pointer; display: ${isEditing ? 'inline-block' : 'none'};"
-                            onclick="event.stopPropagation(); deleteTalle('${talle}')" 
-                            title="Eliminar talle ${talle}">
-                        ×
-                    </button>
-                </div>
-            </th>`;
-    });
+    // Control de visibilidad de botones para agregar talle/color
+    const btnAddTalle = document.getElementById('btn-add-talle-trigger');
+    const btnAddColor = document.getElementById('btn-add-color-trigger');
+    if (btnAddTalle) btnAddTalle.style.display = acceptsSize ? 'inline-block' : 'none';
+    if (btnAddColor) btnAddColor.style.display = acceptsColor ? 'inline-block' : 'none';
+
+    // 1. Dibujar Encabezado
+    let headerHtml = '';
+    if (acceptsColor) {
+        headerHtml += '<th>Color</th>';
+    }
+
+    if (acceptsSize) {
+        const standardOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+        activeProduct.talles.sort((a, b) => standardOrder.indexOf(a) - standardOrder.indexOf(b));
+        activeProduct.talles.forEach(talle => {
+            headerHtml += `
+                <th class="text-center" data-talle="${talle}">
+                    <div class="d-flex align-items-center justify-content-center gap-1">
+                        <span>${talle}</span>
+                        <button type="button" class="btn btn-sm p-0 lh-1 border-0 edit-mode text-danger" 
+                                style="font-size: 0.95rem; background: none; margin-left: 4px; font-weight: bold; cursor: pointer; display: ${isEditing ? 'inline-block' : 'none'};"
+                                onclick="event.stopPropagation(); deleteTalle('${talle}')" 
+                                title="Eliminar talle ${talle}">
+                            ×
+                        </button>
+                    </div>
+                </th>`;
+        });
+    } else {
+        headerHtml += '<th class="text-center">Stock</th>';
+    }
     headerRow.innerHTML = headerHtml;
 
+    // 2. Dibujar Body Rows
     let bodyHtml = '';
     activeProduct.colores.forEach((color, idx) => {
         const isActive = color.key === currentActiveColor;
-        bodyHtml += `
-                    <tr class="${isActive ? 'color-row-active' : ''}" data-color="${color.key}" data-color-id="${color.id}" data-color-name="${color.nombre}" onclick="selectColorRow(this)">
-                        <td>
-                            <div class="d-flex align-items-center justify-content-between gap-2">
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="color-dot-indicator" style="background-color: ${color.hex_code};"></span>
-                                    <span>${color.nombre}</span>
-                                </div>
-                                <button type="button" class="btn btn-sm p-0 lh-1 border-0 edit-mode text-danger"
-                                        style="font-size: 0.95rem; background: none; margin-right: 4px; font-weight: bold; cursor: pointer; display: ${isEditing ? 'inline-block' : 'none'};"
-                                        onclick="event.stopPropagation(); deleteColor('${color.key}')"
-                                        title="Eliminar color ${color.nombre}">
-                                    ×
-                                </button>
-                            </div>
-                        </td>
-                `;
+        let rowHtml = `<tr class="${isActive ? 'color-row-active' : ''}" data-color="${color.key}" data-color-id="${color.id}" data-color-name="${color.nombre}" onclick="selectColorRow(this)">`;
 
-        activeProduct.talles.forEach(talle => {
+        if (acceptsColor) {
+            rowHtml += `
+                <td>
+                    <div class="d-flex align-items-center justify-content-between gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="color-dot-indicator" style="background-color: ${color.hex_code};"></span>
+                            <span>${color.nombre}</span>
+                        </div>
+                        <button type="button" class="btn btn-sm p-0 lh-1 border-0 edit-mode text-danger"
+                                style="font-size: 0.95rem; background: none; margin-right: 4px; font-weight: bold; cursor: pointer; display: ${isEditing ? 'inline-block' : 'none'};"
+                                onclick="event.stopPropagation(); deleteColor('${color.key}')"
+                                title="Eliminar color ${color.nombre}">
+                            ×
+                        </button>
+                    </div>
+                </td>`;
+        }
+
+        if (acceptsSize) {
+            activeProduct.talles.forEach(talle => {
+                const variant = activeProduct.variantes[color.key] ? activeProduct.variantes[color.key][talle] : null;
+                rowHtml += `<td class="text-center" data-talle="${talle}">`;
+                if (variant) {
+                    const stock = variant.stock;
+                    rowHtml += `
+                        <span class="stock-badge-text ${stock <= minStock ? 'stock-badge-low' : ''}">${stock} un</span>
+                        <div class="stock-edit-wrapper" style="display: ${isEditing ? 'inline-flex' : 'none'}; align-items: center; justify-content: center; gap: 4px;">
+                            <input type="number" class="stock-badge-input form-control shadow-none" value="${stock}" data-color-id="${color.id}" data-talle="${talle}" style="display: inline-block; width: 60px; padding: 0.2rem 0.4rem; font-size: 0.85rem; text-align: center; border: 1px solid var(--neutral-300); border-radius: 6px;">
+                            <button type="button" class="btn btn-sm p-0 lh-1 border-0 text-danger" 
+                                    style="font-size: 1.15rem; background: none; font-weight: bold; cursor: pointer;"
+                                    onclick="event.stopPropagation(); deleteVariant('${color.key}', '${talle}')"
+                                    title="Eliminar variante">
+                                    ×
+                            </button>
+                        </div>`;
+                } else {
+                    rowHtml += `<button class="btn btn-add-var-cell" onclick="openCreateVariationModal(this)">+</button>`;
+                }
+                rowHtml += `</td>`;
+            });
+        } else {
+            const talle = '-';
             const variant = activeProduct.variantes[color.key] ? activeProduct.variantes[color.key][talle] : null;
-            bodyHtml += `<td class="text-center" data-talle="${talle}">`;
+            rowHtml += `<td class="text-center" data-talle="${talle}">`;
             if (variant) {
                 const stock = variant.stock;
-                bodyHtml += `
-                            <span class="stock-badge-text ${stock <= minStock ? 'stock-badge-low' : ''}">${stock} un</span>
-                            <div class="stock-edit-wrapper" style="display: ${isEditing ? 'inline-flex' : 'none'}; align-items: center; justify-content: center; gap: 4px;">
-                                <input type="number" class="stock-badge-input form-control shadow-none" value="${stock}" data-color-id="${color.id}" data-talle="${talle}" style="display: inline-block; width: 60px; padding: 0.2rem 0.4rem; font-size: 0.85rem; text-align: center; border: 1px solid var(--neutral-300); border-radius: 6px;">
-                                <button type="button" class="btn btn-sm p-0 lh-1 border-0 text-danger" 
-                                        style="font-size: 1.15rem; background: none; font-weight: bold; cursor: pointer;"
-                                        onclick="event.stopPropagation(); deleteVariant('${color.key}', '${talle}')"
-                                        title="Eliminar variante">
-                                    ×
-                                </button>
-                            </div>
-                        `;
+                rowHtml += `
+                    <span class="stock-badge-text ${stock <= minStock ? 'stock-badge-low' : ''}">${stock} un</span>
+                    <div class="stock-edit-wrapper" style="display: ${isEditing ? 'inline-flex' : 'none'}; align-items: center; justify-content: center; gap: 4px;">
+                        <input type="number" class="stock-badge-input form-control shadow-none" value="${stock}" data-color-id="${color.id}" data-talle="${talle}" style="display: inline-block; width: 60px; padding: 0.2rem 0.4rem; font-size: 0.85rem; text-align: center; border: 1px solid var(--neutral-300); border-radius: 6px;">
+                    </div>`;
             } else {
-                bodyHtml += `<button class="btn btn-add-var-cell" onclick="openCreateVariationModal(this)">+</button>`;
+                rowHtml += `<button class="btn btn-add-var-cell" onclick="openCreateVariationModal(this)">+</button>`;
             }
-            bodyHtml += `</td>`;
-        });
+            rowHtml += `</td>`;
+        }
 
-        bodyHtml += '</tr>';
+        rowHtml += '</tr>';
+        bodyHtml += rowHtml;
     });
     tbody.innerHTML = bodyHtml;
 }
@@ -1417,7 +1462,6 @@ function appendProductsToList(products) {
     updateProductsCount();
 }
 
-
 /**
  * Actualiza el contador de productos.
  * 
@@ -1443,7 +1487,99 @@ window.onload = function () {
     initInfiniteScroll();
     setupImageUploadEvents();
 
+    const categorySelector = document.getElementById('new-prod-category');
+    if (categorySelector) {
+        categorySelector.addEventListener('change', handleNewProductCategoryChange);
+    }
+
     document.getElementById('search-prod-input').addEventListener('input', filterProducts);
     document.getElementById('filter-category').addEventListener('change', filterProducts);
     document.getElementById('filter-pet').addEventListener('change', filterProducts);
 };
+
+/**
+ * Verifica si una categoría requiere talle.
+ * 
+ * @function categoryAcceptsSize
+ * @param {number} catId - ID de la categoría.
+ * @returns {boolean} True si la categoría requiere talle, false en caso contrario.
+ */
+function categoryAcceptsSize(catId) {
+    if (!catId || !window.LaravelConfig.categoriasSystem) return true;
+    const cat = window.LaravelConfig.categoriasSystem.find(c => c.id == catId);
+    if (!cat) return true;
+    if (cat.pide_talle !== null && cat.pide_talle !== undefined) {
+        return cat.pide_talle == 1 || cat.pide_talle === true;
+    }
+    if (cat.parent_id) {
+        const parent = window.LaravelConfig.categoriasSystem.find(c => c.id == cat.parent_id);
+        if (parent && parent.pide_talle !== null && parent.pide_talle !== undefined) {
+            return parent.pide_talle == 1 || parent.pide_talle === true;
+        }
+    }
+    return true;
+}
+
+/**
+ * Verifica si una categoría requiere color.
+ * 
+ * @function categoryAcceptsColor
+ * @param {number} catId - ID de la categoría.
+ * @returns {boolean} True si la categoría requiere color, false en caso contrario.
+ */
+function categoryAcceptsColor(catId) {
+    if (!catId || !window.LaravelConfig.categoriasSystem) return true;
+    const cat = window.LaravelConfig.categoriasSystem.find(c => c.id == catId);
+    if (!cat) return true;
+    if (cat.pide_color !== null && cat.pide_color !== undefined) {
+        return cat.pide_color == 1 || cat.pide_color === true;
+    }
+    if (cat.parent_id) {
+        const parent = window.LaravelConfig.categoriasSystem.find(c => c.id == cat.parent_id);
+        if (parent && parent.pide_color !== null && parent.pide_color !== undefined) {
+            return parent.pide_color == 1 || parent.pide_color === true;
+        }
+    }
+    return true;
+}
+
+/**
+ * Maneja el cambio de categoría en el formulario de creación de productos.
+ * Actualiza la visibilidad de los campos de talle y color según la categoría seleccionada.
+ * 
+ * @function handleNewProductCategoryChange
+ * @returns {void}
+ */
+function handleNewProductCategoryChange() {
+    const categorySelector = document.getElementById('new-prod-category');
+    if (!categorySelector) return;
+    const categoryId = parseInt(categorySelector.value);
+    const acceptsSize = categoryAcceptsSize(categoryId);
+    const acceptsColor = categoryAcceptsColor(categoryId);
+
+    const talleContainer = document.getElementById('new-variant-talle').closest('.col-3');
+    const colorContainer = document.getElementById('new-variant-color').closest('.col-5');
+
+    if (talleContainer) {
+        if (!acceptsSize) {
+            talleContainer.style.setProperty('display', 'none', 'important');
+            document.getElementById('new-variant-talle').value = '-';
+        } else {
+            talleContainer.style.display = 'block';
+        }
+    }
+
+    if (colorContainer) {
+        if (!acceptsColor) {
+            colorContainer.style.setProperty('display', 'none', 'important');
+            const unicoOption = Array.from(document.getElementById('new-variant-color').options).find(o => o.text.toLowerCase() === 'único');
+            if (unicoOption) {
+                document.getElementById('new-variant-color').value = unicoOption.value;
+            } else if (document.getElementById('new-variant-color').options.length > 0) {
+                document.getElementById('new-variant-color').selectedIndex = 0;
+            }
+        } else {
+            colorContainer.style.display = 'block';
+        }
+    }
+}

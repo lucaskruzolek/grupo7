@@ -88,7 +88,9 @@ Route::middleware(['auth', 'rol:admin'])->prefix('admin')->group(function () {
     // Recursos CRUD del panel
     Route::resource('usuarios', UsuarioController::class)->names('admin.usuarios');
     Route::resource('categorias', CategoriaController::class)->names('admin.categorias');
-    Route::resource('colecciones', ColeccionController::class)->names('admin.colecciones');
+    Route::resource('colecciones', ColeccionController::class)->parameters([
+        'colecciones' => 'coleccion'
+    ])->names('admin.colecciones');
     
     // Rutas CRUD de Productos (excepto 'index' y 'show' públicos)
     Route::get('productos/{sku_base}/details', [ProductoController::class, 'getDetails'])->name('admin.productos.details');

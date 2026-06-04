@@ -95,62 +95,78 @@
     </div>
 </div>
 
+@php
+    $mostrarTalle = true;
+    $mostrarColor = true;
+    if (request()->filled('categoria')) {
+        $cat = $categorias->firstWhere('id', request('categoria'));
+        if ($cat) {
+            $mostrarTalle = $cat->acepta_talle;
+            $mostrarColor = $cat->acepta_color;
+        }
+    }
+@endphp
+
+@if($mostrarTalle)
     <hr class="my-3" style="opacity: 0.1;">
 
-{{-- FILA 4: Talles Dinámicos --}}
-<div class="mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <span class="poppins-bold text-main fs-6 d-flex align-items-center gap-2">
-            <img src="{{ asset('img/icons/ruler.svg') }}" alt="Talles" style="width: 18px; height: 18px; opacity: 0.7;">TALLE
-        </span>
-        <i class="bi bi-chevron-down text-secondary small"></i>
+    {{-- FILA 4: Talles Dinámicos --}}
+    <div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="poppins-bold text-main fs-6 d-flex align-items-center gap-2">
+                <img src="{{ asset('img/icons/ruler.svg') }}" alt="Talles" style="width: 18px; height: 18px; opacity: 0.7;">TALLE
+            </span>
+            <i class="bi bi-chevron-down text-secondary small"></i>
+        </div>
+        <div class="d-flex justify-content-between gap-1">
+            @foreach(\App\Models\Producto::TALLES as $talle)
+                <div>
+                    <input type="radio" name="talle" value="{{ $talle }}" id="talle_{{ $talle }}" class="d-none filtro-automatico" {{ request('talle') == $talle ? 'checked' : '' }}>
+                    
+                    <label for="talle_{{ $talle }}" class="btn btn-light border py-2 px-0 text-center square-filter-btn w-100 {{ request('talle') == $talle ? 'active-filter-card border-primary bg-primary text-white' : '' }}" style="cursor: pointer; min-width: 40px;">
+                        {{ $talle }}
+                    </label>
+                </div>
+            @endforeach
+        </div>
     </div>
-    <div class="d-flex justify-content-between gap-1">
-        @foreach(['XS', 'S', 'M', 'L', 'XL', 'XXL'] as $talle)
-            <div>
-                <input type="radio" name="talle" value="{{ $talle }}" id="talle_{{ $talle }}" class="d-none filtro-automatico" {{ request('talle') == $talle ? 'checked' : '' }}>
-                
-                <label for="talle_{{ $talle }}" class="btn btn-light border py-2 px-0 text-center square-filter-btn w-100 {{ request('talle') == $talle ? 'active-filter-card border-primary bg-primary text-white' : '' }}" style="cursor: pointer; min-width: 40px;">
-                    {{ $talle }}
-                </label>
-            </div>
-        @endforeach
-    </div>
-</div>
+@endif
 
+@if($mostrarColor)
     <hr class="my-3" style="opacity: 0.1;">
 
-{{-- FILA 5: Color Dinámico --}}
-<div class="mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <span class="poppins-bold text-main fs-6 d-flex align-items-center gap-2">
-            <img src="{{ asset('img/icons/palette.svg') }}" alt="Colores" style="width: 18px; height: 18px; opacity: 0.7;">COLOR
-        </span>
-        <i class="bi bi-chevron-down text-secondary small"></i>
-    </div>
-    <div class="d-flex gap-2 justify-content-start align-items-center flex-wrap">
-        @php
-            // Definimos tus colores estéticos mapeados con strings o IDs correspondientes
-            $paleta = [
-                ['nombre' => 'Verde musgo', 'hex' => '#556b2f'],
-                ['nombre' => 'Coral', 'hex' => '#e3a393'],
-                ['nombre' => 'Beige', 'hex' => '#f5f5dc'],
-                ['nombre' => 'Azul Marino', 'hex' => '#1a2941'],
-                ['nombre' => 'Gris', 'hex' => '#8b9fba'],
-                ['nombre' => 'Negro', 'hex' => '#000000'],
-            ];
-        @endphp
+    {{-- FILA 5: Color Dinámico --}}
+    <div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="poppins-bold text-main fs-6 d-flex align-items-center gap-2">
+                <img src="{{ asset('img/icons/palette.svg') }}" alt="Colores" style="width: 18px; height: 18px; opacity: 0.7;">COLOR
+            </span>
+            <i class="bi bi-chevron-down text-secondary small"></i>
+        </div>
+        <div class="d-flex gap-2 justify-content-start align-items-center flex-wrap">
+            @php
+                // Definimos tus colores estéticos mapeados con strings o IDs correspondientes
+                $paleta = [
+                    ['nombre' => 'Verde musgo', 'hex' => '#556b2f'],
+                    ['nombre' => 'Coral', 'hex' => '#e3a393'],
+                    ['nombre' => 'Beige', 'hex' => '#f5f5dc'],
+                    ['nombre' => 'Azul Marino', 'hex' => '#1a2941'],
+                    ['nombre' => 'Gris', 'hex' => '#8b9fba'],
+                    ['nombre' => 'Negro', 'hex' => '#000000'],
+                ];
+            @endphp
 
-        @foreach($paleta as $col)
-            <div>
-                <input type="radio" name="color" value="{{ Str::slug($col['nombre']) }}" id="color_{{ Str::slug($col['nombre']) }}" class="d-none filtro-automatico" {{ request('color') == Str::slug($col['nombre']) ? 'checked' : '' }}>
-                
-                <label for="color_{{ Str::slug($col['nombre']) }}" class="rounded-circle color-filter-dot d-block" style="background-color: {{ $col['hex'] }}; width: 24px; height: 24px; cursor: pointer; {{ request('color') == Str::slug($col['nombre']) ? 'ring 3px #0d6efd' : 'border: 1px solid #ddd;' }}" title="{{ $col['nombre'] }}">
-                </label>
-            </div>
-        @endforeach
+            @foreach($paleta as $col)
+                <div>
+                    <input type="radio" name="color" value="{{ Str::slug($col['nombre']) }}" id="color_{{ Str::slug($col['nombre']) }}" class="d-none filtro-automatico" {{ request('color') == Str::slug($col['nombre']) ? 'checked' : '' }}>
+                    
+                    <label for="color_{{ Str::slug($col['nombre']) }}" class="rounded-circle color-filter-dot d-block" style="background-color: {{ $col['hex'] }}; width: 24px; height: 24px; cursor: pointer; {{ request('color') == Str::slug($col['nombre']) ? 'ring 3px #0d6efd' : 'border: 1px solid #ddd;' }}" title="{{ $col['nombre'] }}">
+                    </label>
+                </div>
+            @endforeach
+        </div>
     </div>
-</div>
+@endif
 
 <hr class="my-3" style="opacity: 0.1;">
 
@@ -244,7 +260,7 @@
             <img src="{{ asset('img/icons/delivery-truck.svg') }}" alt="Envios" style="width: 32px; height: 32px;">
             <div>
                 <h6 class="poppins-bold mb-0 text-success" style="font-size: 0.85rem;">Envíos gratis</h6>
-                <p class="text-secondary mb-0 p-0" style="font-size: 0.72rem; line-height:1.2;">en compras mayores a $599 MXN</p>
+                <p class="text-secondary mb-0 p-0" style="font-size: 0.72rem; line-height:1.2;">en compras mayores a $50000 ARS</p>
             </div>
         </div>
         <img src="{{ asset('img/icons/heart.svg') }}" alt="Fav" style="width: 16px; height: 16px; opacity: 0.4;">

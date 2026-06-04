@@ -19,6 +19,8 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('nombre', 100);
             $table->string('icono', 255)->nullable();
+            $table->boolean('pide_talle')->default(true);
+            $table->boolean('pide_color')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

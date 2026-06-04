@@ -16,6 +16,8 @@ class Categoria extends Model
         'nombre',
         'parent_id',
         'icono',
+        'pide_talle',
+        'pide_color',
     ];
 
     // ── Relaciones ──────────────────────────────────────────
@@ -42,5 +44,23 @@ class Categoria extends Model
     public function productos()
     {
         return $this->hasMany(Producto::class, 'categoria_id');
+    }
+
+    // ── Accesores Virtuales Inteligentes ──────────────────────
+
+    /**
+     * Resuelve si la categoría o su padre aceptan variaciones por Talle.
+     */
+    public function getAceptaTalleAttribute(): bool
+    {
+        return (bool) ($this->pide_talle ?? $this->parent?->pide_talle ?? true);
+    }
+
+    /**
+     * Resuelve si la categoría o su padre aceptan variaciones por Color.
+     */
+    public function getAceptaColorAttribute(): bool
+    {
+        return (bool) ($this->pide_color ?? $this->parent?->pide_color ?? true);
     }
 }

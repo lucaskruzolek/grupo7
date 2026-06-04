@@ -59,7 +59,7 @@
 
                         <!-- Acciones a la derecha de la Categoría Principal -->
                         <div class="d-flex gap-2 align-items-center" onclick="event.stopPropagation()">
-                            <button type="button" class="btn-link-action btn-link-action-secondary" title="Editar" onclick="openEditModal({{ $parent->id }}, '{{ $parent->nombre }}', null, '{{ $parent->icono }}')">
+                            <button type="button" class="btn-link-action btn-link-action-secondary" title="Editar" onclick="openEditModal({{ $parent->id }}, '{{ $parent->nombre }}', null, '{{ $parent->icono }}', {{ $parent->pide_talle ? 1 : 0 }}, {{ $parent->pide_color ? 1 : 0 }})">
                                 ✏️
                             </button>
                             <form action="{{ route('admin.categorias.destroy', $parent->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas dar de baja la categoría principal &quot;{{ $parent->nombre }}&quot; y todas sus subcategorías asociadas? Esto no borrará productos pero sí se desvincularán.');">
@@ -89,7 +89,7 @@
 
                                                 <!-- Acciones de la Subcategoría -->
                                                 <div class="d-flex gap-2 align-items-center">
-                                                    <button type="button" class="btn-link-action btn-link-action-secondary" title="Editar" onclick="openEditModal({{ $child->id }}, '{{ $child->nombre }}', {{ $parent->id }}, null)">
+                                                    <button type="button" class="btn-link-action btn-link-action-secondary" title="Editar" onclick="openEditModal({{ $child->id }}, '{{ $child->nombre }}', {{ $parent->id }}, null, {{ $child->pide_talle ? 1 : 0 }}, {{ $child->pide_color ? 1 : 0 }})">
                                                         ✏️
                                                     </button>
                                                     <form action="{{ route('admin.categorias.destroy', $child->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar la subcategoría &quot;{{ $child->nombre }}&quot;?');">
@@ -195,6 +195,19 @@
                         <small class="text-muted mt-1 d-block" id="parent-helper-text" style="font-size: 0.72rem; display: none;">
                             La categoría padre no puede modificarse.
                         </small>
+                    </div>
+
+                    <!-- Toggles para variaciones de Talle y Color -->
+                    <div class="form-group-admin mt-4">
+                        <label class="form-label-admin mb-2">Variaciones permitidas</label>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" name="pide_talle" id="category-pide-talle" value="1" checked>
+                            <label class="form-check-label text-dark small" for="category-pide-talle">Permitir variaciones por Talle</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="pide_color" id="category-pide-color" value="1" checked>
+                            <label class="form-check-label text-dark small" for="category-pide-color">Permitir variaciones por Color</label>
+                        </div>
                     </div>
                 </div>
                 

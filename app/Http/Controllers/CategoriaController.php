@@ -33,9 +33,11 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre'    => 'required|string|max:100',
-            'parent_id' => 'nullable|exists:categorias,id', // Si viene, debe ser un ID válido de categoría
-            'icono'     => 'nullable|file|max:2048', // Valida tamaño de archivo
+            'nombre'     => 'required|string|max:100',
+            'parent_id'  => 'nullable|exists:categorias,id', // Si viene, debe ser un ID válido de categoría
+            'icono'      => 'nullable|file|max:2048', // Valida tamaño de archivo
+            'pide_talle' => 'nullable|boolean',
+            'pide_color' => 'nullable|boolean',
         ]);
 
         $iconoUrl = null;
@@ -61,9 +63,11 @@ class CategoriaController extends Controller
         }
 
         Categoria::create([
-            'nombre'    => $request->nombre,
-            'parent_id' => $request->parent_id ?: null,
-            'icono'     => $iconoUrl,
+            'nombre'     => $request->nombre,
+            'parent_id'  => $request->parent_id ?: null,
+            'icono'      => $iconoUrl,
+            'pide_talle' => $request->boolean('pide_talle'),
+            'pide_color' => $request->boolean('pide_color'),
         ]);
 
         return redirect()->route('admin.categorias.index')->with('exito', 'Categoría/Subcategoría guardada con éxito.');
@@ -83,9 +87,11 @@ class CategoriaController extends Controller
     public function update(Request $request, Categoria $categoria)
     {
         $request->validate([
-            'nombre'    => 'required|string|max:100',
-            'parent_id' => 'nullable|exists:categorias,id',
-            'icono'     => 'nullable|file|max:2048',
+            'nombre'     => 'required|string|max:100',
+            'parent_id'  => 'nullable|exists:categorias,id',
+            'icono'      => 'nullable|file|max:2048',
+            'pide_talle' => 'nullable|boolean',
+            'pide_color' => 'nullable|boolean',
         ]);
 
         $iconoUrl = $categoria->icono;
@@ -137,9 +143,11 @@ class CategoriaController extends Controller
         }
 
         $categoria->update([
-            'nombre'    => $request->nombre,
-            'parent_id' => $request->parent_id ?: null,
-            'icono'     => $iconoUrl,
+            'nombre'     => $request->nombre,
+            'parent_id'  => $request->parent_id ?: null,
+            'icono'      => $iconoUrl,
+            'pide_talle' => $request->boolean('pide_talle'),
+            'pide_color' => $request->boolean('pide_color'),
         ]);
 
         return redirect()->route('admin.categorias.index')->with('exito', 'Categoría actualizada correctamente.');

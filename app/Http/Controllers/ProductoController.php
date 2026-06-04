@@ -55,6 +55,35 @@ class ProductoController extends Controller
             $query->where('coleccion_id', $request->coleccion);
         }
 
+        // --- FILTROS DE VARIANTES (Talle y Color) ---
+        // Filtro por Talle
+        if ($request->has('talle') && $request->talle != '') {
+            $query->where('talle', $request->talle);
+        }
+
+        // Filtro por Color (Asumiendo que mapeas por relación o por el string del campo)
+        if ($request->has('color') && $request->color != '') {
+            // Si tu tabla guarda el nombre formateado o usas slugs
+            $query->whereHas('color', function($q) use ($request) {
+                $q->where('nombre', 'LIKE', '%' . $request->color . '%');
+            });
+        }
+
+        // --- FILTRO DE PRECIOS POR RANGOS PREDEFINIDOS ---
+        if ($request->has('precio_rango') && $request->precio_rango != '') {
+            // Usamos 'explode' para separar el string por el guion (ej: '5000-12000' se convierte en [5000, 12000])
+            $partesPrecio = explode('-', $request->precio_rango);
+            
+            // Validamos que efectivamente tengamos las dos partes (mínimo y máximo)
+            if (count($partesPrecio) === 2) {
+                $precioMin = (float) $partesPrecio[0];
+                $precioMax = (float) $partesPrecio[1];
+                
+                // Filtramos los productos cuyo precio esté dentro de ese rango
+                $query->whereBetween('precio', [$precioMin, $precioMax]);
+            }
+        }
+
         // Ejecutamos la consulta final con los filtros aplicados
         $productos = $query->get();
 
@@ -64,35 +93,6 @@ class ProductoController extends Controller
 
         // Retornamos la vista enviando las colecciones y categorías dinámicas
         return view('frontend.productos', compact('productos', 'categorias', 'colecciones'));
-
-
-          // --- FILTROS DE VARIANTES (Talle y Color) ---
-        // Filtro por Talle
-        if ($request->has('talle') && $request->talle != '') {
-        $query->where('talle', $request->talle);
-    }
-
-        // Filtro por Color (Asumiendo que mapeas por relación o por el string del campo)
-        if ($request->has('color') && $request->color != '') {
-        // Si tu tabla guarda el nombre formateado o usas slugs
-        $query->whereHas('color', function($q) use ($request) {
-            $q->where('nombre', 'LIKE', '%' . $request->color . '%');
-    });
-        // --- FILTRO DE PRECIOS POR RANGOS PREDEFINIDOS ---
-        if ($request->has('precio_rango') && $request->precio_rango != '') {
-            // Usamos 'explode' para separar el string por el guion (ej: '5000-12000' se convierte en [5000, 12000])
-            $partesPrecio = explode('-', $request->precio_rango);
-    
-        // Validamos que efectivamente tengamos las dos partes (mínimo y máximo)
-        if (count($partesPrecio) === 2) {
-            $precioMin = (float) $partesPrecio[0];
-            $precioMax = (float) $partesPrecio[1];
-        
-        // Filtramos los productos cuyo precio esté dentro de ese rango
-            $query->whereBetween('precio', [$precioMin, $precioMax]);
-    }
-}
-}
     }
 
   
@@ -126,9 +126,6 @@ class ProductoController extends Controller
                 $sortedImgs = $firstWithImage->imagenes->sortBy('orden');
                 $thumbSrc = $sortedImgs->first()->url;
             }
-            if (!$thumbSrc) {
-                $thumbSrc = asset('img/ui/productos/perro-buzo-verde.webp');
-            }
 
             $productosData[] = [
                 'sku_base' => $skuBase,
@@ -150,6 +147,14 @@ class ProductoController extends Controller
         });
         
         $categorias = Categoria::with('children')->whereNull('parent_id')->get();
+        $categoriasSystem = Categoria::all()->map(function($c) {
+            return [
+                'id' => $c->id,
+                'parent_id' => $c->parent_id,
+                'pide_talle' => $c->pide_talle,
+                'pide_color' => $c->pide_color
+            ];
+        });
         $colecciones = Coleccion::all();
         $coloresSystem = Color::all()->map(function($c) {
             return [
@@ -161,11 +166,12 @@ class ProductoController extends Controller
             ];
         });
         
-        $tallesSystem = ['-', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
+        $tallesSystem = \App\Models\Producto::getTallesSystem();
 
         return view('backend.admin.productos', compact(
             'productosData', 
             'categorias', 
+            'categoriasSystem',
             'colecciones', 
             'coloresSystem', 
             'tallesSystem'

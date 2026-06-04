@@ -12,6 +12,13 @@ class Producto extends Model
 
     protected $table = 'productos';
 
+    public const TALLES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+    public static function getTallesSystem(): array
+    {
+        return array_merge(['-'], self::TALLES);
+    }
+
     protected $fillable = [
         'categoria_id',
         'coleccion_id',

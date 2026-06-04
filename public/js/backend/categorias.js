@@ -65,6 +65,10 @@ function openCreateParentModal() {
     iconRequiredAsterisk.style.display = "inline";
     previewContainer.style.setProperty("display", "none", "important");
 
+    // Talles y Colores activos por defecto
+    document.getElementById('category-pide-talle').checked = true;
+    document.getElementById('category-pide-color').checked = true;
+
     handleTypeChange();
     modalCategoryInstance.show();
 }
@@ -110,6 +114,10 @@ function openCreateSubcategoryModal(parentId, parentName) {
     iconRequiredAsterisk.style.display = "none";
     previewContainer.style.setProperty("display", "none", "important");
 
+    // Talles y Colores activos por defecto
+    document.getElementById('category-pide-talle').checked = true;
+    document.getElementById('category-pide-color').checked = true;
+
     handleTypeChange();
     modalCategoryInstance.show();
 }
@@ -117,7 +125,7 @@ function openCreateSubcategoryModal(parentId, parentName) {
 /**
  * Prepara el modal para editar una categoría existente (padre o hija)
  */
-function openEditModal(id, name, parentId, iconoUrl) {
+function openEditModal(id, name, parentId, iconoUrl, pideTalle, pideColor) {
     const form = document.getElementById('form-category');
     const title = document.getElementById('modalCategoryTitle');
     const typeSelect = document.getElementById('category-type');
@@ -174,6 +182,10 @@ function openEditModal(id, name, parentId, iconoUrl) {
 
         previewContainer.style.setProperty("display", "none", "important");
     }
+
+    // Poblar toggles de Talle y Color
+    document.getElementById('category-pide-talle').checked = (pideTalle == 1 || pideTalle === true);
+    document.getElementById('category-pide-color').checked = (pideColor == 1 || pideColor === true);
 
     handleTypeChange();
     modalCategoryInstance.show();

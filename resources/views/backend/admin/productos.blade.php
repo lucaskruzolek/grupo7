@@ -238,8 +238,8 @@
                     <div class="d-flex align-items-center justify-content-between mb-1 flex-wrap gap-2">
                         <h3 class="h5 text-dark fw-bold mb-0">Stock por talle y color</h3>
                         <div class="d-flex align-items-center gap-2">
-                            <button class="btn btn-sm btn-outline-secondary" style="font-size: 0.75rem;" onclick="openAddTalleModal()">+ Agregar Talle</button>
-                            <button class="btn btn-sm btn-outline-secondary" style="font-size: 0.75rem;" onclick="openAddColorModal()">+ Agregar Color</button>
+                            <button class="btn btn-sm btn-outline-secondary" id="btn-add-talle-trigger" style="font-size: 0.75rem;" onclick="openAddTalleModal()">+ Agregar Talle</button>
+                            <button class="btn btn-sm btn-outline-secondary" id="btn-add-color-trigger" style="font-size: 0.75rem;" onclick="openAddColorModal()">+ Agregar Color</button>
                         </div>
                     </div>
 
@@ -448,7 +448,7 @@
                                 <label for="new-variant-talle" class="form-label-admin">Talle</label>
                                 <select id="new-variant-talle" class="form-select form-select-admin">
                                     @foreach($tallesSystem as $talle)
-                                        <option value="{{ $talle }}">{{ $talle }}</option>
+                                        <option value="{{ $talle }}">{{ $talle === '-' ? '-' : $talle }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -502,6 +502,7 @@
             productosData: @json($productosData),
             coloresSystem: @json($coloresSystem),
             tallesSystem: @json($tallesSystem),
+            categoriasSystem: @json($categoriasSystem),
             defaultImagePath: "{{ asset('img/ui/productos/perro-buzo-verde.webp') }}",
             updateGroupUrl: "{{ route('admin.productos.updateGroup') }}",
             uploadImageUrl: "{{ route('admin.productos.images.upload') }}",
