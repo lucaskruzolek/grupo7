@@ -18,7 +18,7 @@
 }
 
 .collection-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
 }
 
@@ -91,7 +91,8 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    height: 2.9rem; /* Fallback for older browsers */
+    height: 2.9rem;
+    /* Fallback for older browsers */
 }
 
 /* Card Actions at the bottom */

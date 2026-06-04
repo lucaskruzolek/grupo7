@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController; 
 use App\Http\Controllers\ColeccionController; 
 use App\Http\Controllers\AdminController; 
+use App\Http\Controllers\VentaController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,15 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
+// 3. CARRITO Y CHECKOUT — CLIENTE AUTENTICADO
+Route::middleware('auth')->group(function () {
+    Route::get('/carrito', [VentaController::class, 'verCarrito'])->name('carrito.ver');
+    Route::post('/carrito/agregar', [VentaController::class, 'agregarAlCarrito'])->name('carrito.agregar');
+    Route::patch('/carrito/detalle/{id}', [VentaController::class, 'actualizarCantidad'])->name('carrito.actualizar');
+    Route::delete('/carrito/detalle/{id}', [VentaController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
+    Route::post('/carrito/checkout', [VentaController::class, 'checkout'])->name('carrito.checkout');
+});
+
 
 // 3. MOSTRADOR DE PRODUCTOS DINÁMICO (CON FILTROS) — PÚBLICO
 // Carga el controlador para procesar los filtros del sidebar, NO una vista estática
@@ -91,6 +101,12 @@ Route::middleware(['auth', 'rol:admin'])->prefix('admin')->group(function () {
     Route::resource('colecciones', ColeccionController::class)->parameters([
         'colecciones' => 'coleccion'
     ])->names('admin.colecciones');
+
+    // Rutas de Gestión de Ventas / Pedidos Administrativos
+    Route::get('/ventas', [VentaController::class, 'adminIndex'])->name('admin.ventas.index');
+    Route::get('/ventas/{id}', [VentaController::class, 'adminShow'])->name('admin.ventas.show');
+    Route::patch('/ventas/{id}/estado', [VentaController::class, 'actualizarEstado'])->name('admin.ventas.estado');
+    Route::get('/ventas/{id}/factura', [VentaController::class, 'descargarFactura'])->name('admin.ventas.factura');
     
     // Rutas CRUD de Productos (excepto 'index' y 'show' públicos)
     Route::get('productos/{sku_base}/details', [ProductoController::class, 'getDetails'])->name('admin.productos.details');

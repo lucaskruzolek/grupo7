@@ -47,9 +47,9 @@ class AdminController extends Controller
         ));
     }
 
-    public function pedidos()
+    public function ventas()
     {
-        return view('backend.admin.pedidos');
+        return redirect()->route('admin.ventas.index');
     }
 
     public function consultas()

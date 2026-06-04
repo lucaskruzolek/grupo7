@@ -10,7 +10,7 @@
     <!-- Encabezado Principal -->
     <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
         <div>
-            <h1 class="section-title">Gestión de Colecciones 🏷️</h1>
+            <h1 class="section-title">Gestión de Colecciones</h1>
             <p class="section-subtitle">Crea, edita y administra las colecciones y sus portadas visuales.</p>
         </div>
         <button class="btn-admin btn-admin-primary" onclick="openCreateColeccionModal()">
@@ -63,7 +63,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-link-action btn-link-action-danger" title="Eliminar">
-                                    🗑️ Eliminar
+                                    Eliminar
                                 </button>
                             </form>
                         </div>

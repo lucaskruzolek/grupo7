@@ -1210,15 +1210,8 @@ function renderProductDetails(product) {
 
     document.getElementById('delete-product-form').action = window.LaravelConfig.productosUrl + "/" + product.sku_base;
 
-    const catContainer = document.getElementById('detail-categories');
-    let catHtml = '';
-    if (product.categoria_padre) {
-        catHtml += `<span class="badge badge-completed" style="font-size: 0.75rem;">${product.categoria_padre}</span> `;
-    }
-    if (product.categoria_nombre) {
-        catHtml += `<span class="badge badge-completed" style="font-size: 0.75rem;">${product.categoria_nombre}</span>`;
-    }
-    catContainer.innerHTML = catHtml;
+    document.getElementById('detail-category-parent').innerText = product.categoria_padre || '-';
+    document.getElementById('detail-category-child').innerText = product.categoria_nombre || '-';
 
     document.getElementById('detail-desc').innerText = product.descripcion || 'Sin descripción.';
     document.getElementById('edit-desc').value = product.descripcion || '';
@@ -1226,13 +1219,13 @@ function renderProductDetails(product) {
     const petBadge = document.getElementById('detail-pet');
     const petSelect = document.getElementById('edit-pet');
     if (product.tipo_mascota === 'perro') {
-        petBadge.innerText = '🐶 Perros';
+        petBadge.innerText = 'Perros';
         petSelect.value = 'perro';
     } else if (product.tipo_mascota === 'gato') {
-        petBadge.innerText = '🐱 Gatos';
+        petBadge.innerText = 'Gatos';
         petSelect.value = 'gato';
     } else {
-        petBadge.innerText = '🐶 🐱 Ambos';
+        petBadge.innerText = 'Ambos';
         petSelect.value = 'ambos';
     }
 
@@ -1359,7 +1352,8 @@ function clearProductDetails() {
     document.getElementById('detail-sku-base').innerText = '-';
     document.getElementById('detail-title').innerText = 'No se encontraron productos';
     document.getElementById('edit-title').value = '';
-    document.getElementById('detail-categories').innerHTML = '';
+    document.getElementById('detail-category-parent').innerText = '-';
+    document.getElementById('detail-category-child').innerText = '-';
     document.getElementById('detail-desc').innerText = '';
     document.getElementById('edit-desc').value = '';
     document.getElementById('detail-pet').innerText = '-';

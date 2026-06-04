@@ -47,11 +47,11 @@
             </ul>
         </li>
         
-        <!-- Pedidos -->
-        <li class="sidebar-item {{ Request::is('admin/pedidos*') ? 'active' : '' }}" data-tooltip="Pedidos">
-            <a href="{{ url('/admin/pedidos') }}">
+        <!-- Ventas -->
+        <li class="sidebar-item {{ Request::is('admin/ventas*') ? 'active' : '' }}" data-tooltip="Ventas">
+            <a href="{{ url('/admin/ventas') }}">
                 <span class="sidebar-icon" style="-webkit-mask-image: url('{{ asset('img/icons/pedidos.svg') }}'); mask-image: url('{{ asset('img/icons/pedidos.svg') }}');"></span>
-                <span class="sidebar-text">Pedidos</span>
+                <span class="sidebar-text">Ventas</span>
             </a>
         </li>
         

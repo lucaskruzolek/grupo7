@@ -48,6 +48,9 @@ Este documento detalla el análisis técnico de las funciones implementadas en e
 40. [handleFilesUpload](#40-handlefilesupload)
 41. [deleteProductImage](#41-deleteproductimage)
 42. [setAsCoverImage](#42-setascoverimage)
+43. [categoryAcceptsSize](#43-categoryacceptssize)
+44. [categoryAcceptsColor](#44-categoryacceptscolor)
+45. [handleNewProductCategoryChange](#45-handlenewproductcategorychange)
 
 ---
 
@@ -1070,3 +1073,80 @@ Este documento detalla el análisis técnico de las funciones implementadas en e
        * Llama a `renderGalleryAndUrls()` para redibujar la galería principal y las miniaturas con sus nuevos bordes de destaque.
 *   **Efectos Secundarios**: Realiza peticiones de red, muta la variable `activeProduct`, altera las clases css y elementos del DOM a través de `renderGalleryAndUrls()`, y lanza `alert()`.
 *   **Asincronismo y Dependencias**: Asíncrono (Fetch y Promesas). Depende de `activeProduct`, `LaravelConfig` y `renderGalleryAndUrls()`.
+
+---
+
+### 43. `categoryAcceptsSize`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Verifica si una categoría requiere talle.
+     * 
+     * @function categoryAcceptsSize
+     * @param {number} catId - ID de la categoría.
+     * @returns {boolean} True si la categoría requiere talle, false en caso contrario.
+     */
+    ```
+*   **Propósito**: Determinar si una categoría (o su categoría padre si la subcategoría no define explícitamente el valor) requiere variaciones de talle.
+*   **Flujo Lógico**:
+    1. Comprueba si existe `catId` y si el arreglo global `window.LaravelConfig.categoriasSystem` está definido. Si no, retorna `true` por defecto.
+    2. Busca el objeto correspondiente a la categoría por su ID en el arreglo de configuración global.
+    3. Si la categoría tiene un valor explícito en su propiedad `pide_talle` (no nulo ni indefinido), evalúa y retorna si es verdadero/`1`.
+    4. Si el valor es nulo y la categoría cuenta con un `parent_id` (categoría padre), busca dicha categoría padre y retorna el valor de su campo `pide_talle`.
+    5. Retorna `true` como fallback de seguridad en cualquier otro caso.
+*   **Efectos Secundarios**: Ninguno. Es una función de sólo lectura.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de la presencia de `window.LaravelConfig.categoriasSystem`.
+
+---
+
+### 44. `categoryAcceptsColor`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Verifica si una categoría requiere color.
+     * 
+     * @function categoryAcceptsColor
+     * @param {number} catId - ID de la categoría.
+     * @returns {boolean} True si la categoría requiere color, false en caso contrario.
+     */
+    ```
+*   **Propósito**: Determinar si una categoría (o su categoría padre si la subcategoría no define explícitamente el valor) requiere variaciones de color.
+*   **Flujo Lógico**:
+    1. Comprueba si existe `catId` y si el arreglo global `window.LaravelConfig.categoriasSystem` está definido. Si no, retorna `true` por defecto.
+    2. Busca el objeto correspondiente a la categoría por su ID en el arreglo de configuración global.
+    3. Si la categoría tiene un valor explícito en su propiedad `pide_color` (no nulo ni indefinido), evalúa y retorna si es verdadero/`1`.
+    4. Si el valor es nulo y la categoría cuenta con un `parent_id` (categoría padre), busca dicha categoría padre y retorna el valor de su campo `pide_color`.
+    5. Retorna `true` como fallback de seguridad en cualquier otro caso.
+*   **Efectos Secundarios**: Ninguno. Es una función de sólo lectura.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de la presencia de `window.LaravelConfig.categoriasSystem`.
+
+---
+
+### 45. `handleNewProductCategoryChange`
+
+*   **JSDoc**:
+    ```javascript
+    /**
+     * Maneja el cambio de categoría en el formulario de creación de productos.
+     * Actualiza la visibilidad de los campos de talle y color según la categoría seleccionada.
+     * 
+     * @function handleNewProductCategoryChange
+     * @returns {void}
+     */
+    ```
+*   **Propósito**: Actualizar dinámicamente la visibilidad de los selectores de talle y color en el formulario de creación de productos al seleccionar una categoría, y establecer valores por defecto si se deshabilitan las variaciones.
+*   **Flujo Lógico**:
+    1. Obtiene el elemento del DOM `#new-prod-category`. Si no se encuentra, aborta la ejecución.
+    2. Parsea el valor seleccionado a entero para usarlo como ID de la categoría.
+    3. Llama a `categoryAcceptsSize(categoryId)` y `categoryAcceptsColor(categoryId)` para obtener los booleanos de configuración.
+    4. Encuentra los contenedores envolventes de los campos de Talle (`.col-3` más cercano al select `#new-variant-talle`) y Color (`.col-5` más cercano a `#new-variant-color`).
+    5. **Para el Talle**:
+       * Si no es requerido, oculta el contenedor (`display: none !important`) y establece el valor del campo en `'-'`.
+       * Si es requerido, muestra el contenedor (`display: block`).
+    6. **Para el Color**:
+       * Si no es requerido, oculta el contenedor (`display: none !important`). Busca la opción que diga "Único" y la asigna al valor del selector. De no existir tal opción, selecciona la primera opción disponible por defecto.
+       * Si es requerido, muestra el contenedor (`display: block`).
+*   **Efectos Secundarios**: Modifica inline el estilo de visualización (`display`) y el valor de los inputs del formulario del DOM.
+*   **Asincronismo y Dependencias**: Síncrono. Depende de las APIs de manipulación del DOM, `categoryAcceptsSize` y `categoryAcceptsColor`.

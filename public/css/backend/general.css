@@ -195,7 +195,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--neutral-300);
+    border: 1px solid var(--neutral-100);
     border-radius: 8px;
     background-color: #ffffff;
     cursor: pointer;
@@ -203,7 +203,7 @@ body {
 }
 
 .btn-filter-toggle:hover {
-    background-color: var(--neutral-50);
+    background-color: var(--neutral-100);
 }
 
 /* --- Tablas Administrativas Estilizadas --- */
@@ -248,6 +248,7 @@ body {
 .btn-admin {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     font-family: var(--font-main);
     font-weight: 600;
@@ -267,20 +268,19 @@ body {
 
 .btn-admin-primary:hover {
     background-color: var(--green-600);
-    transform: translateY(-1px);
     box-shadow: 0 4px 6px rgba(125, 140, 120, 0.25);
 }
 
 .btn-admin-secondary {
     background-color: #ffffff;
-    border: 1px solid var(--neutral-400);
+    border: 1px solid var(--neutral-200);
     color: var(--neutral-800) !important;
     padding: 0.5rem 1rem;
 }
 
 .btn-admin-secondary:hover {
-    background-color: var(--neutral-50);
-    border-color: var(--neutral-500);
+    background-color: var(--neutral-200);
+    border-color: var(--neutral-200);
 }
 
 /* --- Formularios Administrativos --- */

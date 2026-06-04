@@ -103,33 +103,31 @@
             <div class="detail-card text-start" id="detail-card-container">
                 
                 <!-- Encabezado de Detalle -->
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                    <div>
-                        <span class="badge bg-light text-muted border mb-2" id="detail-sku-base">-</span>
-                        <h2 class="h3 text-dark fw-bold mb-0 view-mode" id="detail-title">-</h2>
-                        <div class="edit-mode mb-2">
-                            <label class="form-label-admin mb-1">Nombre del Producto</label>
-                            <input type="text" class="form-control form-control-admin fw-bold" id="edit-title" value="" style="font-size: 1.1rem; color: var(--neutral-800);">
+                <div class="mb-3">
+                    <span class="badge bg-light text-muted border mb-2" id="detail-sku-base">-</span>
+                    <div class="d-flex align-items-center justify-content-between gap-2">
+                        <div class="flex-grow-1 min-w-0">
+                            <h2 class="h3 text-dark fw-bold mb-0 view-mode" id="detail-title">-</h2>
+                            <div class="edit-mode">
+                                <input type="text" class="form-control form-control-admin fw-bold" id="edit-title" value="">
+                            </div>
                         </div>
-                        <div class="d-flex gap-2 mt-2" id="detail-categories">
-                            <!-- Categorías dinámicas -->
-                        </div>
-                    </div>
-                    <div class="d-flex gap-2 align-items-center">
-                        <button type="button" class="btn-admin btn-admin-secondary edit-mode" id="btn-cancel-edit" onclick="cancelEditMode()">
-                            ❌ Cancelar
-                        </button>
-                        <button class="btn-admin btn-admin-secondary" id="btn-toggle-edit" onclick="toggleEditMode()">
-                            <span class="view-mode">✏️ Editar</span>
-                            <span class="edit-mode" style="color: var(--color-primary);">💾 Guardar</span>
-                        </button>
-                        <form id="delete-product-form" action="" method="POST" class="edit-mode d-inline" onsubmit="return confirm('¿Estás seguro de que deseas dar de baja este producto y todas sus variantes?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-admin btn-admin-secondary" style="height: 38px; border-radius: 8px;">
-                                🗑️ Dar de Baja
+                        <div class="d-flex gap-2 align-items-center flex-shrink-0">
+                            <button type="button" class="btn-admin btn-admin-secondary edit-mode" id="btn-cancel-edit" onclick="cancelEditMode()">
+                                ❌ <span class="d-none d-md-inline">Cancelar</span>
                             </button>
-                        </form>
+                            <button class="btn-admin btn-admin-secondary" id="btn-toggle-edit" onclick="toggleEditMode()">
+                                <span class="view-mode">✏️ <span class="d-none d-md-inline">Editar</span></span>
+                                <span class="edit-mode" style="color: var(--color-primary);">💾 <span class="d-none d-md-inline">Guardar</span></span>
+                            </button>
+                            <form id="delete-product-form" action="" method="POST" class="edit-mode d-inline" onsubmit="return confirm('¿Estás seguro de que deseas dar de baja este producto y todas sus variantes?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-admin btn-admin-secondary" style="height: 38px; border-radius: 8px;">
+                                    🗑️ <span class="d-none d-md-inline">Eliminar</span>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -200,15 +198,34 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group-admin">
+                                        <span class="form-label-admin">Categoría</span>
+                                        <div>
+                                            <span class="text-secondary small mb-0" id="detail-category-parent">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group-admin">
+                                        <span class="form-label-admin">Subcategoría</span>
+                                        <div>
+                                            <span class="text-secondary small mb-0" id="detail-category-child">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group-admin">
                                         <span class="form-label-admin">Tipo de mascota</span>
                                         <div class="view-mode">
-                                            <span class="badge bg-white text-dark border small" id="detail-pet">-</span>
+                                            <span class="text-secondary small mb-0" id="detail-pet">-</span>
                                         </div>
                                         <div class="edit-mode">
                                             <select class="form-select form-select-sm shadow-none" id="edit-pet">
-                                                <option value="perro">🐶 Perros</option>
-                                                <option value="gato">🐱 Gatos</option>
-                                                <option value="ambos">🐶 🐱 Ambos</option>
+                                                <option value="perro">Perros</option>
+                                                <option value="gato">Gatos</option>
+                                                <option value="ambos">Ambos</option>
                                             </select>
                                         </div>
                                     </div>
@@ -217,7 +234,7 @@
                                     <div class="form-group-admin">
                                         <span class="form-label-admin">Stock Mínimo</span>
                                         <div class="view-mode">
-                                            <span class="fw-bold text-dark" id="detail-stock-min">-</span>
+                                            <span class="text-secondary small mb-0" id="detail-stock-min">-</span>
                                         </div>
                                         <div class="edit-mode">
                                             <input type="number" class="form-control form-control-sm form-control-admin" id="edit-stock-min" value="0" min="0">
@@ -407,9 +424,9 @@
                             <div class="form-group-admin">
                                 <label for="new-prod-pet" class="form-label-admin">Tipo de Mascota</label>
                                 <select name="tipo_mascota" id="new-prod-pet" class="form-select form-select-admin" required>
-                                    <option value="ambos">🐶 🐱 Ambos</option>
-                                    <option value="perro">🐶 Perros</option>
-                                    <option value="gato">🐱 Gatos</option>
+                                    <option value="ambos">Ambos</option>
+                                    <option value="perro">Perros</option>
+                                    <option value="gato">Gatos</option>
                                 </select>
                             </div>
                         </div>
