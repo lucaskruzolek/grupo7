@@ -56,6 +56,10 @@
             background-color: var(--neutral-200);
             color: var(--neutral-700);
         }
+        /* Enable vertical scrolling specifically for the dashboard view */
+        .admin-content {
+            overflow-y: auto !important;
+        }
     </style>
 @endsection
 

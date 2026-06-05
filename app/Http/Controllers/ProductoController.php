@@ -102,11 +102,12 @@ class ProductoController extends Controller
     */
     public function adminIndex()
     {
-        $allProducts = Producto::select('id', 'sku_base', 'sku_color', 'nombre', 'tipo_mascota', 'categoria_id', 'color_id', 'talle')
+        $allProducts = Producto::select('id', 'sku_base', 'sku_color', 'nombre', 'tipo_mascota', 'categoria_id', 'color_id', 'talle', 'activo', 'coleccion_id')
             ->with([
                 'categoria:id,nombre,parent_id',
                 'categoria.parent:id,nombre',
-                'imagenes:id,sku_color,url,orden'
+                'imagenes:id,sku_color,url,orden',
+                'coleccion:id,nombre'
             ])
             ->get();
         
@@ -138,6 +139,9 @@ class ProductoController extends Controller
                 'colores_count' => $activeColorsCount,
                 'talles_count' => $activeTallesCount,
                 'thumb' => $thumbSrc,
+                'activo' => (bool)$first->activo,
+                'coleccion_id' => $first->coleccion_id,
+                'coleccion_nombre' => $first->coleccion ? $first->coleccion->nombre : 'Sin colección',
             ];
         }
         
@@ -259,6 +263,8 @@ class ProductoController extends Controller
             'precio'       => 'required|numeric|min:0',
             'stock_minimo' => 'required|integer|min:0',
             'variantes'    => 'required|array',
+            'coleccion_id' => 'nullable|exists:colecciones,id',
+            'activo'       => 'required|boolean',
         ]);
 
         DB::beginTransaction();
@@ -269,6 +275,8 @@ class ProductoController extends Controller
             $tipoMascota = $request->tipo_mascota;
             $precio = $request->precio;
             $stockMinimo = (int)$request->stock_minimo;
+            $coleccionId = $request->coleccion_id;
+            $activo = (bool)$request->activo;
 
             // Obtener variantes existentes del SKU Base (incluyendo borrados lógicos por si se requiere restaurar)
             $existingVariants = Producto::withTrashed()
@@ -308,6 +316,8 @@ class ProductoController extends Controller
                     if ((float)$variant->precio !== (float)$precio) $updates['precio'] = $precio;
                     if ($variant->stock !== $stock) $updates['stock'] = $stock;
                     if ($variant->stock_minimo !== $stockMinimo) $updates['stock_minimo'] = $stockMinimo;
+                    if ($variant->coleccion_id !== $coleccionId) $updates['coleccion_id'] = $coleccionId;
+                    if ($variant->activo !== $activo) $updates['activo'] = $activo;
 
                     if (!empty($updates)) {
                         $variant->update($updates);
@@ -319,7 +329,6 @@ class ProductoController extends Controller
                     // Tomar datos de categoría y colección del grupo existente
                     $rep = $existingVariants->first();
                     $categoriaId = $rep ? $rep->categoria_id : Categoria::whereNotNull('parent_id')->first()->id;
-                    $coleccionId = $rep ? $rep->coleccion_id : null;
 
                     Producto::create([
                         'categoria_id' => $categoriaId,
@@ -335,6 +344,7 @@ class ProductoController extends Controller
                         'stock'        => $stock,
                         'stock_minimo' => $stockMinimo,
                         'precio'       => $precio,
+                        'activo'       => $activo,
                     ]);
                 }
             }
@@ -363,6 +373,8 @@ class ProductoController extends Controller
                 if ($v->tipo_mascota !== $tipoMascota) $updates['tipo_mascota'] = $tipoMascota;
                 if ((float)$v->precio !== (float)$precio) $updates['precio'] = $precio;
                 if ($v->stock_minimo !== $stockMinimo) $updates['stock_minimo'] = $stockMinimo;
+                if ($v->coleccion_id !== $coleccionId) $updates['coleccion_id'] = $coleccionId;
+                if ($v->activo !== $activo) $updates['activo'] = $activo;
 
                 if (!empty($updates)) {
                     $v->update($updates);
@@ -383,7 +395,7 @@ class ProductoController extends Controller
     public function getDetails($sku_base)
     {
         $variants = Producto::where('sku_base', $sku_base)
-            ->with(['categoria.parent', 'color', 'imagenes'])
+            ->with(['categoria.parent', 'color', 'imagenes', 'coleccion'])
             ->get();
 
         if ($variants->isEmpty()) {
@@ -454,6 +466,8 @@ class ProductoController extends Controller
             'categoria_nombre' => $first->categoria ? $first->categoria->nombre : '',
             'categoria_padre' => ($first->categoria && $first->categoria->parent) ? $first->categoria->parent->nombre : '',
             'coleccion_id' => $first->coleccion_id,
+            'coleccion_nombre' => $first->coleccion ? $first->coleccion->nombre : 'Sin colección',
+            'activo' => (bool)$first->activo,
             'created_at' => $first->created_at ? $first->created_at->format('d M, Y') : '',
             'updated_at' => $first->updated_at ? $first->updated_at->format('d M, Y') : '',
             'colores_count' => count($activeColors),
@@ -484,8 +498,12 @@ class ProductoController extends Controller
             // Optimizar y convertir a WebP usando el servicio de GD
             $tempPath = $imageOptimizer->convertToWebp($file, 1200, 80);
 
-            // Generar un nombre único de archivo
-            $fileName = '/img/productos/' . strtolower($skuColor) . '_' . time() . '_' . uniqid() . '.webp';
+            // Calcular el orden secuencial siguiente
+            $nextOrden = ProductoImagen::where('sku_color', $skuColor)->max('orden') ?? 0;
+            $nextOrden++;
+
+            // Generar un nombre de archivo predecible (ej: buzo-polar-rojo-1.webp)
+            $fileName = '/img/productos/' . strtolower($skuColor) . '-' . $nextOrden . '.webp';
 
             // Subir a Cloudflare R2 (mediante el disco s3)
             $path = Storage::disk('s3')->putFileAs('', new \Illuminate\Http\File($tempPath), $fileName, 'public');
@@ -501,10 +519,6 @@ class ProductoController extends Controller
 
             // Obtener la URL pública del archivo
             $url = Storage::disk('s3')->url($fileName);
-
-            // Calcular el orden secuencial siguiente
-            $nextOrden = ProductoImagen::where('sku_color', $skuColor)->max('orden') ?? 0;
-            $nextOrden++;
 
             // Crear el registro en la base de datos
             $productoImagen = ProductoImagen::create([

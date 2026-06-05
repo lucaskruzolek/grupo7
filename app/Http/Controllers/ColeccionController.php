@@ -14,8 +14,9 @@ class ColeccionController extends Controller
      */
     public function index()
     {
-        // Trae las colecciones cargando el conteo de productos vinculados
-        $colecciones = Coleccion::withCount('productos')->get();
+        $colecciones = Coleccion::withCount(['productos' => function ($query) {
+            $query->select(\Illuminate\Support\Facades\DB::raw('count(distinct(sku_base))'));
+        }])->get();
         return view('backend.admin.colecciones', compact('colecciones'));
     }
 

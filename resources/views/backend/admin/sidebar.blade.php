@@ -1,4 +1,10 @@
-<aside class="admin-sidebar">
+<aside class="admin-sidebar" id="admin-sidebar">
+    <script>
+        // Evitar parpadeo (FOIC) aplicando la clase de inmediato antes de pintar la UI
+        if (localStorage.getItem('sidebar-collapsed') === 'true') {
+            document.getElementById('admin-sidebar').classList.add('collapsed');
+        }
+    </script>
     <a href="{{ url('/') }}" class="sidebar-brand">
         <img src="{{ asset('img/logo/favicon.png') }}" alt="Pet Threads Logo" style="height: 32px; object-fit: contain;">
         <span class="fw-bold h3 mb-0" style="letter-spacing: 0.5px;">PetThreads</span>
@@ -7,6 +13,11 @@
     <!-- Botón de Colapsar Flotante -->
     <button id="toggle-sidebar-btn" class="sidebar-toggle-btn" aria-label="Colapsar menú">
         <img src="{{ asset('img/icons/chevron-left.svg') }}" id="sidebar-toggle-icon" alt="Toggle">
+        <script>
+            if (localStorage.getItem('sidebar-collapsed') === 'true') {
+                document.getElementById('sidebar-toggle-icon').src = "{{ asset('img/icons/chevron-right.svg') }}";
+            }
+        </script>
     </button>
     
     <ul class="sidebar-menu">

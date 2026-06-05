@@ -89,7 +89,7 @@ body {
     border: 1px solid var(--neutral-300);
     border-radius: 8px;
     font-family: var(--font-main);
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     background-color: #ffffff;
     transition: border-color 0.2s ease;
 }
@@ -105,7 +105,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     color: var(--neutral-500);
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 /* Buscador de estilo input-group (Copiado de navbar.css de frontend y adaptado) */
@@ -119,8 +119,8 @@ body {
     width: 100%;
     display: flex !important;
     align-items: center !important;
-    height: 40px !important;
-    min-height: 40px !important;
+    height: 35px !important;
+    min-height: 35px !important;
 }
 
 .search-bar-wrapper:focus-within {
@@ -132,7 +132,7 @@ body {
     border: none !important;
     background-color: transparent !important;
     font-family: var(--font-main);
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     color: var(--neutral-800);
     padding: 0.5rem 1rem 0.5rem 1.25rem !important;
     width: 0 !important;
@@ -157,8 +157,8 @@ body {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 0 1.25rem !important;
-    height: 100% !important;
+    padding: 0.4 1.25rem !important;
+    height: 90% !important;
     transition: transform 0.2s ease;
 }
 

@@ -982,6 +982,7 @@ function collectProductPayload() {
     const newPrice = parseFloat(document.getElementById('edit-price').value);
     const newPet = document.getElementById('edit-pet').value;
     const newStockMin = parseInt(document.getElementById('edit-stock-min').value);
+    const newCollectionId = document.getElementById('edit-collection').value;
 
     const variantsList = [];
     const inputs = document.querySelectorAll('.stock-badge-input');
@@ -1003,6 +1004,10 @@ function collectProductPayload() {
         precio: newPrice,
         tipo_mascota: newPet,
         stock_minimo: newStockMin,
+        coleccion_id: newCollectionId ? parseInt(newCollectionId) : null,
+        activo: document.getElementById('detail-active-toggle')
+            ? (document.getElementById('detail-active-toggle').checked ? 1 : 0)
+            : ((activeProduct && activeProduct.activo) ? 1 : 0),
         variantes: variantsList
     };
 }
@@ -1074,6 +1079,10 @@ function saveProductChanges() {
                 activeProduct.precio = payload.precio;
                 activeProduct.tipo_mascota = payload.tipo_mascota;
                 activeProduct.stock_minimo = payload.stock_minimo;
+                activeProduct.coleccion_id = payload.coleccion_id;
+                const colSelect = document.getElementById('edit-collection');
+                activeProduct.coleccion_nombre = (payload.coleccion_id && colSelect && colSelect.selectedIndex >= 0) ? colSelect.options[colSelect.selectedIndex].text : 'Sin colección';
+                activeProduct.activo = (payload.activo == 1 || payload.activo === true);
 
                 inputs.forEach(input => {
                     const colorId = parseInt(input.getAttribute('data-color-id'));
@@ -1099,16 +1108,27 @@ function saveProductChanges() {
                     ALL_PRODUCTS[localProdIndex].tipo_mascota = payload.tipo_mascota;
                     ALL_PRODUCTS[localProdIndex].colores_count = activeProduct.colores.length;
                     ALL_PRODUCTS[localProdIndex].talles_count = activeProduct.talles.length;
+                    ALL_PRODUCTS[localProdIndex].coleccion_id = payload.coleccion_id;
+                    ALL_PRODUCTS[localProdIndex].coleccion_nombre = activeProduct.coleccion_nombre;
+                    ALL_PRODUCTS[localProdIndex].activo = activeProduct.activo;
                 }
 
                 // Actualizar textos de sólo lectura en el DOM
                 document.getElementById('detail-title').innerText = payload.nombre_base;
                 document.getElementById('detail-desc').innerText = payload.descripcion;
-                document.getElementById('detail-price').innerText = `$${payload.precio.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
+                document.getElementById('detail-price').innerText = `$${parseFloat(payload.precio).toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
+                document.getElementById('detail-collection').innerText = activeProduct.coleccion_nombre;
+                const activeStatus = document.getElementById('detail-active-status');
+                if (activeStatus) {
+                    activeStatus.innerText = activeProduct.activo ? 'Activo' : 'Inactivo';
+                    activeStatus.className = `badge ${activeProduct.activo ? 'bg-success text-white' : 'bg-secondary text-white'} border py-1 small`;
+                }
 
                 const petBadge = document.getElementById('detail-pet');
                 const petSelect = document.getElementById('edit-pet');
-                petBadge.innerText = petSelect.options[petSelect.selectedIndex].text;
+                if (petSelect && petSelect.selectedIndex >= 0) {
+                    petBadge.innerText = petSelect.options[petSelect.selectedIndex].text;
+                }
 
                 document.getElementById('detail-stock-min').innerText = payload.stock_minimo;
 
@@ -1117,6 +1137,11 @@ function saveProductChanges() {
                 if (card) {
                     card.querySelector('.product-list-title').innerText = payload.nombre_base;
                     card.setAttribute('data-pet', payload.tipo_mascota);
+                    const badge = card.querySelector('.active-status-badge');
+                    if (badge) {
+                        badge.className = `badge ${activeProduct.activo ? 'bg-success text-white' : 'bg-secondary text-white'} border py-1 small active-status-badge`;
+                        badge.innerText = activeProduct.activo ? 'Activo' : 'Inactivo';
+                    }
                     const countLabel = card.querySelector('.text-muted.fw-bold');
                     if (countLabel) {
                         const colCount = activeProduct.colores.length;
@@ -1237,6 +1262,18 @@ function renderProductDetails(product) {
 
     document.getElementById('detail-created').innerText = product.created_at || '-';
     document.getElementById('detail-updated').innerText = product.updated_at || '-';
+
+    const activeStatus = document.getElementById('detail-active-status');
+    if (activeStatus) {
+        activeStatus.innerText = product.activo ? 'Activo' : 'Inactivo';
+        activeStatus.className = `badge ${product.activo ? 'bg-success text-white' : 'bg-secondary text-white'} border py-1 small`;
+    }
+    const activeToggle = document.getElementById('detail-active-toggle');
+    if (activeToggle) {
+        activeToggle.checked = !!product.activo;
+    }
+    document.getElementById('detail-collection').innerText = product.coleccion_nombre || 'Sin colección';
+    document.getElementById('edit-collection').value = product.coleccion_id || '';
 
     if (product.colores.length > 0) {
         currentActiveColor = product.colores[0].key;
@@ -1361,6 +1398,17 @@ function clearProductDetails() {
     document.getElementById('edit-price').value = '0';
     document.getElementById('detail-created').innerText = '-';
     document.getElementById('detail-updated').innerText = '-';
+    const activeStatus = document.getElementById('detail-active-status');
+    if (activeStatus) {
+        activeStatus.innerText = '-';
+        activeStatus.className = 'badge border py-1 small';
+    }
+    const activeToggle = document.getElementById('detail-active-toggle');
+    if (activeToggle) {
+        activeToggle.checked = false;
+    }
+    document.getElementById('detail-collection').innerText = '-';
+    document.getElementById('edit-collection').value = '';
     document.getElementById('gallery-main-img').src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     document.getElementById('gallery-thumb-container').innerHTML = '';
     document.getElementById('variants-table-header-row').innerHTML = '<th>Color</th>';
@@ -1443,7 +1491,9 @@ function appendProductsToList(products) {
                         <h4 class="product-list-title">${prod.nombre_base}</h4>
                         <span class="product-list-sku">${prod.sku_base}</span>
                         <div class="d-flex align-items-center justify-content-between">
-                            <span class="badge bg-light text-dark border py-1 small">Activo</span>
+                            <span class="badge ${prod.activo ? 'bg-success text-white' : 'bg-secondary text-white'} border py-1 small active-status-badge">
+                                ${prod.activo ? 'Activo' : 'Inactivo'}
+                            </span>
                             <small class="text-muted fw-bold">
                                 ${prod.colores_count} ${prod.colores_count === 1 ? 'Color' : 'Colores'} | 
                                 ${prod.talles_count} ${prod.talles_count === 1 ? 'Talle' : 'Talles'}
@@ -1577,3 +1627,4 @@ function handleNewProductCategoryChange() {
         }
     }
 }
+

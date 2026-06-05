@@ -40,6 +40,7 @@ return new class extends Migration
             $table->integer('stock_minimo')->default(0);
             $table->decimal('precio', 10, 2)->default(0.00);
             $table->boolean('favorito')->default(false);
+            $table->boolean('activo')->default(true);
             
             $table->timestamps();
             $table->softDeletes();

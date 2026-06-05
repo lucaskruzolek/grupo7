@@ -13,7 +13,7 @@ class FormasPagoSeeder extends Seeder
     public function run(): void
     {
         $formasPago = [
-            ['id' => 1, 'descripcion' => 'Efectivo / Contraentrega'],
+            ['id' => 1, 'descripcion' => 'Efectivo'],
             ['id' => 2, 'descripcion' => 'Tarjeta de Crédito / Débito'],
             ['id' => 3, 'descripcion' => 'Transferencia Bancaria'],
         ];

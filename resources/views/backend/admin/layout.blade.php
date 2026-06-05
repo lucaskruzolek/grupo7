@@ -26,7 +26,12 @@
         @include('backend.admin.sidebar')
         
         <!-- Contenido Derecho Dinámico -->
-        <main class="admin-content">
+        <main class="admin-content" id="admin-content">
+            <script>
+                if (localStorage.getItem('sidebar-collapsed') === 'true') {
+                    document.getElementById('admin-content').classList.add('sidebar-collapsed');
+                }
+            </script>
             <!-- Alertas Flash del Sistema -->
             @if (session('exito'))
                 <div class="alert alert-success alert-dismissible fade show mb-4 border-0 shadow-sm" role="alert" style="border-radius: 8px;">

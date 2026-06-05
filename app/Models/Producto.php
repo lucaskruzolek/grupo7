@@ -33,7 +33,8 @@ class Producto extends Model
         'stock',
         'stock_minimo',
         'precio',
-        'favorito'
+        'favorito',
+        'activo'
     ];
 
     // Relación comercial básica

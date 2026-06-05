@@ -18,8 +18,9 @@ class DatabaseSeeder extends Seeder
             CategoriasSeeder::class,
             ColoresSeeder::class,
             ColeccionesSeeder::class,
-            UsuariosSeeder::class,
             ProductosSeeder::class,
+            UsuariosSeeder::class,
+            VentasSeeder::class,
         ]);
     }
 }

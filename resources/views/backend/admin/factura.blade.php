@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Factura de Venta #{{ str_pad($pedido->id, 6, '0', STR_PAD_LEFT) }}</title>
+    <title>Factura de Venta #{{ str_pad($venta->id, 6, '0', STR_PAD_LEFT) }}</title>
     <style>
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -156,21 +156,21 @@
             </div>
             <div class="details-section">
                 <h2>Comprobante de Pedido</h2>
-                <p><strong>Nro:</strong> #{{ str_pad($pedido->id, 6, '0', STR_PAD_LEFT) }}</p>
-                <p><strong>Fecha:</strong> {{ $pedido->fecha_venta ? $pedido->fecha_venta->format('d/m/Y H:i') : $pedido->created_at->format('d/m/Y H:i') }}</p>
+                <p><strong>Nro:</strong> #{{ str_pad($venta->id, 6, '0', STR_PAD_LEFT) }}</p>
+                <p><strong>Fecha:</strong> {{ $venta->fecha_venta ? $venta->fecha_venta->format('d/m/Y H:i') : $venta->created_at->format('d/m/Y H:i') }}</p>
             </div>
         </div>
 
         <div class="info-grid">
             <div class="info-block">
                 <h3>Cliente</h3>
-                <p><strong>Nombre:</strong> {{ $pedido->usuario ? $pedido->usuario->nombre . ' ' . $pedido->usuario->apellido : 'Invitado' }}</p>
-                <p><strong>Email:</strong> {{ $pedido->usuario ? $pedido->usuario->email : 'N/A' }}</p>
+                <p><strong>Nombre:</strong> {{ $venta->usuario ? $venta->usuario->nombre . ' ' . $venta->usuario->apellido : 'Invitado' }}</p>
+                <p><strong>Email:</strong> {{ $venta->usuario ? $venta->usuario->email : 'N/A' }}</p>
             </div>
             <div class="info-block" style="text-align: right;">
                 <h3>Pago y Despacho</h3>
-                <p><strong>Método de Pago:</strong> {{ $pedido->formaPago ? $pedido->formaPago->descripcion : 'No especificado' }}</p>
-                <p><strong>Estado del Pedido:</strong> {{ $pedido->estado }}</p>
+                <p><strong>Método de Pago:</strong> {{ $venta->formaPago ? $venta->formaPago->descripcion : 'No especificado' }}</p>
+                <p><strong>Estado del Pedido:</strong> {{ $venta->estado }}</p>
             </div>
         </div>
 
@@ -186,7 +186,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($pedido->detalles as $detalle)
+                @foreach ($venta->detalles as $detalle)
                     <tr>
                         <td>{{ $detalle->producto->nombre }}</td>
                         <td style="text-align: center;">{{ $detalle->producto->talle }}</td>
@@ -203,11 +203,11 @@
             <table class="total-table">
                 <tr>
                     <td>Subtotal:</td>
-                    <td style="text-align: right;">${{ number_format($pedido->total, 2, ',', '.') }}</td>
+                    <td style="text-align: right;">${{ number_format($venta->total, 2, ',', '.') }}</td>
                 </tr>
                 <tr class="grand-total">
                     <td>Total:</td>
-                    <td style="text-align: right;">${{ number_format($pedido->total, 2, ',', '.') }}</td>
+                    <td style="text-align: right;">${{ number_format($venta->total, 2, ',', '.') }}</td>
                 </tr>
             </table>
         </div>

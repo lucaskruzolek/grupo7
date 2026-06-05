@@ -69,7 +69,9 @@
                                 <h4 class="product-list-title">{{ $prod['nombre_base'] }}</h4>
                                 <span class="product-list-sku">{{ $prod['sku_base'] }}</span>
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <span class="badge bg-light text-dark border py-1 small">Activo</span>
+                                    <span class="badge {{ $prod['activo'] ? 'bg-success text-white' : 'bg-secondary text-white' }} border py-1 small active-status-badge">
+                                        {{ $prod['activo'] ? 'Activo' : 'Inactivo' }}
+                                    </span>
                                     <small class="text-muted fw-bold">
                                         {{ $prod['colores_count'] }} {{ $prod['colores_count'] === 1 ? 'Color' : 'Colores' }} | 
                                         {{ $prod['talles_count'] }} {{ $prod['talles_count'] === 1 ? 'Talle' : 'Talles' }}
@@ -104,7 +106,18 @@
                 
                 <!-- Encabezado de Detalle -->
                 <div class="mb-3">
-                    <span class="badge bg-light text-muted border mb-2" id="detail-sku-base">-</span>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="badge bg-light text-muted border mb-0" id="detail-sku-base">-</span>
+                        <div class="view-mode">
+                            <span id="detail-active-status" class="badge border py-1 small">-</span>
+                        </div>
+                        <div class="edit-mode">
+                            <div class="form-check form-switch d-flex align-items-center gap-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="detail-active-toggle" style="cursor: pointer;">
+                                <label class="form-check-label small text-muted mb-0" for="detail-active-toggle" style="cursor: pointer; font-size: 0.85rem; user-select: none;">Activo</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="d-flex align-items-center justify-content-between gap-2">
                         <div class="flex-grow-1 min-w-0">
                             <h2 class="h3 text-dark fw-bold mb-0 view-mode" id="detail-title">-</h2>
@@ -163,6 +176,24 @@
                             </div>
                         </div>
 
+                        <!-- Colección -->
+                        <div class="collection-container-wrapper">
+                            <div class="form-group-admin mb-0">
+                                <span class="form-label-admin mb-1">Colección</span>
+                                <div class="view-mode">
+                                    <span class="text-secondary small mb-0 text-capitalize" id="detail-collection">-</span>
+                                </div>
+                                <div class="edit-mode">
+                                    <select class="form-select form-select-sm shadow-none" id="edit-collection">
+                                        <option value="">Sin colección</option>
+                                        @foreach($colecciones as $col)
+                                            <option value="{{ $col->id }}">{{ $col->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Carga/Edición de Imágenes (Visible en Modo Edición) -->
                         <div class="edit-mode mt-3">
                             <label class="form-label-admin d-block mb-2">Imágenes del Color Activo</label>
@@ -200,7 +231,7 @@
                                     <div class="form-group-admin">
                                         <span class="form-label-admin">Categoría</span>
                                         <div>
-                                            <span class="text-secondary small mb-0" id="detail-category-parent">-</span>
+                                            <span class="text-secondary small mb-0 text-capitalize" id="detail-category-parent">-</span>
                                         </div>
                                     </div>
                                 </div>
@@ -208,7 +239,7 @@
                                     <div class="form-group-admin">
                                         <span class="form-label-admin">Subcategoría</span>
                                         <div>
-                                            <span class="text-secondary small mb-0" id="detail-category-child">-</span>
+                                            <span class="text-secondary small mb-0 text-capitalize" id="detail-category-child">-</span>
                                         </div>
                                     </div>
                                 </div>
@@ -253,7 +284,7 @@
                 <!-- Tabla de Variantes (Color por Talle) -->
                 <div>
                     <div class="d-flex align-items-center justify-content-between mb-1 flex-wrap gap-2">
-                        <h3 class="h5 text-dark fw-bold mb-0">Stock por talle y color</h3>
+                        <h3 class="h5 text-dark fw-bold mb-0 poppins-bold text-center flex-grow-1" style="font-family: 'Poppins', sans-serif;">Variantes y Stock</h3>
                         <div class="d-flex align-items-center gap-2">
                             <button class="btn btn-sm btn-outline-secondary" id="btn-add-talle-trigger" style="font-size: 0.75rem;" onclick="openAddTalleModal()">+ Agregar Talle</button>
                             <button class="btn btn-sm btn-outline-secondary" id="btn-add-color-trigger" style="font-size: 0.75rem;" onclick="openAddColorModal()">+ Agregar Color</button>
@@ -526,8 +557,9 @@
             deleteImageUrl: "{{ url('admin/productos/images') }}",
             coverImageUrl: "{{ url('admin/productos/images') }}",
             csrfToken: "{{ csrf_token() }}",
-            productosUrl: "{{ url('admin/productos') }}"
+            productosUrl: "{{ url('admin/productos') }}",
+            coleccionesSystem: @json($colecciones)
         };
     </script>
-    <script src="{{ asset('js/backend/productos.js') }}"></script>
+    <script src="{{ asset('js/backend/productos.js') }}?v={{ time() }}"></script>
 @endsection

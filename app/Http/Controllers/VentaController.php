@@ -210,7 +210,7 @@ class VentaController extends Controller
         $ventas = Venta::ventas()
             ->with(['usuario', 'formaPago'])
             ->orderBy('fecha_venta', 'desc')
-            ->paginate(15);
+            ->paginate(10);
 
         $formasPago = FormaPago::all();
 
@@ -236,7 +236,7 @@ class VentaController extends Controller
         if ($request->wantsJson()) {
             return response()->json([
                 'success' => true,
-                'venta' => [
+                'pedido' => [
                     'id' => $venta->id,
                     'fecha_venta' => $venta->fecha_venta ? $venta->fecha_venta->format('d M Y H:i \h\s') : null,
                     'fecha_despacho' => $venta->fecha_despacho ? $venta->fecha_despacho->format('d M Y H:i \h\s') : null,
