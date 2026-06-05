@@ -61,13 +61,11 @@ class ProductoController extends Controller
             $query->where('talle', $request->talle);
         }
 
-        // Filtro por Color (Asumiendo que mapeas por relación o por el string del campo)
+        // --- FILTRO DE COLOR POR ID REAL ---
         if ($request->has('color') && $request->color != '') {
-            // Si tu tabla guarda el nombre formateado o usas slugs
-            $query->whereHas('color', function($q) use ($request) {
-                $q->where('nombre', 'LIKE', '%' . $request->color . '%');
-            });
-        }
+        // Al mandar el ID, buscamos directamente en la columna 'color_id' de la tabla productos
+            $query->where('color_id', $request->color);
+}
 
         // --- FILTRO DE PRECIOS POR RANGOS PREDEFINIDOS ---
         if ($request->has('precio_rango') && $request->precio_rango != '') {
@@ -90,9 +88,10 @@ class ProductoController extends Controller
         // Recuperamos las colecciones y categorías para poblar dinámicamente los selectores del Sidebar
         $categorias = Categoria::all();
         $colecciones = Coleccion::all();
+        $colores = Color::all();
 
         // Retornamos la vista enviando las colecciones y categorías dinámicas
-        return view('frontend.productos', compact('productos', 'categorias', 'colecciones'));
+        return view('frontend.productos', compact('productos', 'categorias', 'colecciones', 'colores'));
     }
 
   

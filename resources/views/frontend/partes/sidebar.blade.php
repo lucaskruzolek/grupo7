@@ -135,37 +135,36 @@
 @if($mostrarColor)
     <hr class="my-3" style="opacity: 0.1;">
 
-    {{-- FILA 5: Color Dinámico --}}
-    <div class="mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="poppins-bold text-main fs-6 d-flex align-items-center gap-2">
-                <img src="{{ asset('img/icons/palette.svg') }}" alt="Colores" style="width: 18px; height: 18px; opacity: 0.7;">COLOR
-            </span>
-            <i class="bi bi-chevron-down text-secondary small"></i>
-        </div>
-        <div class="d-flex gap-2 justify-content-start align-items-center flex-wrap">
-            @php
-                // Definimos tus colores estéticos mapeados con strings o IDs correspondientes
-                $paleta = [
-                    ['nombre' => 'Verde musgo', 'hex' => '#556b2f'],
-                    ['nombre' => 'Coral', 'hex' => '#e3a393'],
-                    ['nombre' => 'Beige', 'hex' => '#f5f5dc'],
-                    ['nombre' => 'Azul Marino', 'hex' => '#1a2941'],
-                    ['nombre' => 'Gris', 'hex' => '#8b9fba'],
-                    ['nombre' => 'Negro', 'hex' => '#000000'],
-                ];
-            @endphp
-
-            @foreach($paleta as $col)
-                <div>
-                    <input type="radio" name="color" value="{{ Str::slug($col['nombre']) }}" id="color_{{ Str::slug($col['nombre']) }}" class="d-none filtro-automatico" {{ request('color') == Str::slug($col['nombre']) ? 'checked' : '' }}>
-                    
-                    <label for="color_{{ Str::slug($col['nombre']) }}" class="rounded-circle color-filter-dot d-block" style="background-color: {{ $col['hex'] }}; width: 24px; height: 24px; cursor: pointer; {{ request('color') == Str::slug($col['nombre']) ? 'ring 3px #0d6efd' : 'border: 1px solid #ddd;' }}" title="{{ $col['nombre'] }}">
-                    </label>
-                </div>
-            @endforeach
-        </div>
+{{-- FILA 5: Color Dinámico (Conectado a la Base de Datos) --}}
+<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="poppins-bold text-main fs-6 d-flex align-items-center gap-2">
+            <img src="{{ asset('img/icons/palette.svg') }}" alt="Colores" style="width: 18px; height: 18px; opacity: 0.7;">COLOR
+        </span>
+        <i class="bi bi-chevron-down text-secondary small"></i>
     </div>
+    <div class="d-flex gap-2 justify-content-start align-items-center flex-wrap">
+        
+        {{-- Iteramos sobre los colores reales insertados por el seeder --}}
+        @foreach($colores as $colorBD)
+            <div>
+                <input type="radio" 
+                       name="color" 
+                       value="{{ $colorBD->id }}" 
+                       id="color_{{ $colorBD->id }}" 
+                       class="d-none filtro-automatico" 
+                       {{ request('color') == $colorBD->id ? 'checked' : '' }}>
+                
+                <label for="color_{{ $colorBD->id }}" 
+                       class="rounded-circle color-filter-dot d-block" 
+                       style="background-color: {{ $colorBD->hex_code }}; width: 24px; height: 24px; cursor: pointer; {{ request('color') == $colorBD->id ? 'ring 3px #0d6efd;' : 'border: 1px solid #ddd;' }}" 
+                       title="{{ $colorBD->nombre }}">
+                </label>
+            </div>
+        @endforeach
+
+    </div>
+</div>
 @endif
 
 <hr class="my-3" style="opacity: 0.1;">
@@ -203,56 +202,38 @@
     </div>
 </div>
 
-    <hr class="my-3" style="opacity: 0.1;">
+<hr class="my-3" style="opacity: 0.1;">
 
-    {{-- FILA 7: Colección --}}
-    <div class="mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="poppins-bold text-main fs-6 d-flex align-items-center gap-2">
-                <img src="{{ asset('img/icons/heart.svg') }}" alt="Colección" style="width: 18px; height: 18px; opacity: 0.7;">COLECCIÓN
-            </span>
-            <i class="bi bi-chevron-down text-secondary small"></i>
-        </div>
-        
-        <div class="row g-2">
-            <div class="col-6">
-                <button class="btn btn-light border rounded-3 w-100 py-2 px-1 text-start d-flex align-items-center gap-2 active-filter-card" type="button">
-                    <img src="{{ asset('img/icons/accesorios.svg') }}" alt="Clásicos" style="width: 16px; height: 16px; opacity:0.6;">
-                    <span class="poppins-semibold text-main" style="font-size:0.75rem;">Clásicos</span>
-                </button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-light border rounded-3 w-100 py-2 px-1 text-start d-flex align-items-center gap-2" type="button">
-                    <img src="{{ asset('img/icons/snowflake.svg') }}" alt="Invierno 24" style="width: 16px; height: 16px; opacity:0.6;">
-                    <span class="poppins-semibold text-main" style="font-size:0.75rem;">Invierno 24</span>
-                </button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-light border rounded-3 w-100 py-2 px-1 text-start d-flex align-items-center gap-2" type="button">
-                    <img src="{{ asset('img/icons/daisy.svg') }}" alt="Primavera" style="width: 16px; height: 16px; opacity:0.6;">
-                    <span class="poppins-semibold text-main" style="font-size:0.75rem;">Primavera</span>
-                </button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-light border rounded-3 w-100 py-2 px-1 text-start d-flex align-items-center gap-2" type="button">
-                    <img src="{{ asset('img/icons/paw.svg') }}" alt="Picnic" style="width: 16px; height: 16px; opacity:0.6;">
-                    <span class="poppins-semibold text-main" style="font-size:0.75rem;">Picnic</span>
-                </button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-light border rounded-3 w-100 py-2 px-1 text-start d-flex align-items-center gap-2" type="button">
-                    <img src="{{ asset('img/icons/heart.svg') }}" alt="Esenciales" style="width: 16px; height: 16px; opacity:0.6;">
-                    <span class="poppins-semibold text-main" style="font-size:0.75rem;">Esenciales</span>
-                </button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-light border rounded-3 w-100 py-2 px-1 text-start d-flex align-items-center gap-2" type="button">
-                    <img src="{{ asset('img/icons/sparkles.svg') }}" alt="Nueva" style="width: 16px; height: 16px; opacity:0.6;">
-                    <span class="poppins-semibold text-main" style="font-size:0.75rem;">Nueva Col. ✨</span>
-                </button>
-            </div>
-        </div>
+{{-- FILA 7: Colecciones Dinámicas --}}
+<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="poppins-bold text-main fs-6 d-flex align-items-center gap-2">
+            <i class="bi bi-tags text-secondary" style="font-size: 18px; opacity: 0.7;"></i>COLECCIONES
+        </span>
+        <i class="bi bi-chevron-down text-secondary small"></i>
     </div>
+    
+    <div class="d-flex flex-column gap-2">
+        {{-- Opción por defecto para limpiar el filtro de colección --}}
+        <div>
+            <input type="radio" name="coleccion" value="" id="coleccion_todas" class="d-none filtro-automatico" {{ !request()->filled('coleccion') ? 'checked' : '' }}>
+            <label for="coleccion_todas" class="btn btn-light border w-100 text-start py-2 px-3 small rounded-3 poppins-medium {{ !request()->filled('coleccion') ? 'active-filter-card' : '' }}" style="cursor: pointer;">
+                Todas las colecciones
+            </label>
+        </div>
+
+        {{-- Listamos las colecciones reales traídas desde la base de datos --}}
+        @foreach($colecciones as $col)
+            <div>
+                <input type="radio" name="coleccion" value="{{ $col->id }}" id="coleccion_{{ $col->id }}" class="d-none filtro-automatico" {{ request('coleccion') == $col->id ? 'checked' : '' }}>
+                
+                <label for="coleccion_{{ $col->id }}" class="btn btn-light border w-100 text-start py-2 px-3 small rounded-3 poppins-medium {{ request('coleccion') == $col->id ? 'active-filter-card border-primary bg-primary text-white' : '' }}" style="cursor: pointer;">
+                    {{ $col->nombre }}
+                </label>
+            </div>
+        @endforeach
+    </div>
+</div>
 
     {{-- Mensaje de Envíos Gratis al pie del Sidebar --}}
     <div class="theme-green surface-card p-3 rounded-4 d-flex align-items-center justify-content-between text-start mt-4 border-0 shadow-sm" style="background-color: var(--green-100);">
