@@ -388,7 +388,7 @@ class ProductosSeeder extends Seeder
                 // Insertar 3 Imágenes predecibles para este SKU_COLOR
                 for ($i = 1; $i <= 3; $i++) {
                     $fileName = '/img/productos/' . strtolower($skuColor) . '-' . $i . '.webp';
-                    $imageUrl = Storage::disk('s3')->url($fileName);
+                    $imageUrl = 'https://cdn-petthreads.nostos.com.ar' . $fileName; // URL predecible
 
                     ProductoImagen::firstOrCreate(
                         [

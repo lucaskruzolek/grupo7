@@ -6,7 +6,10 @@
             <img src="{{ asset('img/icons/filters.svg') }}" alt="Filtros" style="width: 20px; height: 20px; opacity: 0.7;">
             <h5 class="poppins-bold text-uppercase fs-6 mb-0 text-main" style="letter-spacing: 0.5px;">Filtrar Productos</h5>
         </div>
-        <a href="#" class="poppins-regular small text-success text-decoration-underline" style="font-size: 0.8rem;">Limpiar filtros</a>
+        <a href="{{ route('productos.index') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-1 poppins-semibold"
+        style="font-size: 0.75rem;">
+            Limpiar Filtros
+        </a>
     </div>
 
     <hr class="my-3" style="opacity: 0.1;">

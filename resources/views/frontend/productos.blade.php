@@ -13,181 +13,66 @@
 
     </aside>
     
-        <main class="col-md-9 p-4">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-                
-                {{-- Tarjeta de ejemplo --}}
+        <main class="col-md-9">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
+        
+        @forelse($productos as $prod)
             <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="{{ asset('img/ui/productos/juguete-pulpo.webp') }}" 
-                    id="img-prod-1" 
-                    class="card-img-top" 
-                    alt="Producto">
+                <div class="card h-100 border rounded-3 shadow-sm overflow-hidden backend-card-producto">
+                    
+                    <div class="position-relative bg-light" style="padding-top: 100%; /* Ratio 1:1 Cuadrado */">
+                        @if($prod->imagenPortada)
+                            <img src="{{ $prod->imagenPortada->url }}" 
+                                 class="card-img-top position-absolute top-0 start-0 w-100 h-100 object-fit-cover" 
+                                 alt="{{ $prod->nombre }}">
+                        @else
+                            <img src="{{ asset('img/placeholder-petthreads.jpg') }}" 
+                                 class="card-img-top position-absolute top-0 start-0 w-100 h-100 object-fit-cover" 
+                                 alt="Sin imagen disponible">
+                        @endif
+                        
+                        <span class="position-absolute top-0 end-0 bg-white text-main small poppins-semibold m-2 px-2 py-1 rounded-pill border shadow-sm">
+                            {{ ucfirst($prod->tipo_mascota) }}
+                        </span>
+                    </div>
 
-                <div class="card-body">
-                    <h5 class="card-title fw-bold">juguetes</h5>
-                    <p class="card-text text-muted">$10000</p>
-            
-                <div class="d-flex gap-2 mt-3">
-                    <button type="button" 
-                        class="rounded-circle border-0" 
-                        style="width: 25px; height: 25px; background-color: #f8bbd0;" 
-                        onclick="document.getElementById('img-prod-1').src='{{ asset('img/ui/productos/juguete-pulpo.webp') }}'"
-                        title="Rosa">
-                    </button>
+                    <div class="card-body d-flex flex-column justify-content-between p-3">
+                        <div>
+                            <span class="text-muted small text-uppercase poppins-regular d-block mb-1">
+                                {{ $prod->categoria ? $prod->categoria->nombre : 'General' }}
+                            </span>
+                            
+                            <h5 class="card-title poppins-bold text-main fs-6 mb-2 text-truncate" title="{{ $prod->nombre }}">
+                                {{ $prod->nombre }}
+                            </h5>
+                        </div>
 
-                    <button type="button" 
-                        class="rounded-circle border-0" 
-                        style="width: 25px; height: 25px; background-color: #f5f5dc; border: 1px solid #ddd !important;" 
-                        onclick="document.getElementById('img-prod-1').src='{{ asset('img/ui/productos/juguete-acordeon.webp') }}'"
-                        title="Beige">
-                    </button>
+                        <div class="d-flex align-items-center justify-content-between mt-3">
+                            <span class="poppins-bold text-primary fs-5">
+                                ${{ number_format($prod->precio, 2, ',', '.') }}
+                            </span>
+                            
+                            <a href="{{ route('productos.show', $prod->sku_base) }}" class="btn btn-outline-primary btn-sm rounded-pill px-3 poppins-semibold">
+                                Ver más
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="col">
-        <div class="card h-100 shadow-sm border-0">
-            <img src="{{ asset('img/ui/productos/correa-urban.webp') }}" 
-                id="img-prod-3" 
-                class="card-img-top" 
-                alt="Producto">
-
-            <div class="card-body">
-                <h5 class="card-title fw-bold">Correas y arneces</h5>
-                <p class="card-text text-muted">$8000</p>
-            
-                <div class="d-flex gap-2 mt-3">
-                    <button type="button" 
-                        class="rounded-circle border-0" 
-                        style="width: 25px; height: 25px; background-color: #f8bbd0;" 
-                        onclick="document.getElementById('img-prod-3').src='{{ asset('img/ui/productos/correa-urban.webp') }}'"
-                        title="Rosa">
-                    </button>
-
-                    <button type="button" 
-                        class="rounded-circle border-0" 
-                        style="width: 25px; height: 25px; background-color: #f8bbd0; border: 1px solid #ddd !important;" 
-                        onclick="document.getElementById('img-prod-3').src='{{ asset('img/ui/productos/arnes-rosa.webp') }}'"
-                        title="Beige">
-                    </button>
+        @empty
+            <div class="col-12 text-center py-5">
+                <div class="mb-3">
+                    <img src="{{ asset('img/icons/empty-search.svg') }}" alt="No hay resultados" style="width: 80px; opacity: 0.5;">
                 </div>
+                <h4 class="poppins-bold text-main fs-5">No encontramos productos</h4>
+                <p class="text-muted small">Probá cambiando o limpiando los filtros del sidebar.</p>
+                <a href="{{ route('productos.index') }}" class="btn btn-primary btn-sm rounded-pill mt-2 px-4">Limpiar Filtros</a>
             </div>
-        </div>
+        @endforelse
+
     </div>
-
-    <div class="col">
-    <div class="card h-100 shadow-sm border-0">
-        <img src="{{ asset('img/ui/productos/gato-buzo-ratones.webp') }}" 
-             id="img-prod-5" 
-             class="card-img-top" 
-             alt="Producto">
-
-        <div class="card-body">
-            <h5 class="card-title fw-bold">Buzos para gatos</h5>
-            <p class="card-text text-muted">$10000</p>
-            
-            <div class="d-flex gap-2 mt-3">
-                <button type="button" 
-                    class="rounded-circle border-0" 
-                    style="width: 25px; height: 25px; background-color: #f8bbd0;" 
-                    onclick="document.getElementById('img-prod-5').src='{{ asset('img/ui/productos/gato-buzo-ratones.webp') }}'"
-                    title="Rosa">
-                </button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col">
-    <div class="card h-100 shadow-sm border-0">
-        <img src="{{ asset('img/ui/productos/perro-botones-beige.webp') }}" 
-             id="img-prod-6" 
-             class="card-img-top" 
-             alt="Producto">
-
-        <div class="card-body">
-            <h5 class="card-title fw-bold">Buzos para perros</h5>
-            <p class="card-text text-muted">$12000</p>
-            
-            <div class="d-flex gap-2 mt-3">
-                <button type="button" 
-                    class="rounded-circle border-0" 
-                    style="width: 25px; height: 25px; background-color: #f5f5dc;" 
-                    onclick="document.getElementById('img-prod-6').src='{{ asset('img/ui/productos/perro-botones-beige.webp') }}'"
-                    title="Rosa">
-                </button>
-
-                <button type="button" 
-                    class="rounded-circle border-0" 
-                    style="width: 25px; height: 25px; background-color: var(--green-500); border: 1px solid #ddd !important;" 
-                    onclick="document.getElementById('img-prod-6').src='{{ asset('img/ui/productos/perro-buzo-verde.webp') }}'"
-                    title="Beige">
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col">
-    <div class="card h-100 shadow-sm border-0">
-        <img src="{{ asset('img/ui/productos/perro-pechera-huesos.webp') }}" 
-             id="img-prod-8" 
-             class="card-img-top" 
-             alt="Producto">
-
-        <div class="card-body">
-            <h5 class="card-title fw-bold">Pechera para perros</h5>
-            <p class="card-text text-muted">$7000</p>
-            
-            <div class="d-flex gap-2 mt-3">
-                <button type="button" 
-                    class="rounded-circle border-0" 
-                    style="width: 25px; height: 25px; background-color: #f8bbd0;" 
-                    onclick="document.getElementById('img-prod-8').src='{{ asset('img/ui/productos/perro-pechera-huesos.webp') }}'"
-                    title="Rosa">
-                </button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col">
-    <div class="card h-100 shadow-sm border-0">
-        <img src="{{ asset('img/ui/productos/gato-sueter-rosa.webp') }}" 
-             id="img-prod-9" 
-             class="card-img-top" 
-             alt="Producto">
-
-        <div class="card-body">
-            <h5 class="card-title fw-bold">Sueter para gatos</h5>
-            <p class="card-text text-muted">$8000</p>
-            
-            <div class="d-flex gap-2 mt-3">
-                <button type="button" 
-                    class="rounded-circle border-0" 
-                    style="width: 25px; height: 25px; background-color: #f8bbd0;" 
-                    onclick="document.getElementById('img-prod-9').src='{{ asset('img/ui/productos/gato-sueter-rosa.webp') }}'"
-                    title="Rosa">
-                </button>
-
-                <button type="button" 
-                    class="rounded-circle border-0" 
-                    style="width: 25px; height: 25px; background-color: #f5f5dc; border: 1px solid #ddd !important;" 
-                    onclick="document.getElementById('img-prod-9').src='{{ asset('img/ui/productos/gato-sueter-beige.webp') }}'"
-                    title="Beige">
-                </button>
-            </div>
-        </div>
-    </div>
-    
-</div>
-
-            </div> 
-        </main> 
+</main>
     </div> 
     
 </section>
