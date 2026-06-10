@@ -69,7 +69,7 @@
     <!-- Fila 1: Título y Selector de Fecha -->
     <div class="dashboard-header mb-4">
         <div>
-            <h1 class="h2 text-dark mb-1">Dashboard</h1>
+            <h1 class="section-title">Dashboard</h1>
             <p class="text-muted mb-0">Bienvenido/a, {{ auth()->user()->nombre ?? 'Administrador' }}</p>
         </div>
         <div class="d-flex align-items-center gap-2">

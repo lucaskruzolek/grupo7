@@ -113,7 +113,7 @@
                                 <th>Mensaje</th>
                                 <th style="width: 140px;">Fecha</th>
                                 <th style="text-align: center; width: 130px;">Estado</th>
-                                <th style="text-align: right; width: 160px;">Acciones</th>
+                                <th style="text-align: center; width: 160px;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -141,16 +141,16 @@
                                         @endif
                                     </td>
                                     
-                                    <!-- Asunto / Pedido -->
+                                    <!-- Asunto -->
                                     <td>
                                         @if ($consulta->asunto === 'consulta')
-                                            <span class="badge border text-primary" style="background-color: rgba(75, 104, 148, 0.12); border-color: rgba(75, 104, 148, 0.25); font-size: 0.7rem;">Consulta General</span>
+                                            <span class="tipo-asunto">Consulta General</span>
                                         @elseif ($consulta->asunto === 'reclamo')
-                                            <span class="badge border text-danger" style="background-color: rgba(205, 92, 64, 0.12); border-color: rgba(205, 92, 64, 0.25); font-size: 0.7rem;">Reclamo</span>
+                                            <span class="tipo-asunto">Reclamo</span>
                                         @elseif ($consulta->asunto === 'devolucion')
-                                            <span class="badge border" style="background-color: rgba(216, 127, 105, 0.12); border-color: rgba(216, 127, 105, 0.25); color: #d87f69; font-size: 0.7rem;">Devoluciones</span>
+                                            <span class="tipo-asunto">Devoluciones</span>
                                         @else
-                                            <span class="badge border text-secondary" style="background-color: var(--neutral-100); border-color: var(--neutral-300); font-size: 0.7rem;">Otro</span>
+                                            <span class="tipo-asunto">Otro</span>
                                         @endif
 
                                         @if ($consulta->pedido)
@@ -162,7 +162,7 @@
                                     
                                     <!-- Mensaje truncado con enlace -->
                                     <td>
-                                        <div class="mensaje-text text-secondary text-hyphenated" style="font-size: 0.85rem; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        <div class="mensaje-text text-secondary text-hyphenated" style="font-size: 0.85rem; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 auto;">
                                             {{ $consulta->mensaje }}
                                         </div>
                                         <button type="button" class="btn btn-link p-0 text-decoration-none small fw-bold mt-1" style="font-size: 0.75rem; color: var(--green-600);" data-bs-toggle="modal" data-bs-target="#modalConsulta{{ $consulta->id }}">
@@ -177,12 +177,12 @@
                                     </td>
                                     
                                     <!-- Estado -->
-                                    <td style="text-align: center;">
-                                        <div class="d-flex flex-column gap-1 align-items-center">
+                                    <td>
+                                        <div class="d-flex flex-column gap-1 align-items-center justify-content-center">
                                             @if ($consulta->respondido)
-                                                <span class="badge bg-success text-white px-2 py-1" style="font-size: 0.65rem; border-radius: 4px; font-weight: 600;">RESPONDIDO</span>
+                                                <span class="badge badge-completed" style="font-size: 0.65rem; border-radius: 4px; font-weight: 600;">RESPONDIDO</span>
                                             @elseif ($consulta->leido)
-                                                <span class="badge bg-light text-muted border px-2 py-1" style="font-size: 0.65rem; border-radius: 4px;">Leído</span>
+                                                <span class="badge badge-pending" style="font-size: 0.65rem; border-radius: 4px;">Leído</span>
                                             @else
                                                 <span class="badge bg-danger text-white px-2 py-1" style="font-size: 0.65rem; border-radius: 4px; font-weight: 600;">NUEVO</span>
                                             @endif
@@ -190,8 +190,8 @@
                                     </td>
                                     
                                     <!-- Acciones -->
-                                    <td style="text-align: right; white-space: nowrap;">
-                                        <div class="d-flex justify-content-end gap-1 flex-nowrap">
+                                    <td style="white-space: nowrap;">
+                                        <div class="d-flex justify-content-center gap-1 flex-nowrap">
                                             <!-- Marcar Leído / No Leído -->
                                             <form action="{{ route('admin.consultas.toggle-leido', $consulta->id) }}" method="POST" class="d-inline">
                                                 @csrf
@@ -245,26 +245,26 @@
                                             <div class="modal-body p-4 text-start" style="background-color: #fafaf5;">
                                                 <!-- Info Remitente -->
                                                 <div class="p-3 rounded-4 mb-3 border" style="background-color: #ffffff; font-size: 0.85rem; border-color: var(--neutral-200) !important;">
-                                                    <div class="mb-2 text-dark"><strong>Remitente:</strong> {{ $consulta->nombre }}</div>
-                                                    <div class="mb-2 text-dark"><strong>Email:</strong> <a href="mailto:{{ $consulta->email }}">{{ $consulta->email }}</a></div>
+                                                    <div class="mb-2 text-secondary"><strong>Remitente:</strong> {{ $consulta->nombre }}</div>
+                                                    <div class="mb-2 text-secondary"><strong>Email:</strong> <a href="mailto:{{ $consulta->email }}">{{ $consulta->email }}</a></div>
                                                     @if ($consulta->telefono)
-                                                        <div class="mb-2 text-dark"><strong>Teléfono:</strong> {{ $consulta->telefono }}</div>
+                                                        <div class="mb-2 text-secondary"><strong>Teléfono:</strong> {{ $consulta->telefono }}</div>
                                                     @endif
-                                                    <div class="mb-2 text-dark"><strong>Fecha de envío:</strong> {{ $consulta->created_at->format('d/m/Y H:i') }} hs</div>
+                                                    <div class="mb-2 text-secondary"><strong>Fecha de envío:</strong> {{ $consulta->created_at->format('d/m/Y H:i') }} hs</div>
                                                     @if ($consulta->pedido)
-                                                        <div class="mb-0 text-dark"><strong>Pedido Relacionado:</strong> <span class="font-monospace fw-bold">{{ $consulta->pedido }}</span></div>
+                                                        <div class="mb-0 text-secondary"><strong>Pedido Relacionado:</strong> <span class="font-monospace fw-bold">{{ $consulta->pedido }}</span></div>
                                                     @endif
                                                 </div>
 
                                                 <div class="mb-2">
                                                     <strong class="d-block mb-2 text-secondary uppercase poppins-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Mensaje recibido:</strong>
-                                                    <div class="text-secondary p-3 border rounded-4 text-hyphenated" style="background-color: #ffffff; font-size: 0.88rem; max-height: 250px; overflow-y: auto; white-space: pre-wrap; line-height: 1.5; border-color: var(--neutral-200) !important;">{{ $consulta->mensaje }}</div>
+                                                    <div class="text-dark p-3 border rounded-4 text-hyphenated" style="background-color: #ffffff; font-size: 0.88rem; max-height: 250px; overflow-y: auto; white-space: pre-wrap; line-height: 1.5; border-color: var(--neutral-200) !important;">{{ $consulta->mensaje }}</div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer border-top-0 pt-0 px-4 pb-4" style="background-color: #fafaf5;">
                                                 <!-- Formulario rápido para responder vía email -->
                                                 <a href="mailto:{{ $consulta->email }}?subject=Re: {{ ucfirst($consulta->asunto) }} - Pet Threads" class="btn-admin btn-admin-primary px-3 text-white text-decoration-none d-flex align-items-center gap-1" style="border-radius: 8px;">
-                                                    ✉️ Responder por Correo
+                                                    Responder por Correo
                                                 </a>
                                                 <button type="button" class="btn-admin btn-admin-secondary" data-bs-dismiss="modal">Cerrar</button>
                                             </div>
@@ -274,7 +274,7 @@
                             @empty
                                 <tr>
                                     <td colspan="7" class="text-center py-5 text-muted">
-                                        <div class="fs-1 mb-2">💬</div>
+                                        
                                         <p class="mb-0 fw-semibold">No se encontraron consultas registradas en este período.</p>
                                     </td>
                                 </tr>
