@@ -1121,7 +1121,7 @@ function saveProductChanges() {
                 const activeStatus = document.getElementById('detail-active-status');
                 if (activeStatus) {
                     activeStatus.innerText = activeProduct.activo ? 'Activo' : 'Inactivo';
-                    activeStatus.className = `badge ${activeProduct.activo ? 'bg-success text-white' : 'bg-secondary text-white'} border py-1 small`;
+                    activeStatus.className = `active-status-badge ${activeProduct.activo ? 'status-active' : 'status-inactive'}`;
                 }
 
                 const petBadge = document.getElementById('detail-pet');
@@ -1139,10 +1139,10 @@ function saveProductChanges() {
                     card.setAttribute('data-pet', payload.tipo_mascota);
                     const badge = card.querySelector('.active-status-badge');
                     if (badge) {
-                        badge.className = `badge ${activeProduct.activo ? 'bg-success text-white' : 'bg-secondary text-white'} border py-1 small active-status-badge`;
+                        badge.className = `active-status-badge ${activeProduct.activo ? 'status-active' : 'status-inactive'}`;
                         badge.innerText = activeProduct.activo ? 'Activo' : 'Inactivo';
                     }
-                    const countLabel = card.querySelector('.text-muted.fw-bold');
+                    const countLabel = card.querySelector('small.fw-bold');
                     if (countLabel) {
                         const colCount = activeProduct.colores.length;
                         const talCount = activeProduct.talles.length;
@@ -1266,7 +1266,7 @@ function renderProductDetails(product) {
     const activeStatus = document.getElementById('detail-active-status');
     if (activeStatus) {
         activeStatus.innerText = product.activo ? 'Activo' : 'Inactivo';
-        activeStatus.className = `badge ${product.activo ? 'bg-success text-white' : 'bg-secondary text-white'} border py-1 small`;
+        activeStatus.className = `active-status-badge ${product.activo ? 'status-active' : 'status-inactive'}`;
     }
     const activeToggle = document.getElementById('detail-active-toggle');
     if (activeToggle) {
@@ -1401,7 +1401,7 @@ function clearProductDetails() {
     const activeStatus = document.getElementById('detail-active-status');
     if (activeStatus) {
         activeStatus.innerText = '-';
-        activeStatus.className = 'badge border py-1 small';
+        activeStatus.className = 'active-status-badge status-empty';
     }
     const activeToggle = document.getElementById('detail-active-toggle');
     if (activeToggle) {
@@ -1491,10 +1491,10 @@ function appendProductsToList(products) {
                         <h4 class="product-list-title">${prod.nombre_base}</h4>
                         <span class="product-list-sku">${prod.sku_base}</span>
                         <div class="d-flex align-items-center justify-content-between">
-                            <span class="badge ${prod.activo ? 'bg-success text-white' : 'bg-secondary text-white'} border py-1 small active-status-badge">
+                            <span class="active-status-badge ${prod.activo ? 'status-active' : 'status-inactive'}">
                                 ${prod.activo ? 'Activo' : 'Inactivo'}
                             </span>
-                            <small class="text-muted fw-bold">
+                            <small class="fw-bold" style="color: var(--neutral-500)">
                                 ${prod.colores_count} ${prod.colores_count === 1 ? 'Color' : 'Colores'} | 
                                 ${prod.talles_count} ${prod.talles_count === 1 ? 'Talle' : 'Talles'}
                             </small>

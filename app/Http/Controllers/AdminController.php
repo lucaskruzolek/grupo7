@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Consulta;
 
 class AdminController extends Controller
 {
@@ -30,12 +31,11 @@ class AdminController extends Controller
             ['usuario' => 'Lucas K.', 'n_pedido' => '1020', 'estado' => 'Cancelado', 'monto' => 15000.00, 'fecha' => '26/05/2026'],
         ];
 
-        // 3. Simulación de consultas recibidas
-        $consultasRecientes = [
-            ['nombre' => 'Carlos M.', 'email' => 'carlos@example.com', 'mensaje' => '¿Tienen stock de la pechera de huesos en talle L?', 'fecha' => 'Hace 1 hora'],
-            ['nombre' => 'María L.', 'email' => 'maria@example.com', 'mensaje' => 'Quiero consultar el costo de envío a Córdoba.', 'fecha' => 'Hace 3 horas'],
-            ['nombre' => 'Jorge R.', 'email' => 'jorge@example.com', 'mensaje' => '¿Cuándo entra stock del buzo verde?', 'fecha' => 'Hace 1 día'],
-        ];
+        // 3. Consultas reales no leídas
+        $consultasRecientes = Consulta::where('leido', false)
+            ->latest()
+            ->take(5)
+            ->get();
 
         return view('backend.admin.dashboard', compact(
             'productosBajoStock',
@@ -47,15 +47,7 @@ class AdminController extends Controller
         ));
     }
 
-    public function ventas()
-    {
-        return redirect()->route('admin.ventas.index');
-    }
 
-    public function consultas()
-    {
-        return view('backend.admin.consultas');
-    }
 
     public function clientes()
     {

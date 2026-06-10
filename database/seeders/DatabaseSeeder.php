@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ProductosSeeder::class,
             UsuariosSeeder::class,
             VentasSeeder::class,
+            ConsultasSeeder::class,
         ]);
     }
 }

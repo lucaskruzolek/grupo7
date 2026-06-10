@@ -92,49 +92,59 @@
             <div class="card shadow-sm border-0 p-4 rounded" style="background-color: #fff; border: 1px solid var(--border-color);">
     <h3 class="mb-4 fw-bold text-center" style="color: var(--text-main-title);">Envianos tu consulta</h3>
     
-    <form action="/consultas" method="POST">
+    <form action="{{ route('consultas.store') }}" method="POST">
         @csrf
         
+        @if ($errors->any())
+        <div class="alert alert-danger py-2 px-3 mb-3" style="border-radius: 8px; font-size: 0.85rem;">
+            <ul class="mb-0 ps-3">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="nombre" class="form-label fw-bold" style="color: var(--text-secondary);">Nombre y Apellido</label>
-                <input type="text" class="form-control shadow-none" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required style="border-color: var(--border-subtle);">
+                <input type="text" class="form-control shadow-none" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" value="{{ old('nombre') }}" required style="border-color: var(--border-subtle);">
             </div>
-
+ 
             <div class="col-md-6 mb-3">
                 <label for="email" class="form-label fw-bold" style="color: var(--text-secondary);">Email</label>
-                <input type="email" class="form-control shadow-none" id="email" name="email" placeholder="nombre@ejemplo.com" required style="border-color: var(--border-subtle);">
+                <input type="email" class="form-control shadow-none" id="email" name="email" placeholder="nombre@ejemplo.com" value="{{ old('email') }}" required style="border-color: var(--border-subtle);">
             </div>
         </div>
-
+ 
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="telefono" class="form-label fw-bold" style="color: var(--text-secondary);">Teléfono</label>
-                <input type="tel" class="form-control shadow-none" id="telefono" name="telefono" placeholder="Cod. área + número">
+                <input type="tel" class="form-control shadow-none" id="telefono" name="telefono" placeholder="Cod. área + número" value="{{ old('telefono') }}">
             </div>
-
+ 
             <div class="col-md-6 mb-3">
                 <label for="pedido" class="form-label fw-bold" style="color: var(--text-secondary);">Número de pedido (opcional)</label>
-                <input type="text" class="form-control shadow-none" id="pedido" name="pedido" placeholder="#12345">
+                <input type="text" class="form-control shadow-none" id="pedido" name="pedido" placeholder="#12345" value="{{ old('pedido') }}">
             </div>
         </div>
-
+ 
         <div class="mb-3">
             <label for="asunto" class="form-label fw-bold" style="color: var(--text-secondary);">Asunto</label>
             <select class="form-select shadow-none" id="asunto" name="asunto" required>
-                <option value="" selected disabled>Seleccioná una opción</option>
-                <option value="consulta">Consulta general</option>
-                <option value="reclamo">Reclamo por pedido</option>
-                <option value="devolucion">Devoluciones</option>
-                <option value="otro">Otro</option>
+                <option value="" {{ old('asunto') === null ? 'selected' : '' }} disabled>Seleccioná una opción</option>
+                <option value="consulta" {{ old('asunto') === 'consulta' ? 'selected' : '' }}>Consulta general</option>
+                <option value="reclamo" {{ old('asunto') === 'reclamo' ? 'selected' : '' }}>Reclamo por pedido</option>
+                <option value="devolucion" {{ old('asunto') === 'devolucion' ? 'selected' : '' }}>Devoluciones</option>
+                <option value="otro" {{ old('asunto') === 'otro' ? 'selected' : '' }}>Otro</option>
             </select>
         </div>
-
+ 
         <div class="mb-4">
             <label for="mensaje" class="form-label fw-bold" style="color: var(--text-secondary);">Mensaje</label>
-            <textarea class="form-control shadow-none" id="mensaje" name="mensaje" rows="4" placeholder="Escribí tu mensaje aquí..." required></textarea>
+            <textarea class="form-control shadow-none" id="mensaje" name="mensaje" rows="4" placeholder="Escribí tu mensaje aquí..." required>{{ old('mensaje') }}</textarea>
         </div>
-
+ 
         <button type="submit" class="btn w-100 py-2 fw-bold btn-nature">
             Enviar Mensaje
         </button>

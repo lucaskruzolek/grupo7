@@ -1,0 +1,294 @@
+/* ==========================================================================
+   Gestión de Consultas (Pet Threads Admin Theme)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --font-poppins: 'Poppins', sans-serif;
+}
+
+.consultas-container {
+    font-family: var(--font-poppins) !important;
+}
+
+.consultas-container h1,
+.consultas-container h2,
+.consultas-container h3,
+.consultas-container h4,
+.consultas-container h5,
+.consultas-container th,
+.consultas-container td,
+.consultas-container span,
+.consultas-container p,
+.consultas-container button,
+.consultas-container input,
+.consultas-container select {
+    font-family: var(--font-poppins) !important;
+}
+
+.kpi-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    border-radius: 16px;
+    padding: 1.2rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    height: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.kpi-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-color: var(--coral-500);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    flex-shrink: 0;
+}
+
+.kpi-icon-total {
+    mask-image: url('/img/icons/consultas.svg');
+    -webkit-mask-image: url('/img/icons/consultas.svg');
+}
+
+.kpi-icon-new {
+    mask-image: url('/img/icons/email2.svg');
+    -webkit-mask-image: url('/img/icons/email2.svg');
+}
+
+.kpi-icon-pending {
+    mask-image: url('/img/icons/hourglass.svg');
+    -webkit-mask-image: url('/img/icons/hourglass.svg');
+}
+
+.kpi-icon-answered {
+    mask-image: url('/img/icons/check.svg');
+    -webkit-mask-image: url('/img/icons/check.svg');
+}
+
+.kpi-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--neutral-900);
+    line-height: 1.2;
+}
+
+.kpi-title {
+    font-size: 0.7rem;
+    color: var(--neutral-500);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.consultas-master-panel {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.consultas-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.consultas-table tbody tr:hover {
+    background-color: var(--neutral-50);
+}
+
+/* Enable vertical scrolling specifically for the consultas view */
+.admin-content {
+    overflow-y: auto !important;
+}
+
+/* Align heights of search bar and filters in consultas page */
+.consultas-container .filter-select {
+    height: 35px !important;
+    min-height: 35px !important;
+    font-size: 0.75rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.consultas-container .search-bar-wrapper {
+    height: 35px !important;
+    min-height: 35px !important;
+}
+
+/* Custom Pagination styles aligned with Pet Threads theme */
+.custom-pagination .page-link {
+    color: var(--neutral-700) !important;
+    background-color: #ffffff !important;
+    border: 1px solid var(--neutral-200) !important;
+    font-size: 0.85rem !important;
+    padding: 0.45rem 0.85rem !important;
+    transition: all 0.2s ease !important;
+    font-family: var(--font-poppins) !important;
+    box-shadow: none !important;
+}
+
+.custom-pagination .page-link:hover {
+    color: var(--green-600) !important;
+    background-color: var(--neutral-50) !important;
+    border-color: var(--neutral-300) !important;
+}
+
+.custom-pagination .page-item.active .page-link {
+    background-color: var(--green-500) !important;
+    border-color: var(--green-500) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    color: var(--neutral-400) !important;
+    background-color: #ffffff !important;
+    border-color: var(--neutral-150) !important;
+    opacity: 0.7 !important;
+}
+
+/* Modal Styling adapted for Poppins */
+.modal-content {
+    font-family: var(--font-poppins) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.modal-header .btn-close:focus {
+    box-shadow: none !important;
+}
+
+/* Replicated row styles from Ventas */
+.order-badge-id {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    background-color: var(--neutral-100);
+    color: var(--neutral-700);
+    display: inline-block;
+}
+
+.client-name {
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin-bottom: 0.1rem;
+}
+
+.client-email {
+    font-size: 0.75rem;
+    color: var(--neutral-500);
+}
+
+.date-main {
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: var(--neutral-800);
+}
+
+.date-sub {
+    font-size: 0.72rem;
+    color: var(--neutral-500);
+}
+
+/* Flat action buttons & Vectorized CSS masked icons */
+.btn-action-flat {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 32px;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.btn-action-flat:hover {
+    transform: scale(1.15);
+}
+
+.action-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    transition: background-color 0.2s ease;
+}
+
+/* Eye (Leído) - Verde */
+.action-icon-eye {
+    mask-image: url('/img/icons/eye.svg');
+    -webkit-mask-image: url('/img/icons/eye.svg');
+    background-color: #2a9d8f;
+}
+
+.btn-action-flat:hover .action-icon-eye {
+    background-color: #1d6f65;
+}
+
+/* Eye-off (No Leído) - Neutral */
+.action-icon-eye-off {
+    mask-image: url('/img/icons/eye-off.svg');
+    -webkit-mask-image: url('/img/icons/eye-off.svg');
+    background-color: #6c757d;
+}
+
+.btn-action-flat:hover .action-icon-eye-off {
+    background-color: #495057;
+}
+
+/* Hourglass (Pendiente) - Neutral */
+.action-icon-hourglass {
+    mask-image: url('/img/icons/hourglass.svg');
+    -webkit-mask-image: url('/img/icons/hourglass.svg');
+    background-color: #6c757d;
+}
+
+.btn-action-flat:hover .action-icon-hourglass {
+    background-color: #457b9d;
+}
+
+/* Check (Respondido) - Verde */
+.action-icon-check {
+    mask-image: url('/img/icons/check.svg');
+    -webkit-mask-image: url('/img/icons/check.svg');
+    background-color: #2a9d8f;
+}
+
+.btn-action-flat:hover .action-icon-check {
+    background-color: #1d6f65;
+}
+
+/* Delete (Eliminar) - Rojo */
+.action-icon-delete {
+    mask-image: url('/img/icons/delete.svg');
+    -webkit-mask-image: url('/img/icons/delete.svg');
+    background-color: #e63946;
+}
+
+.btn-action-flat:hover .action-icon-delete {
+    background-color: #b71c1c;
+}

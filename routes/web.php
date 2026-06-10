@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ColeccionController; 
 use App\Http\Controllers\AdminController; 
 use App\Http\Controllers\VentaController; 
+use App\Http\Controllers\ConsultaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,9 +43,7 @@ Route::get('/consultas', function () {
     return view('frontend.consultas');
 });
 
-Route::post('/consultas', function () {
-    return view('frontend.exito-consulta');
-});
+Route::post('/consultas', [ConsultaController::class, 'store'])->name('consultas.store');
 
 Route::get('/terminos', function () {
     return view('frontend.terminos-de-uso');
@@ -88,8 +87,10 @@ Route::get('productos/{sku_base}', [ProductoController::class, 'show'])->name('p
 Route::middleware(['auth', 'rol:admin'])->prefix('admin')->group(function () {
     // Panel principal y páginas estáticas de administración
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/pedidos', [AdminController::class, 'pedidos'])->name('admin.pedidos');
-    Route::get('/consultas', [AdminController::class, 'consultas'])->name('admin.consultas');
+    Route::get('/consultas', [ConsultaController::class, 'index'])->name('admin.consultas');
+    Route::post('/consultas/{id}/toggle-leido', [ConsultaController::class, 'toggleLeido'])->name('admin.consultas.toggle-leido');
+    Route::post('/consultas/{id}/toggle-respondido', [ConsultaController::class, 'toggleRespondido'])->name('admin.consultas.toggle-respondido');
+    Route::delete('/consultas/{id}', [ConsultaController::class, 'destroy'])->name('admin.consultas.destroy');
     Route::get('/clientes', [AdminController::class, 'clientes'])->name('admin.clientes');
 
     // Listado de productos administrativo (separado del catálogo público)

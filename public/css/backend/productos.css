@@ -78,7 +78,7 @@
     font-family: var(--font-main);
     font-weight: 600;
     font-size: 0.95rem;
-    color: var(--neutral-900);
+    color: var(--neutral-800);
     margin-bottom: 0.2rem;
     white-space: nowrap;
     overflow: hidden;
@@ -372,4 +372,37 @@
     border-color: var(--color-primary) !important;
     opacity: 1;
     box-shadow: 0 0 0 2px rgba(216, 127, 105, 0.2);
+}
+
+.active-status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid transparent;
+    font-family: var(--font-main);
+    line-height: 1.2;
+    text-transform: capitalize;
+}
+
+.active-status-badge.status-active {
+    background-color: rgba(125, 140, 120, 0.15);
+    /* Verde suave coherente con --green-500/600 */
+    color: var(--green-700);
+    border-color: rgba(125, 140, 120, 0.3);
+}
+
+.active-status-badge.status-inactive {
+    background-color: var(--neutral-200);
+    /* Neutro crema coherente con la paleta */
+    color: var(--neutral-600);
+    border-color: var(--neutral-300);
+}
+
+.active-status-badge.status-empty {
+    background-color: transparent;
+    color: var(--neutral-400);
+    border-color: var(--neutral-200);
 }

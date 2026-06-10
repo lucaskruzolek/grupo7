@@ -273,4 +273,83 @@ class VentaTest extends TestCase
         $this->producto->refresh();
         $this->assertEquals(5, $this->producto->stock); // El stock se mantiene intacto
     }
+
+    public function test_admin_can_filter_ventas_by_estado_pago_and_search()
+    {
+        // Limpiar ventas creadas en otros tests o en setUp
+        Venta::truncate();
+
+        // Crear otra forma de pago
+        $formaPago2 = FormaPago::create(['id' => 2, 'descripcion' => 'Transferencia']);
+
+        // Crear usuario cliente 2
+        $rolCliente = Rol::where('nombre', 'client')->first();
+        $client2 = Usuario::create([
+            'nombre'   => 'María',
+            'apellido' => 'Gómez',
+            'email'    => 'maria@gomez.com',
+            'password' => bcrypt('password'),
+            'rol_id'   => $rolCliente->id,
+        ]);
+
+        // 1. Crear venta CONFIRMADO, Pago 1 (Efectivo), Cliente 1 (Juan Perez)
+        $v1 = Venta::create([
+            'usuario_id' => $this->client->id,
+            'estado' => 'CONFIRMADO',
+            'forma_pago_id' => $this->formaPago->id,
+            'total' => 1000.00,
+            'fecha_venta' => now(),
+        ]);
+
+        // 2. Crear venta DESPACHADO, Pago 2 (Transferencia), Cliente 2 (María Gómez)
+        $v2 = Venta::create([
+            'usuario_id' => $client2->id,
+            'estado' => 'DESPACHADO',
+            'forma_pago_id' => $formaPago2->id,
+            'total' => 2000.00,
+            'fecha_venta' => now(),
+        ]);
+
+        // Filter by estado CONFIRMADO
+        $response = $this->actingAs($this->admin)->get(route('admin.ventas.index', ['period' => 'all', 'estado' => 'CONFIRMADO']));
+        $response->assertStatus(200);
+        $ventas = $response->viewData('ventas');
+        $this->assertEquals(1, $ventas->count());
+        $this->assertEquals($v1->id, $ventas->first()->id);
+
+        // Filter by estado DESPACHADO
+        $response = $this->actingAs($this->admin)->get(route('admin.ventas.index', ['period' => 'all', 'estado' => 'DESPACHADO']));
+        $response->assertStatus(200);
+        $ventas = $response->viewData('ventas');
+        $this->assertEquals(1, $ventas->count());
+        $this->assertEquals($v2->id, $ventas->first()->id);
+
+        // Filter by pago 2 (Transferencia)
+        $response = $this->actingAs($this->admin)->get(route('admin.ventas.index', ['period' => 'all', 'pago' => $formaPago2->id]));
+        $response->assertStatus(200);
+        $ventas = $response->viewData('ventas');
+        $this->assertEquals(1, $ventas->count());
+        $this->assertEquals($v2->id, $ventas->first()->id);
+
+        // Filter by search query "Perez"
+        $response = $this->actingAs($this->admin)->get(route('admin.ventas.index', ['period' => 'all', 'search' => 'Perez']));
+        $response->assertStatus(200);
+        $ventas = $response->viewData('ventas');
+        $this->assertEquals(1, $ventas->count());
+        $this->assertEquals($v1->id, $ventas->first()->id);
+
+        // Filter by search query "maria@gomez.com"
+        $response = $this->actingAs($this->admin)->get(route('admin.ventas.index', ['period' => 'all', 'search' => 'maria@gomez.com']));
+        $response->assertStatus(200);
+        $ventas = $response->viewData('ventas');
+        $this->assertEquals(1, $ventas->count());
+        $this->assertEquals($v2->id, $ventas->first()->id);
+
+        // Filter by search query of order ID (with #)
+        $response = $this->actingAs($this->admin)->get(route('admin.ventas.index', ['period' => 'all', 'search' => '#' . $v1->id]));
+        $response->assertStatus(200);
+        $ventas = $response->viewData('ventas');
+        $this->assertEquals(1, $ventas->count());
+        $this->assertEquals($v1->id, $ventas->first()->id);
+    }
 }

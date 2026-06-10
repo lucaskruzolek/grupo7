@@ -69,10 +69,10 @@
                                 <h4 class="product-list-title">{{ $prod['nombre_base'] }}</h4>
                                 <span class="product-list-sku">{{ $prod['sku_base'] }}</span>
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <span class="badge {{ $prod['activo'] ? 'bg-success text-white' : 'bg-secondary text-white' }} border py-1 small active-status-badge">
+                                    <span class="active-status-badge {{ $prod['activo'] ? 'status-active' : 'status-inactive' }}">
                                         {{ $prod['activo'] ? 'Activo' : 'Inactivo' }}
                                     </span>
-                                    <small class="text-muted fw-bold">
+                                    <small class="fw-bold" style="color: var(--neutral-500)">
                                         {{ $prod['colores_count'] }} {{ $prod['colores_count'] === 1 ? 'Color' : 'Colores' }} | 
                                         {{ $prod['talles_count'] }} {{ $prod['talles_count'] === 1 ? 'Talle' : 'Talles' }}
                                     </small>
@@ -109,7 +109,7 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="badge bg-light text-muted border mb-0" id="detail-sku-base">-</span>
                         <div class="view-mode">
-                            <span id="detail-active-status" class="badge border py-1 small">-</span>
+                            <span id="detail-active-status" class="active-status-badge status-empty">-</span>
                         </div>
                         <div class="edit-mode">
                             <div class="form-check form-switch d-flex align-items-center gap-2">

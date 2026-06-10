@@ -13,15 +13,24 @@
         <div>
             <h1 class="section-title">Gestión de Ventas</h1>
         </div>
-        <!-- Filtro Rango de Fechas (Mockup de interfaz) -->
-        <div class="d-flex align-items-center gap-2">
+        <!-- Filtro Rango de Fechas -->
+        <div class="d-flex align-items-center gap-2 flex-wrap">
             <span class="text-secondary" style="font-size: 0.85rem; font-weight: 500;">Período:</span>
-            <select class="filter-select" style="min-width: 160px; height: 38px;">
-                <option value="today">Hoy</option>
-                <option value="7days">Últimos 7 días</option>
-                <option value="month" selected>Este mes</option>
-                <option value="custom">Rango personalizado</option>
+            <select id="filter-period" class="filter-select" style="min-width: 160px; height: 38px;">
+                <option value="all" {{ request('period') === 'all' ? 'selected' : '' }}>Todo</option>
+                <option value="today" {{ request('period') === 'today' ? 'selected' : '' }}>Hoy</option>
+                <option value="7days" {{ request('period') === '7days' ? 'selected' : '' }}>Últimos 7 días</option>
+                <option value="month" {{ request('period', 'month') === 'month' ? 'selected' : '' }}>Este mes</option>
+                <option value="custom" {{ request('period') === 'custom' ? 'selected' : '' }}>Rango personalizado</option>
             </select>
+            
+            <!-- Contenedor de Rango Personalizado -->
+            <div id="custom-date-container" class="{{ request('period') === 'custom' ? 'd-flex' : 'd-none' }} align-items-center gap-2 flex-wrap">
+                <input type="date" id="start-date" class="form-control form-control-sm shadow-none" style="height: 38px; width: 130px; border-radius: 8px; border-color: var(--neutral-300);" value="{{ request('start_date') }}">
+                <span class="text-muted small">a</span>
+                <input type="date" id="end-date" class="form-control form-control-sm shadow-none" style="height: 38px; width: 130px; border-radius: 8px; border-color: var(--neutral-300);" value="{{ request('end_date') }}">
+                <button id="btn-apply-custom-date" class="btn btn-sm btn-outline-secondary" style="height: 38px; border-radius: 8px; font-weight: 600; font-size: 0.75rem;">Filtrar</button>
+            </div>
         </div>
     </div>
 
@@ -75,20 +84,20 @@
                 <!-- Buscador y Filtros -->
                 <div class="d-flex align-items-center justify-content-start gap-2 mb-3 flex-wrap">
                     <div class="input-group search-bar-wrapper" style="max-width: 320px; width: 100%;">
-                        <input type="text" id="search-pedido" class="form-control search-input" placeholder="Buscar por ID, cliente o email..." aria-label="Buscar ventas">
-                        <button class="btn search-btn" type="button">
+                        <input type="text" id="search-pedido" class="form-control search-input" value="{{ request('search') }}" placeholder="Buscar por ID, cliente o email..." aria-label="Buscar ventas">
+                        <button class="btn search-btn" id="btn-search-pedido" type="button">
                             <img src="{{ asset('img/icons/search.svg') }}" alt="Buscar" style="width: 18px; height: 18px;">
                         </button>
                     </div>
                     <select id="filter-estado" class="filter-select" style="min-width: 150px;">
-                        <option value="all" selected>Todos</option>
-                        <option value="CONFIRMADO">Confirmado</option>
-                        <option value="DESPACHADO">Despachado</option>
+                        <option value="all" {{ request('estado') === 'all' || !request('estado') ? 'selected' : '' }}>Todos</option>
+                        <option value="CONFIRMADO" {{ request('estado') === 'CONFIRMADO' ? 'selected' : '' }}>Confirmado</option>
+                        <option value="DESPACHADO" {{ request('estado') === 'DESPACHADO' ? 'selected' : '' }}>Despachado</option>
                     </select>
                     <select id="filter-pago" class="filter-select" style="min-width: 180px;">
-                        <option value="all" selected>Cualquier pago</option>
+                        <option value="all" {{ request('pago') === 'all' || !request('pago') ? 'selected' : '' }}>Cualquier pago</option>
                         @foreach ($formasPago as $fp)
-                            <option value="{{ $fp->id }}">{{ $fp->descripcion }}</option>
+                            <option value="{{ $fp->id }}" {{ request('pago') == $fp->id ? 'selected' : '' }}>{{ $fp->descripcion }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -146,7 +155,7 @@
 
                 <!-- Paginación -->
                 <div class="d-flex justify-content-center mt-3">
-                    {{ $ventas->links('backend.admin.pagination') }}
+                    {{ $ventas->appends(request()->all())->links('backend.admin.pagination') }}
                 </div>
             </div>
         </div>

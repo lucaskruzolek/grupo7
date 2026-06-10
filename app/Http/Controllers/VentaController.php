@@ -196,21 +196,102 @@ class VentaController extends Controller
     /**
      * Listado administrativo de ventas.
      */
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
-        // Obtener KPIs agregados
-        $totalIngresos = Venta::ventas()->sum('total');
-        $cantidadVentas = Venta::ventas()->count();
-        $pedidosPendientes = Venta::where('estado', 'CONFIRMADO')->count();
-        
-        $productosVendidos = VentaDetalle::whereHas('venta', function ($q) {
-            $q->ventas();
-        })->sum('cantidad');
+        $period = $request->input('period', 'month');
+        $startDate = null;
+        $endDate = null;
 
-        $ventas = Venta::ventas()
+        if ($period !== 'all') {
+            switch ($period) {
+                case 'today':
+                    $startDate = \Carbon\Carbon::today()->startOfDay();
+                    $endDate = \Carbon\Carbon::today()->endOfDay();
+                    break;
+                case '7days':
+                    $startDate = \Carbon\Carbon::today()->subDays(6)->startOfDay();
+                    $endDate = \Carbon\Carbon::today()->endOfDay();
+                    break;
+                case 'month':
+                    $startDate = \Carbon\Carbon::today()->startOfMonth()->startOfDay();
+                    $endDate = \Carbon\Carbon::today()->endOfMonth()->endOfDay();
+                    break;
+                case 'custom':
+                    if ($request->filled('start_date') && $request->filled('end_date')) {
+                        $startDate = \Carbon\Carbon::parse($request->input('start_date'))->startOfDay();
+                        $endDate = \Carbon\Carbon::parse($request->input('end_date'))->endOfDay();
+                    } else {
+                        // Si es custom pero no hay fechas, caemos por defecto en el mes actual
+                        $startDate = \Carbon\Carbon::today()->startOfMonth()->startOfDay();
+                        $endDate = \Carbon\Carbon::today()->endOfMonth()->endOfDay();
+                    }
+                    break;
+            }
+        }
+
+        // Construir queries base
+        $queryIngresos = Venta::ventas();
+        $queryVentas = Venta::ventas();
+        $queryPendientes = Venta::where('estado', 'CONFIRMADO');
+        $queryProductos = VentaDetalle::whereHas('venta', function ($q) use ($startDate, $endDate) {
+            $q->ventas();
+            if ($startDate && $endDate) {
+                $q->whereBetween('fecha_venta', [$startDate, $endDate]);
+            }
+        });
+        
+        $queryVentasList = Venta::ventas()
             ->with(['usuario', 'formaPago'])
-            ->orderBy('fecha_venta', 'desc')
-            ->paginate(10);
+            ->orderBy('fecha_venta', 'desc');
+
+        // Aplicar filtros de fecha si aplican
+        if ($startDate && $endDate) {
+            $queryIngresos->whereBetween('fecha_venta', [$startDate, $endDate]);
+            $queryVentas->whereBetween('fecha_venta', [$startDate, $endDate]);
+            $queryPendientes->whereBetween('created_at', [$startDate, $endDate]);
+            $queryVentasList->whereBetween('fecha_venta', [$startDate, $endDate]);
+        }
+
+        // Aplicar filtro por estado si aplica
+        if ($request->filled('estado') && $request->input('estado') !== 'all') {
+            $queryVentasList->where('estado', $request->input('estado'));
+        }
+
+        // Aplicar filtro por forma de pago si aplica
+        if ($request->filled('pago') && $request->input('pago') !== 'all') {
+            $queryVentasList->where('forma_pago_id', $request->input('pago'));
+        }
+
+        // Aplicar filtro por búsqueda de texto
+        if ($request->filled('search')) {
+            $search = '%' . $request->input('search') . '%';
+            $searchClean = ltrim($request->input('search'), '#');
+            $searchCleanLike = '%' . $searchClean . '%';
+
+            $queryVentasList->where(function ($q) use ($search, $searchCleanLike) {
+                $q->where('id', 'like', $searchCleanLike)
+                  ->orWhereHas('usuario', function ($uQuery) use ($search) {
+                      $uQuery->where('nombre', 'like', $search)
+                             ->orWhere('apellido', 'like', $search)
+                             ->orWhere('email', 'like', $search);
+                      
+                      $driver = DB::connection()->getDriverName();
+                      if ($driver === 'sqlite') {
+                          $uQuery->orWhereRaw("nombre || ' ' || apellido LIKE ?", [$search]);
+                      } else {
+                          $uQuery->orWhereRaw("CONCAT(nombre, ' ', apellido) LIKE ?", [$search]);
+                      }
+                  });
+            });
+        }
+
+        // Obtener KPIs agregados
+        $totalIngresos = $queryIngresos->sum('total');
+        $cantidadVentas = $queryVentas->count();
+        $pedidosPendientes = $queryPendientes->count();
+        $productosVendidos = $queryProductos->sum('cantidad');
+
+        $ventas = $queryVentasList->paginate(10);
 
         $formasPago = FormaPago::all();
 
