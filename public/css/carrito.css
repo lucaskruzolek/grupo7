@@ -1,0 +1,286 @@
+/* --- Estilos Específicos para el Carrito de Compras (Pet Threads) --- */
+
+.cart-title {
+    font-family: var(--font-heading);
+    color: var(--brand-dark);
+    font-weight: 700;
+}
+
+/* Tarjeta del Item en el Carrito */
+.cart-item-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cart-item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Imagen del producto */
+.cart-item-img-container {
+    width: 90px;
+    height: 90px;
+    min-width: 90px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--neutral-50);
+    border: 1px solid var(--color-border);
+}
+
+.cart-item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Detalles del producto */
+.cart-item-title {
+    font-family: var(--font-main);
+    color: var(--brand-dark);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+}
+
+.cart-item-subtitle {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+/* Selector de Cantidad Premium */
+.quantity-selector {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    background-color: var(--neutral-50);
+    overflow: hidden;
+    height: 36px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.quantity-btn {
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    width: 32px;
+    height: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+
+.quantity-btn:hover:not(:disabled) {
+    background-color: var(--neutral-200);
+    color: var(--color-primary);
+}
+
+.quantity-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.quantity-input {
+    width: 38px;
+    height: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    -moz-appearance: textfield;
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input:focus {
+    outline: none;
+}
+
+/* Precios y subtotales */
+.price-tag {
+    font-family: var(--font-main);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+.subtotal-tag {
+    font-family: var(--font-main);
+    font-weight: 700;
+    color: var(--brand-dark);
+    font-size: 1.05rem;
+}
+
+/* Botón Eliminar */
+.btn-remove-item {
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    padding: 6px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-remove-item:hover {
+    color: var(--coral-700);
+    background-color: var(--coral-50);
+}
+
+/* Resumen del Pedido */
+.cart-summary-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.summary-heading {
+    font-family: var(--font-heading);
+    color: var(--brand-dark);
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.summary-row.total-row {
+    border-top: 1px dashed var(--color-border);
+    padding-top: 1rem;
+    margin-top: 1rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--brand-dark);
+}
+
+/* Métodos de Pago Premium */
+.payment-methods-title {
+    font-family: var(--font-main);
+    font-weight: 600;
+    color: var(--brand-dark);
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+
+.payment-method-card {
+    position: relative;
+    border: 2px solid var(--color-border);
+    background-color: var(--color-surface);
+    border-radius: 10px;
+    padding: 0.85rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 0.65rem;
+}
+
+.payment-method-card:hover {
+    border-color: var(--neutral-400);
+    background-color: var(--neutral-50);
+}
+
+/* Selector CSS moderno para marcar la tarjeta activa */
+.payment-method-card:has(input[type="radio"]:checked) {
+    border-color: var(--color-primary);
+    background-color: var(--coral-50);
+    box-shadow: 0 2px 8px rgba(125, 140, 120, 0.1);
+}
+
+.payment-method-label {
+    font-weight: 600;
+    color: var(--brand-dark);
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-bottom: 0;
+    flex-grow: 1;
+}
+
+.payment-method-radio {
+    margin-right: 0.75rem;
+    accent-color: var(--color-primary);
+}
+
+/* Estado de Carrito Vacío */
+.empty-cart-container {
+    text-align: center;
+    padding: 4rem 1.5rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.empty-cart-icon {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 1.5rem;
+    opacity: 0.75;
+    animation: floatPaw 3s ease-in-out infinite;
+}
+
+@keyframes floatPaw {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.empty-cart-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin-bottom: 0.75rem;
+}
+
+.empty-cart-text {
+    color: var(--color-text-secondary);
+    max-width: 450px;
+    margin: 0 auto 1.5rem auto;
+    font-size: 0.95rem;
+}
+
+/* Animaciones */
+.anim-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+.cart-item-card {
+    opacity: 0;
+    transform: translateY(15px);
+    animation: slideUpIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

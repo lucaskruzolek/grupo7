@@ -111,6 +111,12 @@
     background-color: var(--neutral-50);
 }
 
+.consultas-table th,
+.consultas-table td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
 /* Enable vertical scrolling specifically for the consultas view */
 .admin-content {
     overflow-y: auto !important;
@@ -130,37 +136,7 @@
     min-height: 35px !important;
 }
 
-/* Custom Pagination styles aligned with Pet Threads theme */
-.custom-pagination .page-link {
-    color: var(--neutral-700) !important;
-    background-color: #ffffff !important;
-    border: 1px solid var(--neutral-200) !important;
-    font-size: 0.85rem !important;
-    padding: 0.45rem 0.85rem !important;
-    transition: all 0.2s ease !important;
-    font-family: var(--font-poppins) !important;
-    box-shadow: none !important;
-}
 
-.custom-pagination .page-link:hover {
-    color: var(--green-600) !important;
-    background-color: var(--neutral-50) !important;
-    border-color: var(--neutral-300) !important;
-}
-
-.custom-pagination .page-item.active .page-link {
-    background-color: var(--green-500) !important;
-    border-color: var(--green-500) !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-}
-
-.custom-pagination .page-item.disabled .page-link {
-    color: var(--neutral-400) !important;
-    background-color: #ffffff !important;
-    border-color: var(--neutral-150) !important;
-    opacity: 0.7 !important;
-}
 
 /* Modal Styling adapted for Poppins */
 .modal-content {
@@ -181,6 +157,14 @@
     background-color: var(--neutral-100);
     color: var(--neutral-700);
     display: inline-block;
+    align-items: center;
+}
+
+.tipo-asunto {
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin-bottom: 0.1rem;
+    font-size: 0.7rem;
 }
 
 .client-name {
@@ -291,4 +275,19 @@
 
 .btn-action-flat:hover .action-icon-delete {
     background-color: #b71c1c;
+}
+
+.badge-pending {
+    background-color: var(--coral-100);
+    color: var(--coral-800);
+}
+
+.badge-completed {
+    background-color: var(--green-100);
+    color: var(--green-800);
+}
+
+.badge-cancelled {
+    background-color: var(--neutral-200);
+    color: var(--neutral-700);
 }

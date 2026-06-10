@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/filter-sidebar.css') }}">
     <link rel="icon" type="image/png" href="{{ asset('img/logo/favicon.png') }}">
+    @yield('styles')
 </head>
 
 <body>

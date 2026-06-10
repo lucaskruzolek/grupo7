@@ -394,34 +394,13 @@
     min-height: 35px !important;
 }
 
-/* Custom Pagination styles aligned with Pet Threads theme */
-.custom-pagination .page-link {
-    color: var(--neutral-700) !important;
-    background-color: #ffffff !important;
-    border: 1px solid var(--neutral-200) !important;
-    font-size: 0.85rem !important;
-    padding: 0.45rem 0.85rem !important;
-    transition: all 0.2s ease !important;
-    font-family: var(--font-poppins) !important;
-    box-shadow: none !important;
+
+.badge-pending {
+    background-color: var(--coral-100);
+    color: var(--coral-800);
 }
 
-.custom-pagination .page-link:hover {
-    color: var(--green-600) !important;
-    background-color: var(--neutral-50) !important;
-    border-color: var(--neutral-300) !important;
-}
-
-.custom-pagination .page-item.active .page-link {
-    background-color: var(--green-500) !important;
-    border-color: var(--green-500) !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-}
-
-.custom-pagination .page-item.disabled .page-link {
-    color: var(--neutral-400) !important;
-    background-color: #ffffff !important;
-    border-color: var(--neutral-150) !important;
-    opacity: 0.7 !important;
+.badge-completed {
+    background-color: var(--green-100);
+    color: var(--green-800);
 }
