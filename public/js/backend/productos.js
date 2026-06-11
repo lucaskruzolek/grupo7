@@ -5,6 +5,7 @@ const PRODUCT_CACHE = {};
 const ALL_PRODUCTS = DB_PRODUCTS.sort((a, b) => a.nombre_base.localeCompare(b.nombre_base, 'es', { sensitivity: 'base' }));
 
 let activeProduct = null;
+let originalProductBackup = null;
 let currentActiveColor = null;
 let currentImageIndex = 0;
 
@@ -495,6 +496,23 @@ function selectColorRow(row) {
 function renderGalleryAndUrls() {
     if (!activeProduct || !currentActiveColor) return;
 
+    // Actualizar Favorito según el color activo
+    const detailFav = document.getElementById('detail-favorite');
+    const editFav = document.getElementById('edit-favorite');
+    if (detailFav || editFav) {
+        const activeColorObj = activeProduct.colores.find(c => c.key === currentActiveColor);
+        const isFav = activeColorObj ? !!activeColorObj.favorito : false;
+        
+        if (detailFav) {
+            detailFav.innerHTML = isFav 
+                ? '<span class="fw-bold text-warning" style="font-size: 0.95rem;">⭐ Destacado</span>' 
+                : '<span class="text-muted" style="font-size: 0.95rem;">No destacado</span>';
+        }
+        if (editFav) {
+            editFav.checked = isFav;
+        }
+    }
+
     const media = activeProduct.colorMedia[currentActiveColor];
     if (!media) return;
 
@@ -934,6 +952,7 @@ function toggleEditMode() {
  * @returns {void}
  */
 function enterEditMode() {
+    originalProductBackup = JSON.parse(JSON.stringify(activeProduct));
     const container = document.getElementById('detail-card-container');
     container.classList.add('is-editing');
     document.getElementById('edit-title').value = document.getElementById('detail-title').innerText.trim();
@@ -964,6 +983,11 @@ function cancelEditMode() {
     const container = document.getElementById('detail-card-container');
     container.classList.remove('is-editing');
 
+    if (originalProductBackup) {
+        activeProduct = originalProductBackup;
+        originalProductBackup = null;
+    }
+
     // Restaurar los detalles y la tabla utilizando el objeto activeProduct original
     if (activeProduct) {
         renderProductDetails(activeProduct);
@@ -990,10 +1014,13 @@ function collectProductPayload() {
         const colorId = parseInt(input.getAttribute('data-color-id'));
         const talle = input.getAttribute('data-talle');
         const stock = parseInt(input.value);
+        const colorObj = activeProduct.colores.find(c => c.id === colorId);
+        const isFav = colorObj ? !!colorObj.favorito : false;
         variantsList.push({
             color_id: colorId,
             talle: talle,
-            stock: stock
+            stock: stock,
+            favorito: isFav
         });
     });
 
@@ -1534,6 +1561,18 @@ window.onload = function () {
     const categorySelector = document.getElementById('new-prod-category');
     if (categorySelector) {
         categorySelector.addEventListener('change', handleNewProductCategoryChange);
+    }
+
+    const editFavToggle = document.getElementById('edit-favorite');
+    if (editFavToggle) {
+        editFavToggle.addEventListener('change', function () {
+            if (activeProduct && currentActiveColor) {
+                const activeColorObj = activeProduct.colores.find(c => c.key === currentActiveColor);
+                if (activeColorObj) {
+                    activeColorObj.favorito = this.checked;
+                }
+            }
+        });
     }
 
     document.getElementById('search-prod-input').addEventListener('input', filterProducts);

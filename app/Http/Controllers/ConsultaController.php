@@ -12,7 +12,7 @@ class ConsultaController extends Controller
      */
     public function index(Request $request)
     {
-        $period = $request->input('period', 'month');
+        $period = $request->input('period', 'all');
         $startDate = null;
         $endDate = null;
 

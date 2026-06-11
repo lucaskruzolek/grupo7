@@ -262,6 +262,7 @@ class ProductoController extends Controller
             'precio'       => 'required|numeric|min:0',
             'stock_minimo' => 'required|integer|min:0',
             'variantes'    => 'required|array',
+            'variantes.*.favorito' => 'nullable|boolean',
             'coleccion_id' => 'nullable|exists:colecciones,id',
             'activo'       => 'required|boolean',
         ]);
@@ -289,6 +290,7 @@ class ProductoController extends Controller
                 $colorId = $vData['color_id'];
                 $talle = strtoupper($vData['talle']);
                 $stock = (int)$vData['stock'];
+                $favorito = isset($vData['favorito']) ? (bool)$vData['favorito'] : false;
 
                 $colorObj = Color::find($colorId);
                 if (!$colorObj) continue;
@@ -317,6 +319,7 @@ class ProductoController extends Controller
                     if ($variant->stock_minimo !== $stockMinimo) $updates['stock_minimo'] = $stockMinimo;
                     if ($variant->coleccion_id !== $coleccionId) $updates['coleccion_id'] = $coleccionId;
                     if ($variant->activo !== $activo) $updates['activo'] = $activo;
+                    if ($variant->favorito !== $favorito) $updates['favorito'] = $favorito;
 
                     if (!empty($updates)) {
                         $variant->update($updates);
@@ -344,6 +347,7 @@ class ProductoController extends Controller
                         'stock_minimo' => $stockMinimo,
                         'precio'       => $precio,
                         'activo'       => $activo,
+                        'favorito'     => $favorito,
                     ]);
                 }
             }
@@ -404,12 +408,14 @@ class ProductoController extends Controller
         $first = $variants->first();
 
         // Obtener colores activos únicos
-        $activeColors = $variants->pluck('color')->unique('id')->filter()->map(function($c) {
+        $activeColors = $variants->pluck('color')->unique('id')->filter()->map(function($c) use ($variants) {
+            $isFav = $variants->where('color_id', $c->id)->contains('favorito', true);
             return [
                 'id' => $c->id,
                 'nombre' => $c->nombre,
                 'hex_code' => $c->hex_code,
                 'key' => strtolower($c->nombre),
+                'favorito' => (bool)$isFav,
             ];
         })->values()->toArray();
 
@@ -461,6 +467,7 @@ class ProductoController extends Controller
             'descripcion' => $first->descripcion,
             'tipo_mascota' => $first->tipo_mascota,
             'precio' => (float)$first->precio,
+            'stock_minimo' => $first->stock_minimo !== null ? (int)$first->stock_minimo : null,
             'categoria_id' => $first->categoria_id,
             'categoria_nombre' => $first->categoria ? $first->categoria->nombre : '',
             'categoria_padre' => ($first->categoria && $first->categoria->parent) ? $first->categoria->parent->nombre : '',

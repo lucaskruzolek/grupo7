@@ -198,7 +198,7 @@ class VentaController extends Controller
      */
     public function adminIndex(Request $request)
     {
-        $period = $request->input('period', 'month');
+        $period = $request->input('period', 'all');
         $startDate = null;
         $endDate = null;
 

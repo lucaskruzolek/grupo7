@@ -91,7 +91,7 @@ Route::middleware(['auth', 'rol:admin'])->prefix('admin')->group(function () {
     Route::post('/consultas/{id}/toggle-leido', [ConsultaController::class, 'toggleLeido'])->name('admin.consultas.toggle-leido');
     Route::post('/consultas/{id}/toggle-respondido', [ConsultaController::class, 'toggleRespondido'])->name('admin.consultas.toggle-respondido');
     Route::delete('/consultas/{id}', [ConsultaController::class, 'destroy'])->name('admin.consultas.destroy');
-    Route::get('/clientes', [AdminController::class, 'clientes'])->name('admin.clientes');
+    Route::get('/clientes', [UsuarioController::class, 'index'])->name('admin.clientes');
 
     // Listado de productos administrativo (separado del catálogo público)
     Route::get('/productos', [ProductoController::class, 'adminIndex'])->name('admin.productos.index');

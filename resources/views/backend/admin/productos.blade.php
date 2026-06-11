@@ -176,20 +176,37 @@
                             </div>
                         </div>
 
-                        <!-- Colección -->
-                        <div class="collection-container-wrapper">
-                            <div class="form-group-admin mb-0">
-                                <span class="form-label-admin mb-1">Colección</span>
-                                <div class="view-mode">
-                                    <span class="text-secondary small mb-0 text-capitalize" id="detail-collection">-</span>
+                        <!-- Colección y Favorito -->
+                        <div class="d-flex gap-2">
+                            <div class="collection-container-wrapper flex-grow-1">
+                                <div class="form-group-admin mb-0">
+                                    <span class="form-label-admin mb-0">Colección</span>
+                                    <div class="view-mode">
+                                        <span class="text-secondary small mb-0 text-capitalize" id="detail-collection">-</span>
+                                    </div>
+                                    <div class="edit-mode">
+                                        <select class="form-select form-select-sm shadow-none" id="edit-collection">
+                                            <option value="">Sin colección</option>
+                                            @foreach($colecciones as $col)
+                                                <option value="{{ $col->id }}">{{ $col->nombre }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="edit-mode">
-                                    <select class="form-select form-select-sm shadow-none" id="edit-collection">
-                                        <option value="">Sin colección</option>
-                                        @foreach($colecciones as $col)
-                                            <option value="{{ $col->id }}">{{ $col->nombre }}</option>
-                                        @endforeach
-                                    </select>
+                            </div>
+
+                            <div class="collection-container-wrapper flex-grow-1">
+                                <div class="form-group-admin mb-0">
+                                    <span class="form-label-admin mb-0">Favorito</span>
+                                    <div class="view-mode">
+                                        <span class="text-secondary small mb-0" id="detail-favorite">-</span>
+                                    </div>
+                                    <div class="edit-mode">
+                                        <div class="form-check form-switch d-flex align-items-center gap-2" style="height: 31px;">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="edit-favorite" style="cursor: pointer;">
+                                            <label class="form-check-label small text-muted mb-0" for="edit-favorite" style="cursor: pointer; font-size: 0.85rem; user-select: none;">Destacado</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -217,7 +234,7 @@
                             <h4 class="h6 fw-bold mb-3 border-bottom pb-2" style="font-family: poppins">Información general</h4>
                             
                             <div class="form-group-admin view-mode">
-                                <span class="form-label-admin">Descripción</span>
+                                <span class="form-label-admin mb-0">Descripción</span>
                                 <p class="text-secondary small mb-0 text-hyphenated" id="detail-desc">-</p>
                             </div>
 
@@ -229,7 +246,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group-admin">
-                                        <span class="form-label-admin">Categoría</span>
+                                        <span class="form-label-admin mb-0">Categoría</span>
                                         <div>
                                             <span class="text-secondary small mb-0 text-capitalize" id="detail-category-parent">-</span>
                                         </div>
@@ -237,7 +254,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group-admin">
-                                        <span class="form-label-admin">Subcategoría</span>
+                                        <span class="form-label-admin mb-0">Subcategoría</span>
                                         <div>
                                             <span class="text-secondary small mb-0 text-capitalize" id="detail-category-child">-</span>
                                         </div>
@@ -248,7 +265,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group-admin">
-                                        <span class="form-label-admin">Tipo de mascota</span>
+                                        <span class="form-label-admin mb-0">Tipo de mascota</span>
                                         <div class="view-mode">
                                             <span class="text-secondary small mb-0" id="detail-pet">-</span>
                                         </div>
@@ -263,7 +280,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group-admin">
-                                        <span class="form-label-admin">Stock Mínimo</span>
+                                        <span class="form-label-admin mb-0">Stock Mínimo</span>
                                         <div class="view-mode">
                                             <span class="text-secondary small mb-0" id="detail-stock-min">-</span>
                                         </div>
@@ -407,7 +424,7 @@
             <form action="{{ route('admin.productos.store') }}" method="POST" id="form-create-product" onsubmit="return validateCreateProductForm(event)">
                 @csrf
                 <div class="modal-header border-bottom-0 pb-0">
-                    <h5 class="modal-title fw-bold text-dark">Nuevo Producto</h5>
+                    <h6 class="modal-title fw-bold text-dark" style="font-family: var(--font-main);">Nuevo Producto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body py-3 text-start">
@@ -481,7 +498,7 @@
                     
                     <!-- Formulario local para agregar variantes a la lista -->
                     <div class="row align-items-end g-2 mb-3">
-                        <div class="col-5">
+                        <div class="col-4">
                             <div class="form-group-admin m-0">
                                 <label for="new-variant-color" class="form-label-admin">Color</label>
                                 <select id="new-variant-color" class="form-select form-select-admin">
@@ -504,12 +521,12 @@
                         <div class="col-2">
                             <div class="form-group-admin m-0">
                                 <label for="new-variant-stock" class="form-label-admin">Stock</label>
-                                <input type="number" id="new-variant-stock" class="form-control form-control-admin" min="0" value="10">
+                                <input type="number" id="new-variant-stock" class="form-control form-control-admin" min="1" value="1">
                             </div>
                         </div>
-                        <div class="col-2">
-                            <button type="button" class="btn-admin btn-admin-secondary w-100" style="padding: 0.5rem 0; height: 35px; display: flex; align-items: center; justify-content: center;" onclick="addVariantToNewProduct()">
-                                +
+                        <div class="col-3">
+                            <button type="button" class="btn-admin btn-admin-primary w-100" onclick="addVariantToNewProduct()">
+                                + Agregar
                             </button>
                         </div>
                     </div>

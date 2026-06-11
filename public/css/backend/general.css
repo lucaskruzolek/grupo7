@@ -288,6 +288,10 @@ body {
     margin-bottom: 1.25rem;
 }
 
+.form-select-admin {
+    font-size: 0.85rem;
+}
+
 .form-label-admin {
     font-family: var(--font-main);
     font-weight: 600;
@@ -299,11 +303,11 @@ body {
 
 .form-control-admin {
     width: 100%;
-    padding: 0.55rem 0.85rem;
+    padding: 0.4rem 0.85rem;
     border: 1px solid var(--neutral-300);
     border-radius: 8px;
     font-family: var(--font-main);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     background-color: #ffffff;
     transition: border-color 0.2s;
 }

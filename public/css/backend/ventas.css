@@ -56,23 +56,26 @@
 }
 
 .kpi-icon-income {
-    mask-image: url('/img/icons/bank.svg');
-    -webkit-mask-image: url('/img/icons/bank.svg');
+    mask-image: url('/img/icons/coin.svg');
+    -webkit-mask-image: url('/img/icons/coin.svg');
 }
 
 .kpi-icon-orders {
-    mask-image: url('/img/icons/pedidos.svg');
-    -webkit-mask-image: url('/img/icons/pedidos.svg');
+    mask-image: url('/img/icons/cart.svg');
+    -webkit-mask-image: url('/img/icons/cart.svg');
+    background-color: #457B9D;
 }
 
 .kpi-icon-units {
-    mask-image: url('/img/icons/shirt.svg');
-    -webkit-mask-image: url('/img/icons/shirt.svg');
+    mask-image: url('/img/icons/shopping-bags.svg');
+    -webkit-mask-image: url('/img/icons/shopping-bags.svg');
+    background-color: var(--green-500);
 }
 
 .kpi-icon-pending {
-    mask-image: url('/img/icons/hourglass-svgrepo-com.svg');
-    -webkit-mask-image: url('/img/icons/hourglass-svgrepo-com.svg');
+    mask-image: url('/img/icons/pending.svg');
+    -webkit-mask-image: url('/img/icons/pending.svg');
+    background-color: var(--neutral-500);
 }
 
 .kpi-info {
