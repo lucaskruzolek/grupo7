@@ -160,18 +160,12 @@
                             </div>
                         </div>
 
-                        <!-- Precio  -->
-                        <div class="price-container-wrapper">
+                        <!-- Selector de Color -->
+                        <div class="color-selector-container-wrapper px-3 py-2 bg-white my-2" id="color-selector-card">
                             <div class="form-group-admin mb-0">
-                                <span class="form-label-admin mb-1">Precio</span>
-                                <div class="view-mode">
-                                    <span class="fs-4 fw-bold text-success" id="detail-price">-</span>
-                                </div>
-                                <div class="edit-mode">
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light border-end-0">$</span>
-                                        <input type="number" step="0.01" class="form-control form-control-sm form-control-admin border-start-0" id="edit-price" value="0">
-                                    </div>
+                                <span class="form-label-admin mb-2 d-block">Color Activo</span>
+                                <div class="d-flex flex-wrap gap-2" id="detail-color-selector">
+                                    <!-- Círculos de color dinámicos -->
                                 </div>
                             </div>
                         </div>
@@ -290,22 +284,49 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-0 pb-0 mt-2" style="font-size: 0.8rem;">
-                                <div class="col-6 text-muted">Creación: <span id="detail-created">-</span></div>
-                                <div class="col-6 text-muted text-end">Modificación: <span id="detail-updated">-</span></div>
+                            <div class="row mb-0 pb-0">
+                                <div class="col-6">
+                                    <div class="form-group-admin">
+                                        <span class="form-label-admin mb-0">Creación</span>
+                                        <div class="view-mode">
+                                            <span class="text-secondary small mb-0" id="detail-created">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group-admin">
+                                        <span class="form-label-admin mb-0">Modificación</span>
+                                        <div class="view-mode">
+                                            <span class="text-secondary small mb-0" id="detail-updated">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <!-- Precio -->
+                        <div class="price-container-wrapper border rounded p-2 mt-1">
+                            <div class="form-group-admin mb-0">
+                                <span class="form-label-admin mb-1">Precio</span>
+                                <div class="view-mode">
+                                    <span class="fs-4 fw-bold text-success" id="detail-price">-</span>
+                                </div>
+                                <div class="edit-mode">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">$</span>
+                                        <input type="number" step="0.01" class="form-control form-control-sm form-control-admin border-start-0" id="edit-price" value="0">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <hr class="w-75 mx-auto my-5 opacity-50" style="border-top: 1px solid var(--neutral-300);">
+
                 <!-- Tabla de Variantes (Color por Talle) -->
-                <div>
-                    <div class="d-flex align-items-center justify-content-between mb-1 flex-wrap gap-2">
-                        <h3 class="h5 text-dark fw-bold mb-0 poppins-bold text-center flex-grow-1" style="font-family: 'Poppins', sans-serif;">Variantes y Stock</h3>
-                        <div class="d-flex align-items-center gap-2">
-                            <button class="btn btn-sm btn-outline-secondary" id="btn-add-talle-trigger" style="font-size: 0.75rem;" onclick="openAddTalleModal()">+ Agregar Talle</button>
-                            <button class="btn btn-sm btn-outline-secondary" id="btn-add-color-trigger" style="font-size: 0.75rem;" onclick="openAddColorModal()">+ Agregar Color</button>
-                        </div>
+                <div class="mt-0">
+                    <div class="text-center mb-3">
+                        <h3 class="h5 text-dark fw-bold mb-0 poppins-bold" style="font-family: 'Poppins', sans-serif;">Variantes y Stock</h3>
                     </div>
 
                     <!-- Tabla Matriz -->
@@ -319,6 +340,12 @@
                             <tbody id="variants-table-body">
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- Botones de Acción para Variantes -->
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                        <button class="btn btn-sm btn-outline-secondary" id="btn-add-talle-trigger" style="font-size: 0.75rem;" onclick="openAddTalleModal()">+ Agregar Talle</button>
+                        <button class="btn btn-sm btn-outline-secondary" id="btn-add-color-trigger" style="font-size: 0.75rem;" onclick="openAddColorModal()">+ Agregar Color</button>
                     </div>
                 </div>
 

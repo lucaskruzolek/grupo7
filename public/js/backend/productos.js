@@ -315,6 +315,7 @@ function confirmAddColor() {
 
     currentActiveColor = colorObj.key;
     renderVariantsTable();
+    renderColorSelector();
     renderGalleryAndUrls();
 
     const modalEl = document.getElementById('modalAddColor');
@@ -372,6 +373,7 @@ function deleteColor(colorKey) {
     }
 
     renderVariantsTable();
+    renderColorSelector();
     renderGalleryAndUrls();
 }
 
@@ -469,21 +471,58 @@ function confirmCreateVariation() {
  * Resalta la fila del color seleccionado y actualiza la galería de imágenes y URLs,
  * permitiendo la gestión visual de los recursos multimedia del color.
  * 
- * @function selectColorRow
- * @param {HTMLTableRowElement} row - Fila de la tabla correspondiente al color seleccionado.
+ * @function selectActiveColor
+ * @param {string} colorKey - Clave del color seleccionado.
  * @returns {void}
  */
-function selectColorRow(row) {
-    const color = row.getAttribute('data-color');
-    if (!color || !activeProduct || !activeProduct.colorMedia[color]) return;
+function selectActiveColor(colorKey) {
+    if (!colorKey || !activeProduct || !activeProduct.colorMedia[colorKey]) return;
 
-    const allRows = document.querySelectorAll('#variants-table-body tr');
-    allRows.forEach(r => r.classList.remove('color-row-active'));
-    row.classList.add('color-row-active');
-
-    currentActiveColor = color;
+    currentActiveColor = colorKey;
     currentImageIndex = 0;
+
+    // Actualizar estado activo en los botones del selector
+    document.querySelectorAll('.color-selector-dot').forEach(dot => {
+        if (dot.getAttribute('data-color') === colorKey) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+
     renderGalleryAndUrls();
+}
+
+/**
+ * Dibuja dinámicamente los botones del selector de colores en el DOM.
+ * 
+ * @function renderColorSelector
+ * @returns {void}
+ */
+function renderColorSelector() {
+    const container = document.getElementById('detail-color-selector');
+    if (!container || !activeProduct) return;
+
+    container.innerHTML = '';
+
+    if (activeProduct.colores.length === 0) {
+        container.innerHTML = '<span class="text-muted small">Sin colores.</span>';
+        return;
+    }
+
+    activeProduct.colores.forEach(color => {
+        const isActive = color.key === currentActiveColor;
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = `color-selector-dot ${isActive ? 'active' : ''}`;
+        dot.style.backgroundColor = color.hex_code;
+        dot.setAttribute('data-color', color.key);
+        dot.title = color.nombre;
+        dot.onclick = function () {
+            selectActiveColor(color.key);
+        };
+        container.appendChild(dot);
+    });
 }
 
 /**
@@ -861,8 +900,7 @@ function renderVariantsTable() {
     // 2. Dibujar Body Rows
     let bodyHtml = '';
     activeProduct.colores.forEach((color, idx) => {
-        const isActive = color.key === currentActiveColor;
-        let rowHtml = `<tr class="${isActive ? 'color-row-active' : ''}" data-color="${color.key}" data-color-id="${color.id}" data-color-name="${color.nombre}" onclick="selectColorRow(this)">`;
+        let rowHtml = `<tr data-color="${color.key}" data-color-id="${color.id}" data-color-name="${color.nombre}">`;
 
         if (acceptsColor) {
             rowHtml += `
@@ -1311,6 +1349,7 @@ function renderProductDetails(product) {
     }
 
     renderVariantsTable();
+    renderColorSelector();
     renderGalleryAndUrls();
 }
 

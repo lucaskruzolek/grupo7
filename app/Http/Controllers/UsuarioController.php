@@ -214,4 +214,69 @@ class UsuarioController extends Controller
 
         return redirect()->route('admin.clientes')->with('exito', 'Usuario eliminado con éxito.');
     }
+
+    /**
+     * Muestra el perfil y las compras del usuario autenticado (Mi Cuenta).
+     */
+    public function miCuenta()
+    {
+        $usuario = auth()->user();
+        $ventas = Venta::where('usuario_id', $usuario->id)
+            ->ventas()
+            ->with(['formaPago', 'detalles.producto'])
+            ->orderBy('fecha_venta', 'desc')
+            ->get();
+
+        return view('frontend.mi-cuenta', compact('usuario', 'ventas'));
+    }
+
+    /**
+     * Actualiza los datos de perfil del usuario autenticado.
+     */
+    public function actualizarDatos(Request $request)
+    {
+        $usuario = auth()->user();
+
+        $request->validate([
+            'nombre'          => 'required|string|max:100',
+            'apellido'        => 'required|string|max:100',
+            'email'           => 'required|email|unique:usuarios,email,' . $usuario->id,
+            'telefono'        => 'nullable|string|max:50',
+            'direccion'       => 'nullable|string|max:255',
+            'localidad'       => 'nullable|string|max:100',
+            'provincia'       => 'nullable|string|max:100',
+            'codigo_postal'   => 'nullable|string|max:20',
+            'password_actual' => 'nullable|required_with:password_nueva',
+            'password_nueva'  => 'nullable|min:6|confirmed',
+        ], [
+            'password_actual.required_with' => 'Debe ingresar la contraseña actual para establecer una nueva.',
+            'password_nueva.min'            => 'La nueva contraseña debe tener al menos 6 caracteres.',
+            'password_nueva.confirmed'      => 'Las nuevas contraseñas no coinciden.',
+            'email.unique'                  => 'El correo electrónico ya está en uso por otro usuario.',
+        ]);
+
+        // Verificar contraseña actual si se intenta cambiar la contraseña
+        if ($request->filled('password_nueva')) {
+            if (!Hash::check($request->password_actual, $usuario->password)) {
+                return back()->withErrors(['password_actual' => 'La contraseña actual no es correcta.'])->withInput();
+            }
+            $usuario->password = Hash::make($request->password_nueva);
+        }
+
+        // Actualizar datos
+        $usuario->fill($request->only([
+            'nombre',
+            'apellido',
+            'email',
+            'telefono',
+            'direccion',
+            'localidad',
+            'provincia',
+            'codigo_postal'
+        ]));
+
+        $usuario->save();
+
+        return redirect()->route('usuario.cuenta')->with('exito', 'Tus datos se actualizaron con éxito.');
+    }
 }

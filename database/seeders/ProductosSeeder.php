@@ -53,7 +53,7 @@ class ProductosSeeder extends Seeder
                 'tipo_mascota' => 'perro',
                 'categoria' => 'buzos',
                 'coleccion' => 'Picnic',
-                'colores' => ['Negro', 'Rojo'],
+                'colores' => ['Amarillo', 'Rojo'],
                 'talles' => ['M', 'L', 'XL'],
                 'precio_base' => 12900.00,
                 'imagenes' => []

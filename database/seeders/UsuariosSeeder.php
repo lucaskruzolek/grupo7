@@ -25,11 +25,11 @@ class UsuariosSeeder extends Seeder
 
         // Usuario Administrador
         Usuario::firstOrCreate(
-            ['email' => 'amadeo.bermudez@gmail.com'],
+            ['email' => 'admin@mail.com'],
             [
-                'nombre' => 'Amadeo',
-                'apellido' => 'Bermúdez',
-                'password' => Hash::make('password'),
+                'nombre' => 'Admin',
+                'apellido' => 'Sistema',
+                'password' => Hash::make('admin$123$'),
                 'rol_id' => $adminRol->id,
                 'telefono' => '1145678901',
                 'direccion' => 'Av. Cabildo 1500, Piso 2 B',
@@ -38,9 +38,19 @@ class UsuariosSeeder extends Seeder
                 'codigo_postal' => 'C1426'
             ]
         );
-
-        // Usuarios Clientes con datos de Ecommerce simulados
         $clientes = [
+            [
+                'nombre' => 'Pedro',
+                'apellido' => 'Sarmiento',
+                'email' => 'cliente@mail.com',
+                'password' => Hash::make('cliente123'),
+                'rol_id' => $clienteRol->id,
+                'telefono' => '1154821901',
+                'direccion' => 'Av. Libertador 1234, Piso 4 A',
+                'localidad' => 'Belgrano',
+                'provincia' => 'CABA',
+                'codigo_postal' => 'C1425'
+            ],
             [
                 'nombre' => 'Casandra',
                 'apellido' => 'Villalobos',
@@ -54,11 +64,11 @@ class UsuariosSeeder extends Seeder
                 'codigo_postal' => 'C1425'
             ],
             [
-                'nombre' => 'Lucas',
-                'apellido' => 'Kowalk',
-                'email' => 'lucasjk23@gmail.com',
-                'password' => Hash::make('lucas123'),
-                'rol_id' => $adminRol->id,
+                'nombre' => 'Amadeo',
+                'apellido' => 'Bermudez',
+                'email' => 'amadeo.bermudez@gmail.com',
+                'password' => Hash::make('password'),
+                'rol_id' => $clienteRol->id,
                 'telefono' => '1163332549',
                 'direccion' => 'Av. Santa Fe 3421, Piso 4 A',
                 'localidad' => 'Capital',
