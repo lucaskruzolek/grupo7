@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Consulta;
+use App\Models\Venta;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -19,9 +21,27 @@ class AdminController extends Controller
         // Contar el total de alertas de stock bajo en el sistema
         $countBajoStock = \App\Models\Producto::whereColumn('stock', '<=', 'stock_minimo')->count();
 
-        // 2. Simulación de datos operacionales (Pedidos y Ventas)
-        $ventasDelDia = 48500.00;
-        $pedidosPendientesCount = 5;
+        // 2. Datos operacionales reales (Pedidos y Ventas)
+        $ventasDelDia = Venta::ventas()
+            ->whereDate('fecha_venta', Carbon::today())
+            ->sum('total');
+
+        $ventasDeAyer = Venta::ventas()
+            ->whereDate('fecha_venta', Carbon::yesterday())
+            ->sum('total');
+
+        if ($ventasDeAyer > 0) {
+            $variacionVentas = (($ventasDelDia - $ventasDeAyer) / $ventasDeAyer) * 100;
+        } else {
+            $variacionVentas = $ventasDelDia > 0 ? 100.0 : 0.0;
+        }
+
+        $pedidosPendientesCount = Venta::where('estado', 'CONFIRMADO')->count();
+
+        // Clientes registrados hoy (rol cliente)
+        $nuevosRegistros = \App\Models\Usuario::whereHas('rol', function($q) {
+            $q->where('nombre', 'cliente');
+        })->whereDate('created_at', Carbon::today())->count();
 
         $ultimosPedidos = [
             ['usuario' => 'Juan Pérez', 'n_pedido' => '1024', 'estado' => 'Pendiente', 'monto' => 12500.00, 'fecha' => '29/05/2026'],
@@ -41,7 +61,9 @@ class AdminController extends Controller
             'productosBajoStock',
             'countBajoStock',
             'ventasDelDia',
+            'variacionVentas',
             'pedidosPendientesCount',
+            'nuevosRegistros',
             'ultimosPedidos',
             'consultasRecientes'
         ));

@@ -17,10 +17,10 @@
         <div class="d-flex align-items-center gap-2 flex-wrap">
             <span class="text-secondary" style="font-size: 0.85rem; font-weight: 500;">Período:</span>
             <select id="filter-period" class="filter-select" style="min-width: 160px; height: 38px;">
-                <option value="all" {{ request('period') === 'all' ? 'selected' : '' }}>Todo</option>
+                <option value="all" {{ request('period', 'all') === 'all' ? 'selected' : '' }}>Todo</option>
                 <option value="today" {{ request('period') === 'today' ? 'selected' : '' }}>Hoy</option>
                 <option value="7days" {{ request('period') === '7days' ? 'selected' : '' }}>Últimos 7 días</option>
-                <option value="month" {{ request('period', 'month') === 'month' ? 'selected' : '' }}>Este mes</option>
+                <option value="month" {{ request('period') === 'month' ? 'selected' : '' }}>Este mes</option>
                 <option value="custom" {{ request('period') === 'custom' ? 'selected' : '' }}>Rango personalizado</option>
             </select>
             
@@ -68,7 +68,7 @@
                 <span class="kpi-icon kpi-icon-pending"></span>
                 <div class="kpi-info">
                     <span class="kpi-value">{{ $pedidosPendientes }}</span>
-                    <span class="kpi-title">Pedidos Pendientes</span>
+                    <span class="kpi-title">Envíos Pendientes</span>
                 </div>
             </div>
         </div>
@@ -154,7 +154,7 @@
                 </div>
 
                 <!-- Paginación -->
-                <div class="d-flex justify-content-center mt-3">
+                <div class="d-flex justify-content-center mt-3 custom-pagination-container">
                     {{ $ventas->appends(request()->all())->links('backend.admin.pagination') }}
                 </div>
             </div>

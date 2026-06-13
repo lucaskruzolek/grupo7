@@ -1,0 +1,232 @@
+{
+    "argentina_jurisdicciones": [
+        {
+            "provincia": "Buenos Aires",
+            "capital": "La Plata",
+            "localidades_principales": [
+                "Mar del Plata",
+                "Bahía Blanca",
+                "Tandil",
+                "San Isidro",
+                "Olavarría"
+            ]
+        },
+        {
+            "provincia": "Córdoba",
+            "capital": "Córdoba",
+            "localidades_principales": [
+                "Río Cuarto",
+                "Villa Carlos Paz",
+                "Villa María",
+                "San Francisco"
+            ]
+        },
+        {
+            "provincia": "Santa Fe",
+            "capital": "Santa Fe",
+            "localidades_principales": [
+                "Rosario",
+                "Rafaela",
+                "Venado Tuerto",
+                "Reconquista"
+            ]
+        },
+        {
+            "provincia": "Ciudad Autónoma de Buenos Aires (CABA)",
+            "capital": "CABA",
+            "localidades_principales": [
+                "Recoleta",
+                "Palermo",
+                "Belgrano",
+                "Caballito"
+            ]
+        },
+        {
+            "provincia": "Mendoza",
+            "capital": "Mendoza",
+            "localidades_principales": [
+                "Guaymallén",
+                "Maipú",
+                "San Rafael",
+                "Godoy Cruz"
+            ]
+        },
+        {
+            "provincia": "Tucumán",
+            "capital": "San Miguel de Tucumán",
+            "localidades_principales": [
+                "Tafí Viejo",
+                "Concepción",
+                "Yerba Buena",
+                "Monteros"
+            ]
+        },
+        {
+            "provincia": "Corrientes",
+            "capital": "Corrientes",
+            "localidades_principales": [
+                "Goya",
+                "Paso de los Libres",
+                "Curuzú Cuatiá",
+                "Mercedes"
+            ]
+        },
+        {
+            "provincia": "Entre Ríos",
+            "capital": "Paraná",
+            "localidades_principales": [
+                "Concordia",
+                "Gualeguaychú",
+                "Concepción del Uruguay"
+            ]
+        },
+        {
+            "provincia": "Salta",
+            "capital": "Salta",
+            "localidades_principales": [
+                "Tartagal",
+                "Orán",
+                "Metán",
+                "Cafayate"
+            ]
+        },
+        {
+            "provincia": "Misiones",
+            "capital": "Posadas",
+            "localidades_principales": [
+                "Puerto Iguazú",
+                "Oberá",
+                "Eldorado"
+            ]
+        },
+        {
+            "provincia": "Chaco",
+            "capital": "Resistencia",
+            "localidades_principales": [
+                "Presidencia Roque Sáenz Peña",
+                "Charata",
+                "Villa Ángela"
+            ]
+        },
+        {
+            "provincia": "Río Negro",
+            "capital": "Viedma",
+            "localidades_principales": [
+                "San Carlos de Bariloche",
+                "General Roca",
+                "Cipolletti"
+            ]
+        },
+        {
+            "provincia": "Neuquén",
+            "capital": "Neuquén",
+            "localidades_principales": [
+                "San Martín de los Andes",
+                "Zapala",
+                "Cutral Có"
+            ]
+        },
+        {
+            "provincia": "Jujuy",
+            "capital": "San Salvador de Jujuy",
+            "localidades_principales": [
+                "San Pedro",
+                "Palpalá",
+                "La Quiaca",
+                "Tilcara"
+            ]
+        },
+        {
+            "provincia": "San Juan",
+            "capital": "San Juan",
+            "localidades_principales": [
+                "Rawson",
+                "Rivadavia",
+                "Chimbas",
+                "Caucete"
+            ]
+        },
+        {
+            "provincia": "Santiago del Estero",
+            "capital": "Santiago del Estero",
+            "localidades_principales": [
+                "La Banda",
+                "Termas de Río Hondo",
+                "Frías"
+            ]
+        },
+        {
+            "provincia": "San Luis",
+            "capital": "San Luis",
+            "localidades_principales": [
+                "Villa Mercedes",
+                "Merlo",
+                "La Punta"
+            ]
+        },
+        {
+            "provincia": "Chubut",
+            "capital": "Rawson",
+            "localidades_principales": [
+                "Comodoro Rivadavia",
+                "Trelew",
+                "Puerto Madryn",
+                "Esquel"
+            ]
+        },
+        {
+            "provincia": "La Pampa",
+            "capital": "Santa Rosa",
+            "localidades_principales": [
+                "General Pico",
+                "General Acha",
+                "Eduardo Castex"
+            ]
+        },
+        {
+            "provincia": "Formosa",
+            "capital": "Formosa",
+            "localidades_principales": [
+                "Clorinda",
+                "Pirané",
+                "El Colorado"
+            ]
+        },
+        {
+            "provincia": "Catamarca",
+            "capital": "San Fernando del Valle de Catamarca",
+            "localidades_principales": [
+                "Tinogasta",
+                "Belén",
+                "Andalgalá"
+            ]
+        },
+        {
+            "provincia": "La Rioja",
+            "capital": "La Rioja",
+            "localidades_principales": [
+                "Chilecito",
+                "Aimogasta",
+                "Chamical"
+            ]
+        },
+        {
+            "provincia": "Santa Cruz",
+            "capital": "Río Gallegos",
+            "localidades_principales": [
+                "Caleta Olivia",
+                "El Calafate",
+                "Pico Truncado"
+            ]
+        },
+        {
+            "provincia": "Tierra del Fuego, Antártida e Islas del Atlántico Sur",
+            "capital": "Ushuaia",
+            "localidades_principales": [
+                "Río Grande",
+                "Tolhuin",
+                "Puerto Almanza"
+            ]
+        }
+    ]
+}

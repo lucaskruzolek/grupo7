@@ -55,23 +55,26 @@
 }
 
 .kpi-icon-total {
-    mask-image: url('/img/icons/consultas.svg');
-    -webkit-mask-image: url('/img/icons/consultas.svg');
-}
-
-.kpi-icon-new {
     mask-image: url('/img/icons/email2.svg');
     -webkit-mask-image: url('/img/icons/email2.svg');
 }
 
+.kpi-icon-new {
+    mask-image: url('/img/icons/add-email.svg');
+    -webkit-mask-image: url('/img/icons/add-email.svg');
+    background-color: #457B9D;
+}
+
 .kpi-icon-pending {
-    mask-image: url('/img/icons/hourglass.svg');
-    -webkit-mask-image: url('/img/icons/hourglass.svg');
+    mask-image: url('/img/icons/pending.svg');
+    -webkit-mask-image: url('/img/icons/pending.svg');
+    background-color: var(--neutral-500);
 }
 
 .kpi-icon-answered {
-    mask-image: url('/img/icons/check.svg');
-    -webkit-mask-image: url('/img/icons/check.svg');
+    mask-image: url('/img/icons/check-email.svg');
+    -webkit-mask-image: url('/img/icons/check-email.svg');
+    background-color: var(--green-500);
 }
 
 .kpi-info {

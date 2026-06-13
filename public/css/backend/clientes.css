@@ -1,0 +1,293 @@
+/* ==========================================================================
+   Gestión de Clientes y Usuarios (Pet Threads Admin Theme)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --font-poppins: 'Poppins', sans-serif;
+}
+
+.clientes-container {
+    font-family: var(--font-poppins) !important;
+}
+
+.clientes-container h1,
+.clientes-container h2,
+.clientes-container h3,
+.clientes-container h4,
+.clientes-container h5,
+.clientes-container th,
+.clientes-container td,
+.clientes-container span,
+.clientes-container p,
+.clientes-container button,
+.clientes-container input,
+.clientes-container select {
+    font-family: var(--font-poppins) !important;
+}
+
+.kpi-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    border-radius: 16px;
+    padding: 1.2rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    height: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.kpi-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-color: var(--coral-500);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    flex-shrink: 0;
+}
+
+.kpi-icon-users {
+    mask-image: url('/img/icons/clientes.svg');
+    -webkit-mask-image: url('/img/icons/clientes.svg');
+}
+
+.kpi-icon-new-users {
+    mask-image: url('/img/icons/user-add.svg');
+    -webkit-mask-image: url('/img/icons/user-add.svg');
+    background-color: #457B9D;
+}
+
+.kpi-icon-buyers {
+    mask-image: url('/img/icons/user-check.svg');
+    -webkit-mask-image: url('/img/icons/user-check.svg');
+    background-color: var(--green-500);
+}
+
+.kpi-icon-admins {
+    mask-image: url('/img/icons/user.svg');
+    -webkit-mask-image: url('/img/icons/user.svg');
+    background-color: #1976D2;
+}
+
+.kpi-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--neutral-900);
+    line-height: 1.2;
+}
+
+.kpi-title {
+    font-size: 0.7rem;
+    color: var(--neutral-500);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Master-Detail Layout */
+.master-detail-row {
+    align-items: start;
+}
+
+.clients-master-panel {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+/* Interactive Table */
+.clients-table tbody tr {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.clients-table tbody tr:hover {
+    background-color: var(--neutral-50);
+}
+
+.clients-table tbody tr.row-active {
+    background-color: rgba(125, 140, 120, 0.08);
+}
+
+.clients-table th,
+.clients-table td {
+
+    vertical-align: middle !important;
+}
+
+
+.client-badge-id {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    background-color: var(--neutral-100);
+    color: var(--neutral-700);
+    display: inline-block;
+}
+
+.client-name-main {
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin-bottom: 0.1rem;
+}
+
+.client-email-sub {
+    font-size: 0.75rem;
+    color: var(--neutral-500);
+}
+
+/* Role Badges */
+.role-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.role-badge-admin {
+    background-color: rgba(25, 118, 210, 0.12);
+    color: #1976D2;
+}
+
+.role-badge-cliente {
+    background-color: rgba(46, 125, 50, 0.12);
+    color: #2E7D32;
+}
+
+/* Offcanvas styles */
+#clientDetailOffcanvas {
+    border-left: 1px solid var(--neutral-250);
+    box-shadow: -4px 0 30px rgba(0, 0, 0, 0.05);
+    font-family: var(--font-poppins), sans-serif;
+}
+
+#clientDetailOffcanvas .offcanvas-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#clientDetailOffcanvas .offcanvas-body {
+    background-color: #fafaf5;
+}
+
+@media (min-width: 992px) {
+    #clientDetailOffcanvas {
+        width: 520px !important;
+    }
+}
+
+/* Client Purchase History List inside Offcanvas */
+.purchase-history-item {
+    display: flex;
+    align-items: center;
+    justify-content: justify;
+    gap: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--neutral-200);
+    border-radius: 12px;
+    background-color: #ffffff;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.purchase-history-item:hover {
+    border-color: var(--neutral-300);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.purchase-item-id {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--neutral-800);
+    background-color: var(--neutral-100);
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+}
+
+.purchase-item-info {
+    flex-grow: 1;
+}
+
+.purchase-item-date {
+    font-size: 0.75rem;
+    color: var(--neutral-500);
+}
+
+.purchase-item-meta {
+    font-size: 0.7rem;
+    color: var(--neutral-400);
+}
+
+.purchase-item-total {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--neutral-900);
+}
+
+.purchase-item-status {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+}
+
+/* Align heights of search bar and filters in clients page */
+.clientes-container .filter-select {
+    height: 35px !important;
+    min-height: 35px !important;
+    font-size: 0.75rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.clientes-container .search-bar-wrapper {
+    height: 35px !important;
+    min-height: 35px !important;
+}
+
+/* Modal form controls styling */
+.modal-form-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--neutral-700);
+    margin-bottom: 0.3rem;
+}
+
+.modal-form-control {
+    border-radius: 8px;
+    border: 1px solid var(--neutral-300);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.modal-form-control:focus {
+    border-color: var(--coral-500);
+    box-shadow: 0 0 0 3px rgba(230, 95, 92, 0.15);
+    outline: none;
+}
+
+/* Enable vertical scrolling specifically for the clients view */
+.admin-content {
+    overflow-y: auto !important;
+}

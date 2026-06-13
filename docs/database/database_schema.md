@@ -18,6 +18,7 @@ erDiagram
     formas_pago ||--o{ ventas : "aplica a"
     ventas ||--o{ venta_detalles : "contiene"
     productos ||--o{ venta_detalles : "vendido en"
+    usuarios ||--o{ consultas : "realiza"
 
     roles {
         id bigint PK
@@ -72,6 +73,7 @@ erDiagram
         stock_minimo int "default: 0"
         precio decimal(10,2) "default: 0.00"
         favorito boolean "default: false"
+        activo boolean "default: true"
     }
 
     producto_imagenes {
@@ -89,6 +91,7 @@ erDiagram
     ventas {
         id bigint PK
         fecha_venta datetime "nullable"
+        fecha_despacho datetime "nullable"
         usuario_id bigint FK "nullable"
         estado enum "CARRITO, CONFIRMADO, DESPACHADO"
         total decimal(10,2)
@@ -102,6 +105,19 @@ erDiagram
         cantidad int
         precio_unitario decimal(10,2)
         subtotal decimal(10,2)
+    }
+
+    consultas {
+        id bigint PK
+        nombre varchar(255)
+        email varchar(255)
+        telefono varchar(255) "nullable"
+        pedido varchar(255) "nullable, index"
+        asunto enum "consulta, reclamo, devolucion, otro"
+        mensaje text
+        leido boolean "default: false"
+        respondido boolean "default: false"
+        usuario_id bigint FK "nullable"
     }
 ```
 
@@ -207,6 +223,7 @@ erDiagram
 | `stock_minimo` | `int` | `NOT NULL` | `default: 0` | Umbral para alertas de reabastecimiento. |
 | `precio` | `decimal(10,2)`| `NOT NULL` | `default: 0.00` | Precio de venta. |
 | `favorito` | `boolean` | `NOT NULL` | `default: false` | Destacado en landing page. |
+| `activo` | `boolean` | `NOT NULL` | `default: true` | Indica si el producto está visible al público. |
 | `created_at` | `timestamp` | `NULL` | | Creación. |
 | `updated_at` | `timestamp` | `NULL` | | Actualización. |
 | `deleted_at` | `timestamp` | `NULL` | | SoftDelete. |
@@ -249,6 +266,7 @@ erDiagram
 | :--- | :--- | :--- | :--- | :--- |
 | `id` | `bigint` | `NOT NULL` | `PRIMARY KEY`, `AUTO_INCREMENT` | Identificador único de la venta/carrito. |
 | `fecha_venta` | `datetime` | `NULL` | | Momento en el que se confirma la compra (checkout). |
+| `fecha_despacho`| `datetime` | `NULL` | | Momento en el que se despacha el pedido. |
 | `usuario_id` | `bigint` | `NULL` | `FOREIGN KEY` -> `usuarios(id)` | Cliente propietario (`onDelete: set null`). |
 | `estado` | `enum` | `NOT NULL` | `default: CARRITO` | Opciones: `['CARRITO', 'CONFIRMADO', 'DESPACHADO']`. |
 | `total` | `decimal(10,2)`| `NOT NULL` | `default: 0.00` | Monto total acumulado de la venta. |
@@ -272,3 +290,24 @@ erDiagram
 | `subtotal` | `decimal(10,2)`| `NOT NULL` | | Subtotal acumulado (`cantidad * precio_unitario`). |
 | `created_at` | `timestamp` | `NULL` | | Creación. |
 | `updated_at` | `timestamp` | `NULL` | | Actualización. |
+
+---
+
+### 11. Tabla: `consultas`
+* **Propósito:** Registro de consultas, reclamos o mensajes enviados por los usuarios/clientes a través del formulario de contacto.
+
+| Columna | Tipo | Nulabilidad | Restricciones / Atributos | Descripción |
+| :--- | :--- | :--- | :--- | :--- |
+| `id` | `bigint` | `NOT NULL` | `PRIMARY KEY`, `AUTO_INCREMENT` | Identificador único de la consulta. |
+| `nombre` | `varchar(255)` | `NOT NULL` | | Nombre del remitente. |
+| `email` | `varchar(255)` | `NOT NULL` | | Email del remitente. |
+| `telefono` | `varchar(255)` | `NULL` | | Teléfono opcional de contacto. |
+| `pedido` | `varchar(255)` | `NULL` | `INDEX` | Número de pedido asociado opcional. |
+| `asunto` | `enum` | `NOT NULL` | | Opciones: `['consulta', 'reclamo', 'devolucion', 'otro']`. |
+| `mensaje` | `text` | `NOT NULL` | | Cuerpo del mensaje de la consulta. |
+| `leido` | `boolean` | `NOT NULL` | `default: false` | Estado de lectura por parte del administrador. |
+| `respondido` | `boolean` | `NOT NULL` | `default: false` | Estado de respuesta de la consulta. |
+| `usuario_id` | `bigint` | `NULL` | `FOREIGN KEY` -> `usuarios(id)` | Usuario autenticado propietario (`onDelete: set null`). |
+| `created_at` | `timestamp` | `NULL` | | Creación. |
+| `updated_at` | `timestamp` | `NULL` | | Actualización. |
+| `deleted_at` | `timestamp` | `NULL` | | SoftDelete. |

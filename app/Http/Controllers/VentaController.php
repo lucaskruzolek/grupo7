@@ -147,7 +147,12 @@ class VentaController extends Controller
             'forma_pago_id' => 'required|exists:formas_pago,id',
         ]);
 
-        $userId = auth()->id();
+        $user = auth()->user();
+        if (empty($user->telefono) || empty($user->direccion) || empty($user->localidad) || empty($user->provincia) || empty($user->codigo_postal)) {
+            return $this->responseWithError($request, 'Antes de confirmar la compra, debes completar tus datos de contacto (teléfono) y envío en "Mi Cuenta".');
+        }
+
+        $userId = $user->id;
 
         try {
             $resultado = DB::transaction(function () use ($userId, $request) {
@@ -184,11 +189,38 @@ class VentaController extends Controller
                 return $carrito;
             });
 
-            return $this->responseWithSuccess($request, '¡Muchas gracias por tu compra! El pedido ha sido confirmado.', 'inicio');
+            return redirect()->route('compra.exito', ['id' => $resultado->id])
+                ->with('exito', '¡Muchas gracias por tu compra! El pedido ha sido confirmado.');
 
         } catch (\Exception $e) {
             return $this->responseWithError($request, $e->getMessage());
         }
+    }
+
+    /**
+     * Muestra la vista de éxito tras una compra.
+     */
+    public function compraExito($id)
+    {
+        $venta = Venta::where('usuario_id', auth()->id())
+            ->ventas()
+            ->with(['detalles.producto', 'formaPago'])
+            ->findOrFail($id);
+
+        return view('frontend.compra-exito', compact('venta'));
+    }
+
+    /**
+     * Muestra la factura de una venta propia del cliente para descargar o imprimir.
+     */
+    public function descargarFacturaCliente($id)
+    {
+        $venta = Venta::where('usuario_id', auth()->id())
+            ->ventas()
+            ->with(['usuario', 'formaPago', 'detalles.producto.color'])
+            ->findOrFail($id);
+
+        return view('backend.admin.factura', compact('venta'));
     }
 
     // ── ADMINISTRACIÓN DE VENTAS (Backend) ───────────────────────────────
@@ -198,7 +230,7 @@ class VentaController extends Controller
      */
     public function adminIndex(Request $request)
     {
-        $period = $request->input('period', 'month');
+        $period = $request->input('period', 'all');
         $startDate = null;
         $endDate = null;
 

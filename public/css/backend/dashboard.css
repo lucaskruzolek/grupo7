@@ -1,0 +1,150 @@
+/* ==========================================================================
+   Dashboard Panel (Pet Threads Admin Theme)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.dashboard-container {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.dashboard-container h1,
+.dashboard-container h2,
+.dashboard-container h3,
+.dashboard-container h4,
+.dashboard-container h5,
+.dashboard-container th,
+.dashboard-container td,
+.dashboard-container span,
+.dashboard-container p,
+.dashboard-container button,
+.dashboard-container input,
+.dashboard-container select {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* KPIs with Vectorized Icons (Reference: clientes.css) */
+.kpi-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    border-radius: 16px;
+    padding: 1.2rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    height: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.kpi-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    flex-shrink: 0;
+}
+
+.kpi-icon-sales {
+    mask-image: url('/img/icons/coin.svg');
+    -webkit-mask-image: url('/img/icons/coin.svg');
+    background-color: var(--green-500);
+}
+
+.kpi-icon-new-users {
+    mask-image: url('/img/icons/user-add.svg');
+    -webkit-mask-image: url('/img/icons/user-add.svg');
+    background-color: #457B9D;
+}
+
+.kpi-icon-pending-orders {
+    mask-image: url('/img/icons/pedidos.svg');
+    -webkit-mask-image: url('/img/icons/pedidos.svg');
+    background-color: #457B9D;
+}
+
+.kpi-icon-low-stock {
+    mask-image: url('/img/icons/catalogo.svg');
+    -webkit-mask-image: url('/img/icons/catalogo.svg');
+    background-color: var(--coral-500);
+}
+
+.kpi-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--neutral-900);
+    line-height: 1.2;
+}
+
+.kpi-title {
+    font-size: 0.72rem;
+    color: var(--neutral-500);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.recent-orders-table th,
+.recent-orders-table td {
+    font-size: 0.85rem;
+    padding: 0.75rem 0.5rem;
+}
+
+.low-stock-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--neutral-200);
+    width: 100%;
+}
+
+.low-stock-item:last-child {
+    border-bottom: none;
+}
+
+.low-stock-img {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: var(--neutral-200);
+}
+
+.badge-pending {
+    background-color: var(--coral-100);
+    color: var(--coral-800);
+}
+
+.badge-completed {
+    background-color: var(--green-100);
+    color: var(--green-800);
+}
+
+.badge-cancelled {
+    background-color: var(--neutral-200);
+    color: var(--neutral-700);
+}
+
+/* Enable vertical scrolling specifically for the dashboard view */
+.admin-content {
+    overflow-y: auto !important;
+}
