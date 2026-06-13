@@ -629,10 +629,16 @@ class ProductoController extends Controller
             ->where('stock', '>', 0)
             ->get();
 
-        // Traemos el carrusel de imágenes asociadas al color de la variante base
-        $imagenes = ProductoImagen::where('sku_color', $productoBase->sku_color)->orderBy('orden', 'asc')->get();
+        // 3. EXTRA: Agrupamos de forma limpia los talles únicos y colores únicos de las variantes
+        $tallesDisponibles = $variantesDisponibles->pluck('talle')->unique()->values();
+        $coloresDisponibles = $variantesDisponibles->pluck('color')->unique('id')->values();
 
-        return view('productos.show', compact('productoBase', 'variantesDisponibles', 'imagenes'));
+    // 4. Reutiliza la búsqueda de imágenes pero garantizando que traiga los ángulos ordenados
+        $imagenes = ProductoImagen::where('sku_color', $productoBase->sku_color)
+        ->orderBy('orden', 'asc')
+        ->get();
+
+        return view('frontend.productos-detalle', compact('productoBase', 'variantesDisponibles', 'tallesDisponibles', 'coloresDisponibles', 'imagenes'));
     }
 
     /**
@@ -643,6 +649,6 @@ class ProductoController extends Controller
         // El softdeletes se encargará de ocultar todas las variantes del SKU Base
         Producto::where('sku_base', $sku_base)->delete();
 
-        return redirect()->route('admin.productos.index')->with('exito', 'El catálogo de este artículo fue dado de baja.');
+        return redirect()->route('frontend.productos-detalle')->with('exito', 'El catálogo de este artículo fue dado de baja.');
     }
 }
