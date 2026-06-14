@@ -658,4 +658,5 @@ class ProductoController extends Controller
 
         return redirect()->route('frontend.productos-detalle')->with('exito', 'El catálogo de este artículo fue dado de baja.');
     }
+    
 }
