@@ -18,81 +18,65 @@ class ProductoController extends Controller
  * Muestra el catálogo unificado para la tienda virtual.
  * Agrupa las filas por 'sku_base' para que el cliente vea un modelo único por tarjeta.
  */
-    public function index(Request $request)
-    {
-        // 1. Iniciamos la consulta unificada por SKU_BASE
-        $query = Producto::select('sku_base', 'nombre', 'precio', 'categoria_id', 'tipo_mascota', 'coleccion_id', DB::raw('MAX(sku_color) as sku_color'))
-            ->with(['categoria', 'imagenPortada']) // Mantenemos relaciones limpias
-            ->groupBy('sku_base', 'nombre', 'precio', 'categoria_id', 'tipo_mascota', 'coleccion_id');
+public function index(Request $request)
+{
+    // 1. Consulta base de productos filtrados con su categoría
+    $query = Producto::with(['categoria']);
 
-        // --- SISTEMA DE FILTRADO DINÁMICO ---
-
-        // Filtro por Tipo de Mascota (Perro / Gato / Ambos)
-        if ($request->has('mascota') && $request->mascota != '') {
-            $query->where('tipo_mascota', $request->mascota);
-        }
-
-        // ─── FILTRO AVANZADO: Categorías y Subcategorías (parent_id) ───
-        if ($request->has('categoria') && $request->categoria != '') {
-            $categoriaId = $request->categoria;
-
-            // Consultamos si el ID seleccionado es padre de otras subcategorías
-            $subcategoriasIds = Categoria::where('parent_id', $categoriaId)->pluck('id');
-
-            if ($subcategoriasIds->isNotEmpty()) {
-                // CASO A: Es categoría Padre (ej: Seleccionó "Ropa")
-                // Filtramos por todas sus subcategorías hijas (ej: Buzos, Suéteres)
-                $query->whereIn('categoria_id', $subcategoriasIds);
-            } else {
-                // CASO B: Es una subcategoría directa (ej: Seleccionó "Juguetes" directamente)
-                // Filtramos únicamente por ese ID específico
-                $query->where('categoria_id', $categoriaId);
-            }
-        }
-
-        // Filtro por Colección
-        if ($request->has('coleccion') && $request->coleccion != '') {
-            $query->where('coleccion_id', $request->coleccion);
-        }
-
-        // --- FILTROS DE VARIANTES (Talle y Color) ---
-        // Filtro por Talle
-        if ($request->has('talle') && $request->talle != '') {
-            $query->where('talle', $request->talle);
-        }
-
-        // --- FILTRO DE COLOR POR ID REAL ---
-        if ($request->has('color') && $request->color != '') {
-        // Al mandar el ID, buscamos directamente en la columna 'color_id' de la tabla productos
-            $query->where('color_id', $request->color);
-}
-
-        // --- FILTRO DE PRECIOS POR RANGOS PREDEFINIDOS ---
-        if ($request->has('precio_rango') && $request->precio_rango != '') {
-            // Usamos 'explode' para separar el string por el guion (ej: '5000-12000' se convierte en [5000, 12000])
-            $partesPrecio = explode('-', $request->precio_rango);
-            
-            // Validamos que efectivamente tengamos las dos partes (mínimo y máximo)
-            if (count($partesPrecio) === 2) {
-                $precioMin = (float) $partesPrecio[0];
-                $precioMax = (float) $partesPrecio[1];
-                
-                // Filtramos los productos cuyo precio esté dentro de ese rango
-                $query->whereBetween('precio', [$precioMin, $precioMax]);
-            }
-        }
-
-        // Ejecutamos la consulta final con los filtros aplicados
-        $productos = $query->get();
-
-        // Recuperamos las colecciones y categorías para poblar dinámicamente los selectores del Sidebar
-        $categorias = Categoria::all();
-        $colecciones = Coleccion::all();
-        $colores = Color::all();
-
-        // Retornamos la vista enviando las colecciones y categorías dinámicas
-        return view('frontend.productos', compact('productos', 'categorias', 'colecciones', 'colores'));
+    // ─── SISTEMA DE FILTRADO DINÁMICO ───
+    if ($request->has('mascota') && $request->mascota != '') {
+        $query->where('tipo_mascota', $request->mascota);
     }
+
+    if ($request->has('categoria') && $request->categoria != '') {
+        $query->where('categoria_id', $request->categoria);
+    }
+
+    if ($request->has('precio_min') && $request->precio_min != '') {
+        $query->where('precio', '>=', $request->precio_min);
+    }
+
+    if ($request->has('precio_max') && $request->precio_max != '') {
+        $query->where('precio', '<=', $request->precio_max);
+    }
+
+    // 2. Obtenemos todos los registros que coinciden con los filtros
+    $todosLosProductos = $query->get();
+
+    // 3. Agrupamos en memoria por SKU_BASE para asegurar una única tarjeta por modelo
+    $productosUnicos = $todosLosProductos->unique('sku_base')->values();
+
+    // 4. MÁGICA DE IMÁGENES: Asignamos a cada producto sólo las fotos principales (orden = 1) de cada color
+    foreach ($productosUnicos as $prod) {
+        $imagenesPortada = \App\Models\ProductoImagen::where('sku_color', 'LIKE', $prod->sku_base . '%')
+            ->where('orden', 1)
+            ->orderBy('sku_color', 'asc')
+            ->get();
+            
+        // Forzamos la carga de esta colección filtrada en la relación 'imagenes'
+        $prod->setRelation('imagenes', $imagenesPortada);
+    }
+
+    // 5. Construimos la paginación manual sobre la colección única (9 productos por página)
+    $perPage = 9;
+    $page = $request->input('page', 1);
+    $offset = ($page * $perPage) - $perPage;
+
+    $productos = new \Illuminate\Pagination\LengthAwarePaginator(
+        $productosUnicos->slice($offset, $perPage)->all(),
+        $productosUnicos->count(),
+        $perPage,
+        $page,
+        ['path' => $request->url(), 'query' => $request->query()]
+    );
+
+    // Traemos los datos para el Sidebar
+    $categorias = Categoria::whereNull('parent_id')->get();
+    $colecciones = Coleccion::all();
+    $colores = Color::all();
+
+    return view('frontend.productos', compact('productos', 'categorias', 'colecciones', 'colores'));
+}
 
   
 
@@ -622,31 +606,36 @@ class ProductoController extends Controller
         }
     }
 
-    /**
-     * Detalle de un producto en la tienda virtual.
-     * Busca todas las variantes físicas que comparten el mismo 'sku_base' para renderizar los talles disponibles.
-     */
-    public function show($sku_base)
-    {
-        // Traemos el producto base para la descripción
-        $productoBase = Producto::where('sku_base', $sku_base)->with(['categoria', 'color'])->firstOrFail();
+/**
+ * Detalle de un producto en la tienda virtual.
+ * Abre el producto enfocado en un color específico y expone todos sus ángulos.
+ */
+public function show($sku_color)
+{
+    // 1. Buscamos el producto específico por la variante de color seleccionada
+    $productoBase = Producto::where('sku_color', $sku_color)->with(['categoria', 'color'])->first();
 
-        // Traemos todas las variantes de talle que tengan stock disponible
-        $variantesDisponibles = Producto::where('sku_base', $sku_base)
-            ->where('stock', '>', 0)
-            ->get();
+    // Fallback de seguridad por si envían un sku_base o un código inexistente
+    if (!$productoBase) {
+        $productoBase = Producto::where('sku_base', $sku_color)->with(['categoria', 'color'])->firstOrFail();
+    }
 
-        // 3. EXTRA: Agrupamos de forma limpia los talles únicos y colores únicos de las variantes
-        $tallesDisponibles = $variantesDisponibles->pluck('talle')->unique()->values();
-        $coloresDisponibles = $variantesDisponibles->pluck('color')->unique('id')->values();
+    // 2. Traemos todas las variantes físicas con stock que comparten el mismo modelo base
+    $variantesDisponibles = Producto::where('sku_base', $productoBase->sku_base)
+        ->where('stock', '>', 0)
+        ->get();
 
-    // 4. Reutiliza la búsqueda de imágenes pero garantizando que traiga los ángulos ordenados
-        $imagenes = ProductoImagen::where('sku_color', $productoBase->sku_color)
+    // 3. Agrupamos los talles y colores únicos de estas variantes para los botones selectores
+    $tallesDisponibles = $variantesDisponibles->pluck('talle')->unique()->values();
+    $coloresDisponibles = $variantesDisponibles->load('color')->pluck('color')->unique('id')->values();
+
+    // 4. Cargamos TODOS los ángulos (frente, espalda, detalles) ÚNICAMENTE de este color enfocado
+    $imagenes = ProductoImagen::where('sku_color', $productoBase->sku_color)
         ->orderBy('orden', 'asc')
         ->get();
 
-        return view('frontend.productos-detalle', compact('productoBase', 'variantesDisponibles', 'tallesDisponibles', 'coloresDisponibles', 'imagenes'));
-    }
+    return view('frontend.productos-detalle', compact('productoBase', 'variantesDisponibles', 'tallesDisponibles', 'coloresDisponibles', 'imagenes'));
+}
 
     /**
      * Eliminación de un modelo completo (Baja lógica de todas sus variantes).

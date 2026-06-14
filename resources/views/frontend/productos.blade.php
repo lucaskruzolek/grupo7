@@ -17,19 +17,20 @@
                 
                 @forelse($productos as $prod)
                     <div class="col">
+                        {{-- Añadimos la clase 'backend-card-producto' para el selector de JS --}}
                         <div class="card h-100 border rounded-3 shadow-sm overflow-hidden backend-card-producto">
                             
                             <div class="position-relative bg-light" style="padding-top: 100%;">
             
                             @if($prod->imagenes->isNotEmpty())
-                                {{-- Carrusel único por producto identificado por su SKU_BASE --}}
+                                {{-- Carrusel único por producto identificado por el bucle --}}
                                 <div id="carrusel_{{ $loop->iteration }}" class="carousel slide position-absolute top-0 start-0 w-100 h-100" data-bs-interval="false" data-bs-touch="true">
                                     
                                     @if($prod->imagenes->count() > 1)
                                         <div class="carousel-indicators" style="margin-bottom: 0.5rem; z-index: 4;">
                                             @foreach($prod->imagenes as $index => $img)
                                                 <button type="button" 
-                                                        data-bs-target="#carrusel_{{ $loop->iteration }}" 
+                                                        data-bs-target="#carrusel_{{ $loop->parent->iteration ?? $loop->iteration }}" 
                                                         data-bs-slide-to="{{ $index }}" 
                                                         class="{{ $index == 0 ? 'active' : '' }}" 
                                                         aria-current="{{ $index == 0 ? 'true' : 'false' }}" 
@@ -41,10 +42,11 @@
 
                                     <div class="carousel-inner h-100">
                                         @foreach($prod->imagenes as $index => $img)
-                                            <div class="carousel-item h-100 {{ $index == 0 ? 'active' : '' }}">
+                                            {{-- Guardamos el sku_color del slide en un atributo de datos para que JavaScript lo lea al deslizar --}}
+                                            <div class="carousel-item h-100 {{ $index == 0 ? 'active' : '' }}" data-sku-color="{{ $img->sku_color }}">
                                                 <img src="{{ $img->url }}" 
                                                      class="d-block w-100 h-100 object-fit-cover" 
-                                                     alt="{{ $prod->nombre }} - Ángulo {{ $index + 1 }}">
+                                                     alt="{{ $prod->nombre }} - Principal Color">
                                             </div>
                                         @endforeach
                                     </div>
@@ -84,26 +86,30 @@
 
                                     <div class="mt-2 mb-1">
                                         @php
-                                            // Consultamos las variantes hermanas que comparten el mismo sku_base
+                                            // Reutilizamos consultas eficientes sobre las variantes físicas
                                             $variantes = \App\Models\Producto::where('sku_base', $prod->sku_base)->get();
-                                            
-                                            // Extraemos talles únicos y cargamos los colores únicos de la BD
                                             $tallesDisponibles = $variantes->pluck('talle')->unique();
-                                            $coloresDisponibles = $variantes->load('color')->pluck('color')->unique('id');
+                                            $coloresDelModelo = $variantes->load('color')->pluck('color')->unique('id');
                                         @endphp
 
-                                        @if($coloresDisponibles->count() > 1)
-                                            <div class="d-flex gap-1 align-items-center mb-2">
-                                                <span class="text-muted" style="font-size: 11px;">Colores:</span>
-                                                @foreach($coloresDisponibles as $colVariante)
-                                                    <span class="rounded-circle border" 
-                                                          style="background-color: {{ $colVariante->hex_code }}; width: 12px; height: 12px; display: inline-block;" 
-                                                          title="{{ $colVariante->nombre }}">
-                                                    </span>
-                                                @endforeach
+                                        {{-- CÍRCULOS DE COLORES DISPONIBLES --}}
+                                        @if($coloresDelModelo->isNotEmpty())
+                                            <div class="mt-2 mb-3">
+                                                <p class="text-muted small mb-1 poppins-medium" style="font-size: 0.7rem;">Colores disponibles:</p>
+                                                <div class="d-flex gap-1 flex-wrap">
+                                                    @foreach($coloresDelModelo as $colorVariante)
+                                                        @if($colorVariante)
+                                                            <span class="rounded-circle border d-inline-block shadow-xs" 
+                                                                style="background-color: {{ $colorVariante->hex_code }}; width: 14px; height: 14px;" 
+                                                                title="{{ $colorVariante->nombre }}">
+                                                            </span>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
                                             </div>
                                         @endif
 
+                                        {{-- LISTADO DE TALLES --}}
                                         <div class="d-flex flex-wrap gap-1 align-items-center">
                                             <span class="text-muted" style="font-size: 11px;">Talles:</span>
                                             @foreach($tallesDisponibles as $talleVar)
@@ -120,9 +126,12 @@
                                         ${{ number_format($prod->precio, 2, ',', '.') }}
                                     </span>
                                     
-                                    <a href="{{ route('productos.show', $prod->sku_base) }}" class="btn btn-outline-primary btn-sm rounded-pill px-3 poppins-semibold">
+                                    {{-- El botón "Ver más" inicia apuntando al sku_color del primer elemento del carrusel --}}
+                                    <a href="{{ route('productos.show', $prod->imagenes->first()->sku_color ?? $prod->sku_base) }}" 
+                                       class="btn btn-outline-primary btn-sm rounded-pill px-3 poppins-semibold btn-ver-mas-dinamico">
                                         Ver más
                                     </a>
+                                    
                                 </div>
                             </div>
 
@@ -140,18 +149,44 @@
                 @endforelse
 
             </div>
+
+            {{-- Renderizado de la botonera de paginación --}}
+            <div class="d-flex justify-content-center mt-4">
+                {{ $productos->appends(request()->query())->links() }}
+            </div>
         </main>
     </div> 
 </section>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // 1. Envío automático para los filtros del Sidebar
         const filtros = document.querySelectorAll('.filtro-automatico');
         const formulario = document.getElementById('form-filtros-tienda');
 
         filtros.forEach(input => {
             input.addEventListener('change', function () {
                 formulario.submit();
+            });
+        });
+
+        // 2. Escucha interactiva de los carruseles para reescribir el botón "Ver más"
+        const carruseles = document.querySelectorAll('.carousel');
+
+        carruseles.forEach(carrusel => {
+            carrusel.addEventListener('slide.bs.carousel', function (event) {
+                // Capturamos el slide que está por entrar activamente
+                const siguienteSlide = event.relatedTarget;
+                const skuColor = siguienteSlide.getAttribute('data-sku-color');
+                
+                // Buscamos el botón específico dentro de esta misma tarjeta
+                const tarjetaContenedora = carrusel.closest('.backend-card-producto');
+                const botonVerMas = tarjetaContenedora.querySelector('.btn-ver-mas-dinamico');
+                
+                if (botonVerMas && skuColor) {
+                    // Actualizamos la URL de destino usando el alias de la ruta apuntando al color exacto
+                    botonVerMas.setAttribute('href', `/productos/${skuColor}`);
+                }
             });
         });
     });
