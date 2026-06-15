@@ -8,6 +8,8 @@
         
         <aside class="col-md-3 bg-white border-end p-3">
             <form action="{{ route('productos.index') }}" method="GET" id="form-filtros-tienda">
+                {{--INPUT OCULTO: Guarda la búsqueda activa --}}
+                <input type="hidden" name="buscar" value="{{ request('buscar') }}">
                 @include('frontend.partes.sidebar')
             </form>
         </aside>

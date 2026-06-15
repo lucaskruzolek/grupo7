@@ -10,7 +10,26 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMobile" aria-controls="navbarNavMobile" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <form action="{{ url('/productos') }}" method="GET" class="w-100 mt-2 d-lg-none px-2">
+            {{-- Mantiene la pila de filtros activa al buscar --}}
+            @foreach(request()->except('buscar', 'page') as $key => $value)
+                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+            @endforeach
 
+            <div class="input-group border rounded-pill overflow-hidden shadow-sm">
+                <span class="input-group-text bg-light border-0 pe-0 ps-3">
+                    <i class="bi bi-search text-muted" style="font-size: 0.85rem;"></i>
+                </span>
+                <input type="text" 
+                       name="buscar" 
+                       value="{{ request('buscar') }}" 
+                       class="form-control bg-light border-0 poppins-regular py-2 ps-2" 
+                       style="font-size: 0.85rem;"
+                       placeholder="Buscar productos..." 
+                       aria-label="Buscar móvil">
+                <button class="btn btn-primary px-3 poppins-semibold" type="submit" style="font-size: 0.85rem;">Buscar</button>
+            </div>
+        </form>
         <!-- Colapsable Mobile -->
         <div class="collapse navbar-collapse" id="navbarNavMobile">
             <ul class="navbar-nav ms-auto mt-2">
@@ -92,14 +111,26 @@
 
             <!-- Searchbar (dinámico: 8/12 para invitados, 7/12 para logueados) -->
             <div class="col-lg-8 d-flex align-items-center justify-content-center">
-                <div class="navbar-search-container w-100 px-lg-4">
-                    <div class="input-group search-bar-wrapper">
-                        <input type="text" class="form-control search-input" placeholder="Buscar productos..." aria-label="Buscar productos">
-                        <button class="btn search-btn" type="button">
-                            <img src="{{ asset('img/icons/search.svg') }}" alt="Buscar" style="width: 18px; height: 18px;">
-                        </button>
+                {{-- REEMPLAZO DESKTOP: Cambiado div por form (Líneas ~31-44) --}}
+                <form action="{{ url('/productos') }}" method="GET" class="d-flex flex-grow-1 mx-4 max-w-search">
+                    {{-- Mantiene la pila de filtros activa al buscar --}}
+                    @foreach(request()->except('buscar', 'page') as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endforeach
+
+                    <div class="input-group search-bar-container">
+                        <span class="input-group-text bg-light border-end-0 search-icon-nav">
+                            <i class="bi bi-search text-muted"></i>
+                        </span>
+                        <input type="text" 
+                                name="buscar" 
+                                value="{{ request('buscar') }}" 
+                                class="form-control bg-light border-start-0 poppins-regular nav-search-input" 
+                                placeholder="¿Qué estás buscando para tu mascota?..." 
+                                aria-label="Search">
+                                <button type="submit" class="btn btn-search-nav poppins-semibold px-4">Buscar</button>
                     </div>
-                </div>
+                </form>
             </div>
 
             <!-- Sección Dinámica y Carrito -->
