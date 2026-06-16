@@ -14,13 +14,13 @@ class ColoresSeeder extends Seeder
     {
         $colores = [
             ['nombre' => 'Rojo', 'hex_code' => '#E63946'],
-            ['nombre' => 'Azul', 'hex_code' => '#457B9D'],
-            ['nombre' => 'Verde', 'hex_code' => '#2A9D8F'],
+            ['nombre' => 'Azul', 'hex_code' => '#051cebff'],
+            ['nombre' => 'Verde', 'hex_code' => '#2fbe538f'],
             ['nombre' => 'Amarillo', 'hex_code' => '#FFD166'],
             ['nombre' => 'Rosa', 'hex_code' => '#FFB3C6'],
-            ['nombre' => 'Negro', 'hex_code' => '#1D3557'],
+            ['nombre' => 'Negro', 'hex_code' => '#000000ff'],
             ['nombre' => 'Blanco', 'hex_code' => '#FFFFFF'],
-            ['nombre' => 'Gris', 'hex_code' => '#A8DADC'],
+            ['nombre' => 'Gris', 'hex_code' => '#9292926c'],
             ['nombre' => 'Naranja', 'hex_code' => '#F4A261'],
             ['nombre' => 'Violeta', 'hex_code' => '#9D4EDD'],
             ['nombre' => 'Único', 'hex_code' => '#CCCCCC'],

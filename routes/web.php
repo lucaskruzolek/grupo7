@@ -9,6 +9,8 @@ use App\Http\Controllers\ColeccionController;
 use App\Http\Controllers\AdminController; 
 use App\Http\Controllers\VentaController; 
 use App\Http\Controllers\ConsultaController;
+use App\Models\Categoria;
+use App\Models\Coleccion;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +26,22 @@ use App\Http\Controllers\ConsultaController;
 // 1. PÁGINAS INFORMATIVAS (FRONTEND STÁTICO Y HOME)
 // La raíz de tu sitio ahora carga correctamente el inicio de Petthreads sin ser pisada
 Route::get('/', function () {
-    return view('frontend.principal');
+    $coleccionInvierno = Coleccion::where('nombre', 'Invierno')->first();
+    $coleccionNuevos = Coleccion::where('nombre', 'Nuevos')->first();
+    $coleccionPicnic = Coleccion::where('nombre', 'Picnic')->first();
+    
+    $categoriaRopa = Categoria::where('nombre', 'ropa')->first();
+    $categoriaAccesorios = Categoria::where('nombre', 'accesorios')->first();
+    $categoriaArneces = Categoria::where('nombre', 'arneces')->first();
+    
+    return view('frontend.principal', compact(
+        'coleccionInvierno',
+        'coleccionNuevos',
+        'coleccionPicnic',
+        'categoriaRopa',
+        'categoriaAccesorios',
+        'categoriaArneces'
+    ));
 })->name('inicio');
 
 Route::get('/contacto', function () {

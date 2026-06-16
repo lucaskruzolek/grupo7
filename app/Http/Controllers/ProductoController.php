@@ -60,6 +60,11 @@ public function index(Request $request)
             }
         }
 
+        // Filtro por Colección
+        if ($request->filled('coleccion')) {
+            $query->where('coleccion_id', $request->coleccion);
+        }
+
         // Filtro por Rango de Precios
         if ($request->filled('precio_min')) {
             $query->where('precio', '>=', $request->precio_min);

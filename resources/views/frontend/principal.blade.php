@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="carousel-cta cta-half-left" style="--cta-x: 0px; --cta-y: -60px;">
-                <a class="btn btn-lg btn-primary anim-fade-down" style="--anim-order: 3;" href="{{ url('/productos') }}">Ver Colección</a>
+                <a class="btn btn-lg btn-primary anim-fade-down" style="--anim-order: 3;" href="{{ url('/productos?coleccion=' . ($coleccionInvierno?->id ?? '')) }}">Ver Colección</a>
             </div>
         </div>
 
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="carousel-cta cta-half-right" style="--cta-x: 0px; --cta-y: -60px;">
-                <a class="btn btn-lg btn-primary anim-fade-down" style="--anim-order: 3;" href="{{ url('/productos') }}">Ver más</a>
+                <a class="btn btn-lg btn-primary anim-fade-down" style="--anim-order: 3;" href="{{ url('/productos?categoria=' . ($categoriaArneces?->id ?? '')) }}">Ver más</a>
             </div>
         </div>
 
@@ -86,7 +86,7 @@
                     <div class="info">
                     <h3 class="content-title h5 poppins-semibold">Ropa Para Perros</h3>
                     <p>Diseños exclusivos y comodidad total para cada paseo de tu mejor amigo.</p>
-                    <a href="{{ url('/productos') }}" class="learn-more">
+                    <a href="{{ url('/productos?mascota=perro&categoria=' . ($categoriaRopa?->id ?? '')) }}" class="learn-more">
                         <span class="circle" aria-hidden="true">
                             <span class="icon arrow"></span>
                         </span>
@@ -102,7 +102,7 @@
                 <div class="info">
                     <h3 class="content-title h5 poppins-semibold">Ropa Para Gatos</h3>
                     <p>Prendas suaves y con estilo pensadas especialmente para la libertad felina.</p>
-                    <a href="{{ url('/productos') }}" class="learn-more">
+                    <a href="{{ url('/productos?mascota=gato&categoria=' . ($categoriaRopa?->id ?? '')) }}" class="learn-more">
                         <span class="circle" aria-hidden="true">
                             <span class="icon arrow"></span>
                         </span>
@@ -118,7 +118,7 @@
                 <div class="info">
                     <h3 class="content-title h5 poppins-semibold">Accesorios</h3>
                     <p>Correas, bandanas y complementos únicos que marcan la diferencia.</p>
-                    <a href="{{ url('/productos') }}" class="learn-more">
+                    <a href="{{ url('/productos?categoria=' . ($categoriaAccesorios?->id ?? '')) }}" class="learn-more">
                         <span class="circle" aria-hidden="true">
                             <span class="icon arrow"></span>
                         </span>
@@ -134,7 +134,7 @@
                 <div class="info">
                     <h3 class="content-title h5 poppins-semibold">Nuevos Arribos</h3>
                     <p>Descubre lo último de nuestra colección y mantén a tu mascota a la moda.</p>
-                    <a href="{{ url('/productos') }}" class="learn-more">
+                    <a href="{{ url('/productos?coleccion=' . ($coleccionNuevos?->id ?? '')) }}" class="learn-more">
                         <span class="circle" aria-hidden="true">
                             <span class="icon arrow"></span>
                         </span>
@@ -174,7 +174,7 @@
                 
                 <!-- CTA -->
                 <div class="mb-5 anim-fade-down" style="--anim-order: 4;">
-                    <a href="{{ url('/productos') }}" class="btn btn-lg px-4 py-2 btn-nature">
+                    <a href="{{ url('/productos?coleccion=' . ($coleccionPicnic?->id ?? '')) }}" class="btn btn-lg px-4 py-2 btn-nature">
                         DESCUBRIR COLECCIÓN
                     </a>
                 </div>
