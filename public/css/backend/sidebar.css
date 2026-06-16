@@ -99,12 +99,12 @@
 }
 
 /* Parent active style when collapsed and submenu has active child */
-.admin-sidebar.collapsed .sidebar-item.submenu-active > a {
+.admin-sidebar.collapsed .sidebar-item.submenu-active>a {
     color: #ffffff !important;
     background-color: var(--green-500) !important;
 }
 
-.admin-sidebar.collapsed .sidebar-item.submenu-active > a .sidebar-icon {
+.admin-sidebar.collapsed .sidebar-item.submenu-active>a .sidebar-icon {
     background-color: #ffffff !important;
 }
 

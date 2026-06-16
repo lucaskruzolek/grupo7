@@ -97,6 +97,7 @@ Route::get('productos/{sku_base}', [ProductoController::class, 'show'])->name('p
 Route::middleware(['auth', 'rol:admin'])->prefix('admin')->group(function () {
     // Panel principal y páginas estáticas de administración
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard/chart-data', [AdminController::class, 'chartData'])->name('admin.dashboard.chart-data');
     Route::get('/consultas', [ConsultaController::class, 'index'])->name('admin.consultas');
     Route::post('/consultas/{id}/toggle-leido', [ConsultaController::class, 'toggleLeido'])->name('admin.consultas.toggle-leido');
     Route::post('/consultas/{id}/toggle-respondido', [ConsultaController::class, 'toggleRespondido'])->name('admin.consultas.toggle-respondido');

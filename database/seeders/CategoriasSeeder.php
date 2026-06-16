@@ -28,7 +28,7 @@ class CategoriasSeeder extends Seeder
             'buzos',
             'sueteres',
             'pecheras',
-            'impermeables',
+            'pilotos',
             'camisetas',
             'pijamas'
         ];

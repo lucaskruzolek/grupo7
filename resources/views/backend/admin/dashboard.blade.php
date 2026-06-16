@@ -2,7 +2,7 @@
 
 @section('styles')
     <!-- Script de Chart.js para renderizar el gráfico de líneas -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('vendor/chartjs/chart.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/backend/dashboard.css') }}">
 @endsection
 
@@ -83,8 +83,14 @@
         <div class="col-12 col-lg-8">
             <div class="surface-card p-4 align-items-stretch">
                 <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
-                    <h3 class="h4 text-dark mb-0 fw-bold">Reporte de Ventas</h3>
-                    <select class="form-select form-select-sm shadow-none" style="width: auto; border-radius: 8px; border-color: var(--neutral-300);">
+                    <div class="d-flex align-items-center gap-2">
+                        <select id="chartTypeSelector" class="form-select form-select-md fw-bold border-0 bg-transparent text-dark p-2 pe-5 shadow-none" style="width: auto; cursor: pointer; font-family: 'Poppins', sans-serif;">
+                            <option value="sales" selected>Reporte de Ventas</option>
+                            <option value="categories">Ventas por Categoría</option>
+                            <option value="products">Productos más Vendidos</option>
+                        </select>
+                    </div>
+                    <select id="chartPeriodSelector" class="form-select form-select-sm shadow-none" style="width: auto; border-radius: 8px; border-color: var(--neutral-300); font-family: 'Poppins', sans-serif;">
                         <option value="semana">Esta Semana</option>
                         <option value="mes" selected>Este Mes</option>
                         <option value="año">Este Año</option>
@@ -139,7 +145,7 @@
         <div class="col-12 col-lg-6">
             <div class="surface-card p-4 align-items-start">
                 <h3 class="h4 text-dark mb-3 fw-bold">Alertas de Inventario</h3>
-                <div class="w-100">
+                <div class="w-100 dashboard-scroll-list">
                     @forelse($productosBajoStock as $prod)
                         <div class="low-stock-item">
                             <div class="d-flex align-items-center gap-3">
@@ -170,18 +176,20 @@
         <!-- Consultas Recientes -->
         <div class="col-12 col-lg-6">
             <div class="surface-card p-4 align-items-start">
-                <h3 class="h4 text-dark mb-3 fw-bold">Consultas de Clientes</h3>
-                <div class="w-100 d-flex flex-column gap-3">
+                <div class="d-flex align-items-center justify-content-between mb-3 w-100">
+                    <h3 class="h4 text-dark mb-0 fw-bold">Consultas de Clientes</h3>
+                    <a href="{{ route('admin.consultas') }}" class="text-decoration-none small fw-bold" style="color: var(--green-600);">Ver más &rarr;</a>
+                </div>
+                <div class="w-100 dashboard-scroll-list d-flex flex-column gap-3">
                     @foreach($consultasRecientes as $consulta)
                         <div class="p-3 rounded text-start" style="background-color: var(--neutral-100); border: 1px solid var(--neutral-200); width: 100%;">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="fw-bold text-dark small">{{ $consulta['nombre'] }}</span>
-                                <small class="text-muted" style="font-size: 0.72rem;">{{ $consulta['fecha'] }}</small>
-                            </div>
                             <p class="mb-1 text-secondary small text-hyphenated" style="line-height: 1.3;">
-                                "{{ $consulta['mensaje'] }}"
+                                "{{ $consulta->mensaje }}"
                             </p>
-                            <small class="text-muted d-block" style="font-size: 0.72rem;">{{ $consulta['email'] }}</small>
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <small class="text-muted" style="font-size: 0.72rem;">{{ $consulta->nombre }}</small>
+                                <small class="text-muted" style="font-size: 0.72rem;">{{ $consulta->created_at->format('d/m/Y') }}</small>
+                            </div>
                         </div>
                     @endforeach
                 </div>

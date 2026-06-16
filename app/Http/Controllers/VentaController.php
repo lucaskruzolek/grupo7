@@ -116,7 +116,11 @@ class VentaController extends Controller
 
         $this->recalcularTotal($carrito);
 
-        return $this->responseWithSuccess($request, 'Carrito actualizado con éxito.', 'carrito.ver');
+        return $this->responseWithSuccess($request, 'Carrito actualizado con éxito.', 'carrito.ver', [
+            'subtotal' => $detalle->subtotal,
+            'total' => $carrito->total,
+            'cantidad' => $detalle->cantidad
+        ]);
     }
 
     /**
@@ -135,7 +139,10 @@ class VentaController extends Controller
 
         $this->recalcularTotal($carrito);
 
-        return $this->responseWithSuccess($request, 'Producto eliminado del carrito.', 'carrito.ver');
+        return $this->responseWithSuccess($request, 'Producto eliminado del carrito.', 'carrito.ver', [
+            'total' => $carrito->total,
+            'items_count' => $carrito->detalles()->count()
+        ]);
     }
 
     /**
@@ -427,10 +434,10 @@ class VentaController extends Controller
     /**
      * Retorna respuesta unificada de éxito según el tipo de solicitud.
      */
-    private function responseWithSuccess(Request $request, string $mensaje, string $routeRedirect)
+    private function responseWithSuccess(Request $request, string $mensaje, string $routeRedirect, array $data = [])
     {
         if ($request->wantsJson()) {
-            return response()->json(['success' => true, 'message' => $mensaje]);
+            return response()->json(array_merge(['success' => true, 'message' => $mensaje], $data));
         }
         return redirect()->route($routeRedirect)->with('exito', $mensaje);
     }

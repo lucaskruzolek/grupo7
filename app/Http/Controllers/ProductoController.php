@@ -21,87 +21,107 @@ class ProductoController extends Controller
 public function index(Request $request)
 {
     // 1. Consulta base de productos activos con sus relaciones básicas
-    $query = Producto::with(['categoria', 'color']);
+    $tieneBuscar = $request->filled('buscar');
+    $buscarTermino = $request->buscar;
+    $busquedaFallida = null;
 
-    // Buscador por Nombre (o descripción si fuera necesario)
-    if ($request->filled('buscar')) {
-        $termino = $request->buscar;
-        $query->where('nombre', 'LIKE', '%' . $termino . '%');
-    }
+    $obtenerProductos = function($usarBuscar) use ($request, $buscarTermino) {
+        $query = Producto::with(['categoria', 'color']);
 
-    // ─── SISTEMA DE FILTRADO DINÁMICO APILABLE ───
-    
-    // Filtro por Mascota (perro, gato, ambos)
-    if ($request->filled('mascota')) {
-        $query->where('tipo_mascota', $request->mascota);
-    }
-
-    // Filtro por Categoría (Padre o Hija)
-    if ($request->filled('categoria')) {
-        $categoriaId = $request->categoria;
-
-        // Buscamos si la categoría seleccionada tiene subcategorías (es decir, es un Padre)
-        $subCategoriasIds = Categoria::where('parent_id', $categoriaId)->pluck('id')->toArray();
-
-        if (!empty($subCategoriasIds)) {
-            // Si tiene hijas (ej: Accesorios tiene Collares, Correas, etc.)
-            // Agregamos también el ID del padre al array por seguridad
-            $subCategoriasIds[] = $categoriaId;
-            
-            // Buscamos todos los productos cuyo categoria_id pertenezca al grupo familiar
-            $query->whereIn('categoria_id', $subCategoriasIds);
-        } else {
-            // Si es una subcategoría directa seleccionada por el usuario (ej: Buzos)
-            $query->where('categoria_id', $categoriaId);
+        // Buscador por Nombre (o descripción si fuera necesario)
+        if ($usarBuscar && $buscarTermino) {
+            $query->where('nombre', 'LIKE', '%' . $buscarTermino . '%');
         }
-    }
 
-    // Filtro por Rango de Precios
-    if ($request->filled('precio_min')) {
-        $query->where('precio', '>=', $request->precio_min);
-    }
-    if ($request->filled('precio_max')) {
-        $query->where('precio', '<=', $request->precio_max);
-    }
-
-    // 2. Obtenemos todos los registros preliminares que cumplen con los filtros base
-    $todosLosProductos = $query->get();
-
-    // 3. FILTROS EN MEMORIA (Talle y Color) Y AGRUPACIÓN POR MODELO
-    // Agrupamos primero por sku_base para analizar los modelos únicos
-    $gruposPorModelo = $todosLosProductos->groupBy('sku_base');
-    $productosFiltrados = collect();
-
-    foreach ($gruposPorModelo as $skuBase => $variantesDelModelo) {
+        // ─── SISTEMA DE FILTRADO DINÁMICO APILABLE ───
         
-        // Aplicamos filtro de Color si el usuario seleccionó uno
-        if ($request->filled('color')) {
-            $tieneColor = $variantesDelModelo->contains('color_id', $request->color);
-            if (!$tieneColor) continue; // Si este modelo no viene en ese color, lo salteamos
+        // Filtro por Mascota (perro, gato, ambos)
+        if ($request->filled('mascota')) {
+            $query->where('tipo_mascota', $request->mascota);
         }
 
-        // Aplicamos filtro de Talle si el usuario seleccionó uno
-        if ($request->filled('talle')) {
-            $tieneTalle = $variantesDelModelo->contains('talle', strtoupper($request->talle));
-            if (!$tieneTalle) continue; // Si este modelo no viene en ese talle, lo salteamos
+        // Filtro por Categoría (Padre o Hija)
+        if ($request->filled('categoria')) {
+            $categoriaId = $request->categoria;
+
+            // Buscamos si la categoría seleccionada tiene subcategorías (es decir, es un Padre)
+            $subCategoriasIds = Categoria::where('parent_id', $categoriaId)->pluck('id')->toArray();
+
+            if (!empty($subCategoriasIds)) {
+                // Si tiene hijas (ej: Accesorios tiene Collares, Correas, etc.)
+                // Agregamos también el ID del padre al array por seguridad
+                $subCategoriasIds[] = $categoriaId;
+                
+                // Buscamos todos los productos cuyo categoria_id pertenezca al grupo familiar
+                $query->whereIn('categoria_id', $subCategoriasIds);
+            } else {
+                // Si es una subcategoría directa seleccionada por el usuario (ej: Buzos)
+                $query->where('categoria_id', $categoriaId);
+            }
         }
 
-        // Si pasó los filtros, tomamos la primera variante como el "representante" de la tarjeta
-        $productosFiltrados->push($variantesDelModelo->first());
+        // Filtro por Rango de Precios
+        if ($request->filled('precio_min')) {
+            $query->where('precio', '>=', $request->precio_min);
+        }
+        if ($request->filled('precio_max')) {
+            $query->where('precio', '<=', $request->precio_max);
+        }
+
+        // 2. Obtenemos todos los registros preliminares que cumplen con los filtros base
+        $todosLosProductos = $query->get();
+
+        // 3. FILTROS EN MEMORIA (Talle y Color) Y AGRUPACIÓN POR VARIACIÓN DE COLOR
+        // Agrupamos por sku_color para que cada variante de producto+color sea un producto distinto
+        $gruposPorModelo = $todosLosProductos->groupBy('sku_color');
+        $productosFiltrados = collect();
+
+        foreach ($gruposPorModelo as $skuBase => $variantesDelModelo) {
+            
+            // Aplicamos filtro de Color si el usuario seleccionó uno
+            if ($request->filled('color')) {
+                $tieneColor = $variantesDelModelo->contains('color_id', $request->color);
+                if (!$tieneColor) continue; // Si este modelo no viene en ese color, lo salteamos
+            }
+
+            // Aplicamos filtro de Talle si el usuario seleccionó uno
+            if ($request->filled('talle')) {
+                $tieneTalle = $variantesDelModelo->contains('talle', strtoupper($request->talle));
+                if (!$tieneTalle) continue; // Si este modelo no viene en ese talle, lo salteamos
+            }
+
+            // Si pasó los filtros, tomamos la primera variante como el "representante" de la tarjeta
+            $productosFiltrados->push($variantesDelModelo->first());
+        }
+
+        return $filtrados = $productosFiltrados;
+    };
+
+    if ($tieneBuscar) {
+        $productosFiltrados = $obtenerProductos(true);
+        if ($productosFiltrados->isEmpty()) {
+            // Si la búsqueda arrojó 0 resultados, removemos el filtro 'buscar' del request y guardamos el término fallido
+            $busquedaFallida = $buscarTermino;
+            $request->query->remove('buscar');
+            $request->request->remove('buscar');
+            // Re-procesamos sin el término de búsqueda
+            $productosFiltrados = $obtenerProductos(false);
+        }
+    } else {
+        $productosFiltrados = $obtenerProductos(false);
     }
 
-    // 4. Asignamos las portadas (orden = 1) correspondientes
+    // 4. Asignamos todas las imágenes correspondientes a la variante de color específica
     foreach ($productosFiltrados as $prod) {
-        $imagenesPortada = \App\Models\ProductoImagen::where('sku_color', 'LIKE', $prod->sku_base . '%')
-            ->where('orden', 1)
-            ->orderBy('sku_color', 'asc')
+        $imagenesColor = \App\Models\ProductoImagen::where('sku_color', $prod->sku_color)
+            ->orderBy('orden', 'asc')
             ->get();
             
-        $prod->setRelation('imagenes', $imagenesPortada);
+        $prod->setRelation('imagenes', $imagenesColor);
     }
 
     // 5. Construimos la paginación manual exacta sobre la colección final ya filtrada
-    $perPage = 9;
+    $perPage = 8;
     $page = $request->input('page', 1);
     $offset = ($page * $perPage) - $perPage;
 
@@ -121,7 +141,7 @@ public function index(Request $request)
     // Extraemos todos los talles únicos globales del sistema para mostrarlos en el sidebar
     $tallesSistemas = Producto::where('stock', '>', 0)->pluck('talle')->unique()->sort()->values();
 
-    return view('frontend.productos', compact('productos', 'categorias', 'colecciones', 'colores', 'tallesSistemas'));
+    return view('frontend.productos', compact('productos', 'categorias', 'colecciones', 'colores', 'tallesSistemas', 'busquedaFallida'));
 }
 
   
@@ -659,11 +679,11 @@ public function index(Request $request)
 public function show($sku_color)
 {
     // 1. Buscamos el producto específico por la variante de color seleccionada
-    $productoBase = Producto::where('sku_color', $sku_color)->with(['categoria', 'color'])->first();
+    $productoBase = Producto::where('sku_color', $sku_color)->with(['categoria.parent', 'color'])->first();
 
     // Fallback de seguridad por si envían un sku_base o un código inexistente
     if (!$productoBase) {
-        $productoBase = Producto::where('sku_base', $sku_color)->with(['categoria', 'color'])->firstOrFail();
+        $productoBase = Producto::where('sku_base', $sku_color)->with(['categoria.parent', 'color'])->firstOrFail();
     }
 
     // 2. Traemos todas las variantes físicas con stock que comparten el mismo modelo base

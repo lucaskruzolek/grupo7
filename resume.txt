@@ -1,0 +1,32 @@
+A continuación, te presento un resumen estructurado de los problemas y desafíos que enfrentamos durante la sesión para lograr que el carrito funcione de manera asíncrona, junto con sus respectivas soluciones técnicas:
+
+---
+
+### 1. Recargas completas de la página e interrupciones visuales (Problema Inicial)
+*   **El problema:** Cada cambio de cantidad (incrementar, decrementar, escribir directamente) y cada eliminación de productos enviaba formularios HTML síncronos tradicionales. Esto forzaba una recarga completa de la página, pérdida del scroll, parpadeos y la aparición intrusiva del cartel de "¡Éxito!" tras cada clic menor.
+*   **La solución:** Modificamos [carrito.blade.php](file:///c:/Users/lucas/Herd/grupo7/resources/views/frontend/carrito.blade.php) para añadir clases/identificadores, y creamos un script de control AJAX en [carrito.js](file:///c:/Users/lucas/Herd/grupo7/public/js/backend/carrito.js) que intercepta los submits de los formularios y los maneja en segundo plano mediante `fetch()`.
+
+### 2. Respuestas JSON incompletas del backend
+*   **El problema:** El controlador [VentaController.php](file:///c:/Users/lucas/Herd/grupo7/app/Http/Controllers/VentaController.php) ya soportaba respuestas AJAX si detectaba peticiones JSON, pero solo devolvía un mensaje de éxito genérico sin datos dinámicos. El frontend no tenía forma de saber el nuevo subtotal del producto o el total general calculado por el servidor.
+*   **La solución:** Modificamos el método auxiliar `responseWithSuccess` en el controlador para que acepte un array opcional `$data` con datos extra. Retornamos en el JSON el subtotal actualizado, el total global de la compra y el número de ítems remanentes.
+
+### 3. Conflicto de tipo de datos multipart (`MethodNotAllowedHttpException`)
+*   **El problema:** Al enviar el objeto `FormData` nativo en el primer intento de Fetch, el navegador asignaba el tipo de contenido `multipart/form-data`. PHP no procesa de forma nativa variables en cuerpos de datos multipart si no son peticiones POST nativas directas, haciendo que Laravel ignore el campo oculto `_method: PATCH`.
+*   **La solución:** Codificamos el cuerpo de la petición con `URLSearchParams` para forzar el tipo `application/x-www-form-urlencoded`, el cual es compatible universalmente.
+
+### 4. Error de validación de seguridad (`CSRF token mismatch`)
+*   **El problema:** Al procesar las solicitudes asíncronas con métodos simulados, el middleware de validación de seguridad de Laravel en ocasiones no lograba leer el parámetro `_token` del cuerpo antes de correr la comprobación de CSRF.
+*   **La solución:** Extrajimos el token del formulario en JS y lo añadimos explícitamente en los headers HTTP de Fetch mediante la cabecera estándar de Laravel `X-CSRF-TOKEN`.
+
+### 5. Parámetros no disponibles en peticiones PATCH reales (`The cantidad field is required`)
+*   **El problema:** Al enviar la petición HTTP con el verbo real `PATCH` (sin simularlo desde POST), PHP no puebla la superglobal nativa `$_POST` en su ciclo de vida. Al no poblarse, el validador de Laravel no encontraba el campo `cantidad` en la request de forma tradicional.
+*   **La solución:** Mantuvimos el método de red del Fetch como `POST` físico y enviamos el método deseado en los datos del formulario (técnica estándar de *method spoofing*), forzando a PHP a parsear la payload y llenar la superglobal `$_POST`.
+
+### 6. Omisión del método spoofing en el ruteo (`The POST method is not supported...`)
+*   **El problema:** En ciertos servidores o entornos de ejecución locales (como Laragon, Valet o Herd en Windows), el parser de Symfony que utiliza Laravel puede ignorar el parámetro `_method` del cuerpo de la petición URL-encoded durante el enrutamiento inicial.
+*   **La solución:** Añadimos en el script de JS la cabecera estándar de anulación de método de red `X-HTTP-METHOD-OVERRIDE` con el valor del método deseado (`PATCH` o `DELETE`). Esto le da prioridad absoluta al framework para redirigir la petición al controlador correcto de forma robusta.
+
+---
+
+### Resultado Final
+Tras superar esta cadena de desafíos de arquitectura del protocolo HTTP y PHP/Laravel, el carrito ahora actualiza cantidades y elimina productos instantáneamente en segundo plano, controla el stock en tiempo real y actualiza los precios en pantalla con animaciones fluidas y sin recargas de página.

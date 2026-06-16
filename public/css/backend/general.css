@@ -320,10 +320,22 @@ body {
 @media (max-width: 992px) {
     .admin-wrapper {
         flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
     }
 
     .admin-content {
         padding: 1.5rem;
+        height: auto;
+        flex-grow: 1;
+        min-height: 0;
+    }
+
+    /* Estilos del Header Móvil */
+    .admin-mobile-header {
+        height: 60px;
+        flex-shrink: 0;
+        z-index: 1030;
     }
 
     .layout-split {

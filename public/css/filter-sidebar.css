@@ -7,20 +7,18 @@
 
 /* Tarjetas de filtros activas (Perros, Ropa, Clásicos) */
 .active-filter-card {
-    background-color: var(--green-100) !important;
-    border-color: var(--green-400) !important;
+    background-color: var(--green-500) !important;
+    border-color: var(--green-600) !important;
+    color: #ffffff !important;
     position: relative;
 }
 
-/* Indicador de check (tilde) discreto usando pseudoelementos */
-.active-filter-card::after {
-    content: '✓';
-    position: absolute;
-    top: 6px;
-    right: 10px;
-    font-size: 0.75rem;
-    color: var(--green-700);
-    font-weight: bold;
+.active-filter-card span {
+    color: #ffffff !important;
+}
+
+.active-filter-card img {
+    filter: brightness(0) invert(1);
 }
 
 /* Estilo para los minibotones de la grilla 3x3 */
@@ -81,4 +79,125 @@
 
 .custom-range-slider:focus {
     box-shadow: 0 0 0 0.25rem rgba(124, 138, 118, 0.25) !important;
+}
+
+/* Estilos base para móviles (ocupan todo el ancho) */
+.sidebar-fixed {
+    width: 100%;
+}
+.main-fluid {
+    width: 100%;
+}
+
+/* Ancho fijo para el sidebar y ancho fluido para el contenido principal en pantallas medianas y superiores */
+@media (min-width: 768px) {
+    .sidebar-fixed {
+        width: 260px !important;
+        flex: 0 0 260px !important;
+    }
+    .main-fluid {
+        flex: 1 !important;
+        width: auto !important;
+        max-width: 100% !important;
+    }
+}
+
+/* ------------- Estilos de Accordion de Filtros Personalizados ------------- */
+
+/* Quitar fondos y bordes rígidos nativos de Bootstrap */
+.filter-sidebar-container .accordion-item {
+    border-bottom: 1px solid rgba(93, 70, 51, 0.12) !important; /* neutral-800 con opacidad */
+    background-color: transparent !important;
+}
+
+.filter-sidebar-container .accordion-item:last-of-type {
+    border-bottom: none !important;
+}
+
+.filter-sidebar-container .accordion-button {
+    color: var(--neutral-900) !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    padding: 1rem 0 !important;
+    font-family: var(--font-main);
+}
+
+/* Evitar el color de fondo azul/gris nativo de Bootstrap al expandirse */
+.filter-sidebar-container .accordion-button:not(.collapsed) {
+    background-color: transparent !important;
+    color: var(--neutral-900) !important;
+    box-shadow: none !important;
+}
+
+/* Ocultar la flecha por defecto de Bootstrap */
+.filter-sidebar-container .accordion-button::after {
+    display: none !important;
+}
+
+/* Animación y rotación de nuestro Chevron personalizado */
+.filter-sidebar-container .chevron-icon {
+    font-size: 0.8rem;
+    color: var(--neutral-600);
+    transition: transform 0.25s ease-in-out, color 0.2s ease;
+}
+
+.filter-sidebar-container .accordion-button:hover .chevron-icon {
+    color: var(--color-primary);
+}
+
+.filter-sidebar-container .accordion-button:not(.collapsed) .chevron-icon {
+    transform: rotate(180deg);
+    color: var(--color-primary);
+}
+
+/* Espaciados internos del accordion-body */
+.filter-sidebar-container .accordion-body {
+    padding: 0.25rem 0 1.25rem 0 !important;
+}
+
+/* ------------- Customización noUiSlider para la marca ------------- */
+
+/* Estilo de la barra/riel base (inactiva) */
+.filter-sidebar-container .noUi-target {
+    background-color: var(--neutral-200) !important;
+    border: none !important;
+    box-shadow: none !important;
+    height: 6px !important;
+    border-radius: 3px !important;
+}
+
+/* Estilo de la barra de selección (activa) */
+.filter-sidebar-container .noUi-connect {
+    background-color: var(--green-500) !important; /* Verde tierra de la marca */
+}
+
+/* Estilo de los tiradores circulares (handles) */
+.filter-sidebar-container .noUi-handle {
+    border: 2px solid var(--green-500) !important;
+    background-color: #ffffff !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    box-shadow: 0 2px 5px rgba(93, 70, 51, 0.2) !important; /* Sombreado cálido */
+    cursor: pointer !important;
+    top: -6px !important;
+    transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Ocultar las marcas/líneas verticales internas por defecto de los handles */
+.filter-sidebar-container .noUi-handle::before,
+.filter-sidebar-container .noUi-handle::after {
+    display: none !important;
+}
+
+/* Efecto hover y focus de los handles */
+.filter-sidebar-container .noUi-handle:hover {
+    transform: scale(1.15);
+    background-color: var(--green-100) !important;
+    box-shadow: 0 3px 7px rgba(93, 70, 51, 0.3) !important;
+}
+
+.filter-sidebar-container .noUi-handle:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgba(125, 140, 120, 0.35) !important; /* Glow verde translúcido */
 }

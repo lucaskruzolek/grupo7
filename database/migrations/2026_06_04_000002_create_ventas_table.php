@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('fecha_venta')->nullable();
+            $table->dateTime('fecha_venta')->nullable()->index();
             $table->dateTime('fecha_despacho')->nullable();
             
             $table->foreignId('usuario_id')

@@ -27,6 +27,9 @@
 
     <!-- Contenido del Carrito -->
     <div class="container cart-container mb-5">
+        <!-- Contenedor de Alertas Dinámicas (AJAX) -->
+        <div id="ajax-alert-container"></div>
+
         <!-- Contenedor de Alertas -->
         @if (session('exito'))
             <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="border-radius: 8px;">
@@ -90,7 +93,7 @@
                                 $img = $detalle->producto->imagenes->sortBy('orden')->first();
                                 $imgUrl = $img ? $img->url : asset('img/placeholder-petthreads.jpg');
                             @endphp
-                            <div class="cart-item-row d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap gap-3">
+                            <div class="cart-item-row d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap gap-3" data-detalle-id="{{ $detalle->id }}">
                                 <!-- Imagen e Info del Producto -->
                                 <div class="d-flex align-items-center gap-3 flex-grow-1">
                                     <div class="cart-item-img-container">
@@ -126,35 +129,20 @@
                                     <!-- Selector de Cantidad -->
                                     <div class="cart-col-quantity">
                                         <span class="text-muted d-block d-md-none small mb-1">Cantidad</span>
-                                        <div class="quantity-selector">
-                                            <!-- Decrementar -->
-                                            <form action="{{ route('carrito.actualizar', $detalle->id) }}" method="POST" class="m-0">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="cantidad" value="{{ $detalle->cantidad - 1 }}">
-                                                <button type="submit" class="quantity-btn" {{ $detalle->cantidad <= 1 ? 'disabled' : '' }} title="Disminuir cantidad">
+                                        <form action="{{ route('carrito.actualizar', $detalle->id) }}" method="POST" class="m-0 form-qty-update">
+                                            @csrf
+                                            @method('PATCH')
+                                            <div class="quantity-selector">
+                                                <button type="button" class="quantity-btn btn-qty-decrement" {{ $detalle->cantidad <= 1 ? 'disabled' : '' }} title="Disminuir cantidad">
                                                     &minus;
                                                 </button>
-                                            </form>
-
-                                            <!-- Input numérico directo -->
-                                            <form action="{{ route('carrito.actualizar', $detalle->id) }}" method="POST" class="m-0" id="form-qty-{{ $detalle->id }}">
-                                                @csrf
-                                                @method('PATCH')
                                                 <input type="number" name="cantidad" value="{{ $detalle->cantidad }}" min="1" max="{{ $detalle->producto->stock }}" 
-                                                       class="quantity-input" onchange="this.form.submit()" title="Cantidad">
-                                            </form>
-
-                                            <!-- Incrementar -->
-                                            <form action="{{ route('carrito.actualizar', $detalle->id) }}" method="POST" class="m-0">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="cantidad" value="{{ $detalle->cantidad + 1 }}">
-                                                <button type="submit" class="quantity-btn" {{ $detalle->cantidad >= $detalle->producto->stock ? 'disabled' : '' }} title="Aumentar cantidad">
+                                                       class="quantity-input qty-input-field" title="Cantidad" data-original-value="{{ $detalle->cantidad }}">
+                                                <button type="button" class="quantity-btn btn-qty-increment" {{ $detalle->cantidad >= $detalle->producto->stock ? 'disabled' : '' }} title="Aumentar cantidad">
                                                     &plus;
                                                 </button>
-                                            </form>
-                                        </div>
+                                            </div>
+                                        </form>
                                     </div>
 
                                     <!-- Subtotal del Item -->
@@ -165,7 +153,7 @@
 
                                     <!-- Eliminar Ítem -->
                                     <div class="cart-col-action text-center">
-                                        <form action="{{ route('carrito.eliminar', $detalle->id) }}" method="POST" class="m-0">
+                                        <form action="{{ route('carrito.eliminar', $detalle->id) }}" method="POST" class="m-0 form-delete-item">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn-remove-item" title="Eliminar del carrito">
@@ -192,7 +180,7 @@
 
                         <div class="summary-row">
                             <span class="text-secondary">Subtotal</span>
-                            <span class="fw-semibold text-dark">${{ number_format($carrito->total, 0, ',', '.') }}</span>
+                            <span class="fw-semibold text-dark summary-subtotal">${{ number_format($carrito->total, 0, ',', '.') }}</span>
                         </div>
                         <div class="summary-row">
                             <span class="text-secondary">Envío</span>
@@ -201,7 +189,7 @@
 
                         <div class="summary-row total-row">
                             <span>Total</span>
-                            <span>${{ number_format($carrito->total, 0, ',', '.') }}</span>
+                            <span class="summary-total">${{ number_format($carrito->total, 0, ',', '.') }}</span>
                         </div>
 
                         <!-- Formulario de Checkout / Confirmar Compra -->
@@ -258,4 +246,5 @@
             </div>
         @endif
     </div>
+    <script src="{{ asset('js/backend/carrito.js') }}"></script>
 @endsection

@@ -22,7 +22,7 @@
                 </span>
                 <input type="text" 
                        name="buscar" 
-                       value="{{ request('buscar') }}" 
+                       value="" 
                        class="form-control bg-light border-0 poppins-regular py-2 ps-2" 
                        style="font-size: 0.85rem;"
                        placeholder="Buscar productos..." 
@@ -111,24 +111,23 @@
 
             <!-- Searchbar (dinámico: 8/12 para invitados, 7/12 para logueados) -->
             <div class="col-lg-8 d-flex align-items-center justify-content-center">
-                {{-- REEMPLAZO DESKTOP: Cambiado div por form (Líneas ~31-44) --}}
+                {{-- REEMPLAZO DESKTOP: Formulario funcional con estética y clases originales --}}
                 <form action="{{ url('/productos') }}" method="GET" class="d-flex flex-grow-1 mx-4 max-w-search">
                     {{-- Mantiene la pila de filtros activa al buscar --}}
                     @foreach(request()->except('buscar', 'page') as $key => $value)
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endforeach
 
-                    <div class="input-group search-bar-container">
-                        <span class="input-group-text bg-light border-end-0 search-icon-nav">
-                            <i class="bi bi-search text-muted"></i>
-                        </span>
+                    <div class="input-group search-bar-wrapper">
                         <input type="text" 
-                                name="buscar" 
-                                value="{{ request('buscar') }}" 
-                                class="form-control bg-light border-start-0 poppins-regular nav-search-input" 
-                                placeholder="¿Qué estás buscando para tu mascota?..." 
-                                aria-label="Search">
-                                <button type="submit" class="btn btn-search-nav poppins-semibold px-4">Buscar</button>
+                               name="buscar" 
+                               value="" 
+                               class="form-control search-input" 
+                               placeholder="¿Qué estás buscando para tu mascota?..." 
+                               aria-label="Buscar productos">
+                        <button class="btn search-btn" type="submit">
+                            <img src="{{ asset('img/icons/search.svg') }}" alt="Buscar" style="width: 18px; height: 18px;">
+                        </button>
                     </div>
                 </form>
             </div>
