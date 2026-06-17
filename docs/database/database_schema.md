@@ -47,7 +47,7 @@ erDiagram
     colores {
         id bigint PK
         nombre varchar(50)
-        hex_code varchar(7)
+        hex_code varchar(9)
     }
 
     colecciones {
@@ -181,7 +181,7 @@ erDiagram
 | :--- | :--- | :--- | :--- | :--- |
 | `id` | `bigint` | `NOT NULL` | `PRIMARY KEY`, `AUTO_INCREMENT` | Identificador único. |
 | `nombre` | `varchar(50)` | `NOT NULL` | | Nombre del color (ej: "Azul"). |
-| `hex_code` | `varchar(7)` | `NOT NULL` | | Código hexadecimal (ej: "#0000FF"). |
+| `hex_code` | `varchar(9)` | `NOT NULL` | | Código hexadecimal (ej: "#0000FF" o "#051CEBFF"). |
 | `created_at` | `timestamp` | `NULL` | | Creación. |
 | `updated_at` | `timestamp` | `NULL` | | Actualización. |
 
