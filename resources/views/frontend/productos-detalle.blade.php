@@ -170,7 +170,8 @@
                     <button class="btn btn-link text-decoration-none text-main fw-bold" type="button" onclick="modificarCantidad(1)">+</button>
                 </div>
                 
-                <button type="submit" class="btn btn-primary flex-grow-1 py-3 rounded-3 poppins-semibold shadow-sm d-flex align-items-center justify-content-center gap-2">
+                <button type="submit" class="btn btn-primary flex-grow-1 py-3 rounded-3 poppins-semibold shadow-sm d-flex align-items-center justify-content-center gap-2"
+                        @if(auth()->check() && auth()->user()->rol && auth()->user()->rol->nombre === 'admin') disabled @endif>
                     <img src="{{ asset('img/icons/cart-simple.svg') }}" style="width: 20px; height: 20px; filter: brightness(0) invert(1);" alt="Cart"> Agregar al carrito
                 </button>
             </form>          

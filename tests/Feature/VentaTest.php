@@ -37,7 +37,7 @@ class VentaTest extends TestCase
         $this->artisan('migrate');
 
         // Roles
-        $rolCliente = Rol::create(['nombre' => 'client', 'descripcion' => 'Cliente']);
+        $rolCliente = Rol::create(['nombre' => 'cliente', 'descripcion' => 'Cliente']);
         $rolAdmin = Rol::create(['nombre' => 'admin', 'descripcion' => 'Admin']);
 
         // Usuarios
@@ -283,7 +283,7 @@ class VentaTest extends TestCase
         $formaPago2 = FormaPago::create(['id' => 2, 'descripcion' => 'Transferencia']);
 
         // Crear usuario cliente 2
-        $rolCliente = Rol::where('nombre', 'client')->first();
+        $rolCliente = Rol::where('nombre', 'cliente')->first();
         $client2 = Usuario::create([
             'nombre'   => 'María',
             'apellido' => 'Gómez',

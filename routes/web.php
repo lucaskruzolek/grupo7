@@ -83,21 +83,24 @@ Route::post('/logout', [AuthController::class, 'logout'])
 
 // 3. CARRITO Y CHECKOUT — CLIENTE AUTENTICADO
 Route::middleware('auth')->group(function () {
-    Route::get('/carrito', [VentaController::class, 'verCarrito'])->name('carrito.ver');
-    Route::post('/carrito/agregar', [VentaController::class, 'agregarAlCarrito'])->name('carrito.agregar');
-    Route::patch('/carrito/detalle/{id}', [VentaController::class, 'actualizarCantidad'])->name('carrito.actualizar');
-    Route::delete('/carrito/detalle/{id}', [VentaController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
-    Route::post('/carrito/checkout', [VentaController::class, 'checkout'])->name('carrito.checkout');
-    
-    // Vista de éxito de la compra
-    Route::get('/compra/exito/{id}', [VentaController::class, 'compraExito'])->name('compra.exito');
+    // Rutas del carrito protegidas para que el admin no pueda acceder (sólo clientes)
+    Route::middleware('rol:cliente')->group(function () {
+        Route::get('/carrito', [VentaController::class, 'verCarrito'])->name('carrito.ver');
+        Route::post('/carrito/agregar', [VentaController::class, 'agregarAlCarrito'])->name('carrito.agregar');
+        Route::patch('/carrito/detalle/{id}', [VentaController::class, 'actualizarCantidad'])->name('carrito.actualizar');
+        Route::delete('/carrito/detalle/{id}', [VentaController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
+        Route::post('/carrito/checkout', [VentaController::class, 'checkout'])->name('carrito.checkout');
+        
+        // Vista de éxito de la compra
+        Route::get('/compra/exito/{id}', [VentaController::class, 'compraExito'])->name('compra.exito');
+        
+        // Descarga de factura por parte del cliente
+        Route::get('/compra/{id}/factura', [VentaController::class, 'descargarFacturaCliente'])->name('compras.factura');
+    });
     
     // Perfil y compras del usuario (Mi Cuenta)
     Route::get('/mi-cuenta', [UsuarioController::class, 'miCuenta'])->name('usuario.cuenta');
     Route::put('/mi-cuenta/actualizar', [UsuarioController::class, 'actualizarDatos'])->name('usuario.actualizar');
-    
-    // Descarga de factura por parte del cliente
-    Route::get('/compra/{id}/factura', [VentaController::class, 'descargarFacturaCliente'])->name('compras.factura');
 });
 
 
