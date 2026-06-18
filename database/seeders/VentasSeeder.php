@@ -76,8 +76,10 @@ class VentasSeeder extends Seeder
                 $fechaCreacion = Carbon::now()->subHours(rand(1, 72));
             } else {
                 // Ventas confirmadas o despachadas (últimos 90 días)
-                $diasAtras = rand(1, 90);
-                $fechaVenta = Carbon::now()->subDays($diasAtras)->subHours(rand(1, 23))->subMinutes(rand(1, 59));
+                // Distribución ponderada: más ventas en días recientes
+                // sqrt() concentra ~40% de las ventas en la última semana
+                $diasAtras = (int) floor(pow(rand(0, 1000) / 1000, 2) * 90);
+                $fechaVenta = Carbon::now()->subDays($diasAtras)->subHours(rand(0, 23))->subMinutes(rand(0, 59));
                 $fechaCreacion = $fechaVenta->copy()->subMinutes(rand(5, 45)); // Creada poco antes de pagarse
                 $formaPagoId = $formasPagoIds[array_rand($formasPagoIds)];
 

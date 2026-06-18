@@ -51,6 +51,14 @@
         border-color: var(--neutral-200) !important;
         opacity: 0.7 !important;
     }
+
+    /* Efecto hover de zoom in para las imágenes dentro de tarjetas */
+    .card-zoom-hover img {
+        transition: transform 0.5s ease !important;
+    }
+    .card-zoom-hover:hover img {
+        transform: scale(1.08) !important;
+    }
 </style>
 @endsection
 
@@ -84,9 +92,9 @@
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 g-3 mt-1">
                 
                 @forelse($productos as $prod)
-                    <div class="col">
+                    <div class="col anim-fade-down" style="--anim-order: {{ $loop->iteration }};">
                         {{-- Añadimos la clase 'backend-card-producto' para el selector de JS --}}
-                        <div class="card h-100 border rounded-3 shadow-sm overflow-hidden backend-card-producto">
+                        <div class="card h-100 border rounded-3 shadow-sm overflow-hidden backend-card-producto card-zoom-hover">
                             
                             <div class="position-relative bg-light" style="padding-top: 125%;">
             
@@ -112,9 +120,11 @@
                                         @foreach($prod->imagenes as $index => $img)
                                             {{-- Guardamos el sku_color del slide en un atributo de datos para que JavaScript lo lea al deslizar --}}
                                             <div class="carousel-item h-100 {{ $index == 0 ? 'active' : '' }}" data-sku-color="{{ $img->sku_color }}">
-                                                <img src="{{ $img->url }}" 
-                                                     class="d-block w-100 h-100 object-fit-cover" 
-                                                     alt="{{ $prod->nombre_base }} {{ $prod->color ? $prod->color->nombre : '' }} - Principal Color">
+                                                <a href="{{ route('productos.show', $img->sku_color) }}" class="d-block w-100 h-100">
+                                                    <img src="{{ $img->url }}" 
+                                                         class="d-block w-100 h-100 object-fit-cover" 
+                                                         alt="{{ $prod->nombre_base }} {{ $prod->color ? $prod->color->nombre : '' }} - Principal Color">
+                                                </a>
                                             </div>
                                         @endforeach
                                     </div>
@@ -132,9 +142,11 @@
 
                                 </div>
                             @else
-                                <img src="{{ asset('img/placeholder-petthreads.jpg') }}" 
-                                     class="card-img-top position-absolute top-0 start-0 w-100 h-100 object-fit-cover" 
-                                     alt="Sin imagen disponible">
+                                <a href="{{ route('productos.show', $prod->sku_color) }}" class="d-block w-100 h-100">
+                                    <img src="{{ asset('img/placeholder-petthreads.jpg') }}" 
+                                         class="card-img-top position-absolute top-0 start-0 w-100 h-100 object-fit-cover" 
+                                         alt="Sin imagen disponible">
+                                </a>
                             @endif
                             
                             <span class="position-absolute top-0 end-0 bg-white text-main small poppins-semibold m-2 px-2 py-1 rounded-pill border shadow-sm" style="z-index: 3;">
@@ -148,7 +160,7 @@
                                         {{ $prod->categoria ? $prod->categoria->nombre : 'General' }}
                                     </span>
                                     
-                                    <h5 class="card-title poppins-bold mb-2 text-truncate" title="{{ $prod->nombre_base }} {{ $prod->color ? $prod->color->nombre : '' }}"
+                                    <h5 class="card-title poppins-bold mb-2" title="{{ $prod->nombre_base }} {{ $prod->color ? $prod->color->nombre : '' }}"
                                     style="font-size: 16px;">
                                         <a href="{{ route('productos.show', $prod->sku_color) }}" class="text-decoration-none text-main link-titulo-dinamico">
                                             {{ $prod->nombre_base }} {{ $prod->color ? $prod->color->nombre : '' }}
@@ -333,6 +345,9 @@
                 }
             });
         });
+
+        // 3. Forzar animación inmediata para las tarjetas de esta página (sin esperar al scroll)
+        document.querySelectorAll('.anim-fade-down').forEach(el => el.classList.add('anim-visible'));
     });
 </script>
 

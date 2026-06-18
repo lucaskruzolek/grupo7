@@ -262,7 +262,13 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer border-top-0 pt-0 px-4 pb-4" style="background-color: #fafaf5;">
-                                                <!-- Formulario rápido para responder vía email -->
+                                                <!-- Formulario rápido para responder vía email o cambiar estado de lectura -->
+                                                <form action="{{ route('admin.consultas.toggle-leido', $consulta->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <button type="submit" class="btn-admin btn-admin-secondary px-3" style="border-radius: 8px;">
+                                                        {{ $consulta->leido ? 'Marcar como no leído' : 'Marcar como leído' }}
+                                                    </button>
+                                                </form>
                                                 <a href="mailto:{{ $consulta->email }}?subject=Re: {{ ucfirst($consulta->asunto) }} - Pet Threads" class="btn-admin btn-admin-primary px-3 text-white text-decoration-none d-flex align-items-center gap-1" style="border-radius: 8px;">
                                                     Responder por Correo
                                                 </a>

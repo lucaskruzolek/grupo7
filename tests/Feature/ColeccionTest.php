@@ -130,6 +130,55 @@ class ColeccionTest extends TestCase
         ]);
     }
 
+    public function test_update_saves_collection_with_uploaded_file_to_r2()
+    {
+        Storage::fake('s3');
+        $coleccion = Coleccion::create([
+            'nombre' => 'Otoño Original',
+            'descripcion' => 'Descripción vieja',
+            'url_imagen' => 'https://example.com/otono.jpg',
+        ]);
+
+        $file = UploadedFile::fake()->image('nuevo_otono.png', 800, 600);
+
+        $response = $this->actingAs($this->admin)
+            ->put(route('admin.colecciones.update', $coleccion->id), [
+                'nombre' => 'Otoño Editado',
+                'descripcion' => 'Nueva descripción',
+                'imagen_file' => $file,
+            ]);
+
+        $response->assertRedirect(route('admin.colecciones.index'));
+        $response->assertSessionHas('exito');
+
+        $coleccionActualizada = $coleccion->fresh();
+        $this->assertEquals('Otoño Editado', $coleccionActualizada->nombre);
+        $this->assertNotNull($coleccionActualizada->url_imagen);
+        $this->assertNotEquals('https://example.com/otono.jpg', $coleccionActualizada->url_imagen);
+    }
+
+    public function test_update_preserves_existing_image_if_no_new_image_provided()
+    {
+        $coleccion = Coleccion::create([
+            'nombre' => 'Otoño Original',
+            'descripcion' => 'Descripción vieja',
+            'url_imagen' => 'https://example.com/otono.jpg',
+        ]);
+
+        $response = $this->actingAs($this->admin)
+            ->put(route('admin.colecciones.update', $coleccion->id), [
+                'nombre' => 'Otoño Editado',
+                'descripcion' => 'Nueva descripción',
+                // No enviamos url_imagen ni imagen_file
+            ]);
+
+        $response->assertRedirect(route('admin.colecciones.index'));
+        $response->assertSessionHas('exito');
+
+        $coleccionActualizada = $coleccion->fresh();
+        $this->assertEquals('https://example.com/otono.jpg', $coleccionActualizada->url_imagen);
+    }
+
     public function test_destroy_deletes_collection_and_removes_r2_image()
     {
         Storage::fake('s3');

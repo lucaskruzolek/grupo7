@@ -86,7 +86,8 @@ class ColeccionController extends Controller
             'imagen_file'  => 'nullable|image|max:5120',
         ]);
 
-        $urlImagen = $request->url_imagen;
+        // Por defecto conservamos la imagen actual si existe
+        $urlImagen = $coleccion->url_imagen;
 
         // Si se subió un nuevo archivo
         if ($request->hasFile('imagen_file')) {
@@ -112,6 +113,9 @@ class ColeccionController extends Controller
             if ($path) {
                 $urlImagen = Storage::disk('s3')->url($fileName);
             }
+        } elseif ($request->has('url_imagen')) {
+            // Si no se cargó un archivo, pero el formulario envió el campo url_imagen (modo URL activo)
+            $urlImagen = $request->url_imagen;
         }
 
         $coleccion->update([
